@@ -513,6 +513,71 @@ const HIST_UNSEI={
   養: "周囲に守られながら育ち、協調性と柔軟さが自然と身についた背景があります。"
 };
 
+const FAMILY_PARENT={
+  比肩:"親と対等な関係を求める傾向があり、早くから自立心が芽生えます。兄弟の影響も強く、家の中で自分の立場を確立しようとしてきました。親よりも同世代の友人・ライバルとの関係が人生を形成する場合があります。",
+  劫財:"家庭の中で競争意識が培われ、勝負強さを身につけてきました。親との緊張関係や厳しい環境がバネになっている面があります。対立を経てこそ強くなれる背景を持っています。",
+  食神:"特に母からの愛情に恵まれ、温かく伸び伸びとした家庭環境で育ちました。食・表現・楽しむことを大切にする家風が根付き、愛されたという実感が基盤にあります。",
+  傷官:"親との価値観の違いを感じた時期があり、その葛藤が独自の感性と強さを育みました。「型にはめられる」ことへの反骨心が才能の源になっています。",
+  偏財:"父の影響が特に大きく、広い人脈や行動力の大切さを学びました。活発でオープンな家庭環境の中で、早くから社会性が育まれています。",
+  正財:"経済的に安定した環境で育ち、コツコツ積み上げることの価値を親から学びました。父の庇護が強く、堅実さと誠実さが家風として根付いています。",
+  偏官:"厳格な親・または規律の厳しい家庭環境で育ちました。鍛えられた分、精神的な強さと責任感が培われています。高い基準を設けられた分、自己への要求水準も高くなりがちです。",
+  正官:"礼節と品格を重んじる家庭環境で育ちました。社会的な評価や信頼を大切にする価値観が親から自然と受け継がれています。品格ある振る舞いが身についている背景があります。",
+  偏印:"個性的な親・または独特な家庭環境の中で育ちました。母との関係に特殊性がある場合も。その環境が独自の感性と直感力を育てた半面、甘えにくさを経験してきた面もあります。",
+  印綬:"母の深い愛情に恵まれた家庭環境で育ちました。知的・文化的な環境の中で、学ぶことへの親しみが根付いています。親の保護が強く、精神的な安心感が土台になっています。"
+};
+const FAMILY_SPOUSE={
+  長生:"長く続く縁に恵まれやすく、安定したパートナーシップを築けます。ゆっくりと深まる信頼関係が、長期的な絆へと発展しやすい配置です。",
+  沐浴:"豊かな感受性で多彩な恋愛を経験しながら、本当のパートナーを見つけていく傾向があります。磁力があり縁を引き寄せやすい配置です。",
+  冠帯:"積極的に出会いを求めるエネルギッシュな配置。活発な交際を通じて自分のパートナー像が明確になっていきます。",
+  建禄:"自立した対等なパートナーシップを好みます。お互いの個を尊重し協力関係を大切にする関係が長続きします。",
+  帝旺:"強い磁力で縁を引き寄せます。一度結ばれると深く強いつながりになりますが、その強さゆえにパートナーへの影響力も大きくなります。",
+  衰: "穏やかで安定した関係を好みます。派手な恋愛より信頼と安心を大切にし、長い時間をかけてじっくり関係を深める傾向があります。",
+  病: "パートナーへの気遣いが深く繊細な愛情を注ぎます。相手の感情に敏感なため深い相互理解を求める関係が向いています。",
+  死: "縁に転換点が訪れやすい配置です。一度手放すことで新しい深い縁が開く場合があります。変容を通じて真のパートナーへ向かう流れがあります。",
+  墓: "時間をかけてゆっくり深まる関係が向いています。表面上は地味でも内側に深い絆が育まれ、長い付き合いほど縁の強さが出ます。",
+  絶: "縁が一度切れて新たに始まるパターンがある配置です。環境の変化が縁の転機になりやすく、変化を経てより深い縁へと昇華されます。",
+  胎: "縁がゆっくり育まれる配置です。焦らず時間をかけることで、大切なパートナーとの関係が根付いていきます。",
+  養: "相互に育て合う温かい関係が向いています。頼り頼られる関係の中で愛情が深まり、パートナーシップを通じてお互いが成長していく配置です。"
+};
+const GOGYO_DETAIL={
+  木:{meaning:"生長・柔軟性・思いやり（仁）",strong:"行動力と発展志向が強まる一方、頑固さや興奮しやすい面が出やすくなります。肝臓・胆嚢に負担がかかりやすいため、睡眠を十分に取り肝臓を休めることが大切です。",weak:"決断力や推進力が不足しがちです。物事を先延ばしにしたり、自己主張が弱まる傾向があります。",supplement:["梅・酢・柑橘類など酸味のある食べ物","緑・青色のアイテムを日常に取り入れる","植物を育てる・森林や緑の中で過ごす","東の方角へのお出かけ・早起きして朝日を浴びる"]},
+  火:{meaning:"情熱・表現・礼節（礼）",strong:"情熱と表現力が旺盛になる一方、焦りや衝動的な行動が増えやすくなります。心臓・小腸への負担に注意し、興奮しすぎない生活リズムを整えることが大切です。",weak:"情熱や積極性が不足しがちです。自分を表現する力が弱まり、コミュニケーションが消極的になりやすいです。",supplement:["ゴーヤ・コーヒー・緑茶など苦味のある食べ物","赤・オレンジ色を服や部屋に取り入れる","太陽を意識して浴びる・南向きの場所で過ごす","体を温める入浴や食事・笑う機会を意識的に増やす"]},
+  土:{meaning:"安定・信頼・調和（信）",strong:"安定感と包容力が高まる一方、変化を嫌い停滞しやすくなります。胃・脾臓に負担がかかりやすく、甘味の過剰摂取と食べすぎに注意が必要です。",weak:"安定感が不足し不安を感じやすくなります。信頼関係を築くのに時間がかかったり、過度に気を遣う面が出やすいです。",supplement:["かぼちゃ・さつまいも・玄米など甘味のある食べ物（過剰に注意）","黄・ベージュの色を取り入れる","大地に触れる・土いじり・農業体験・裸足で地面に立つ","瞑想や深呼吸で心の中心を整える・断捨離で空間を整える"]},
+  金:{meaning:"洗練・規律・義（義）",strong:"判断力と規律感が強まる一方、完璧主義や批判的な傾向が強くなりやすいです。肺・大腸に注意し、深呼吸と腸内環境を整えることが大切です。",weak:"決断力や締め切りへの意識が弱くなりがちです。整理・整頓が苦手になったり、自己評価が低くなる傾向があります。",supplement:["生姜・にんにく・唐辛子など辛味のある食べ物（適度に）","白・シルバー・金色を取り入れる","整理整頓・断捨離で環境を整える","深呼吸・有酸素運動で肺を鍛える・西の方角へのお出かけ"]},
+  水:{meaning:"知恵・柔軟性・智（智）",strong:"洞察力と適応力が高まる一方、考えすぎや優柔不断になりやすくなります。腎臓・膀胱に注意し、体を冷やしすぎない生活を心がけることが大切です。",weak:"洞察力や記憶力が低下しがちです。物事の流れを読む力が弱まり、臨機応変な対応が難しくなる傾向があります。",supplement:["海藻・味噌・黒豆など塩味・黒い食べ物","黒・藍・濃紺の色を取り入れる","水辺で過ごす・入浴でじっくりリラックスする","北の方角への旅行・静寂の場所での内省・十分な睡眠で腎臓を休める"]}
+};
+const SANMEN_OMOTE={
+  比肩:"独立心が強く自立した人という印象を与えます。ブレない意志の強さと自分の軸を持っている姿勢が周囲から認められています。",
+  劫財:"行動力があり勝負強い人という印象を与えます。エネルギッシュで積極的に動く外向きの顔があります。",
+  食神:"明るく楽しい雰囲気の人という印象を与えます。人を引き寄せる温かさと表現力が自然と外ににじみ出ています。",
+  傷官:"個性的で才能豊かな人という印象を与えます。既存の枠を超えるアイデアマンとして周囲から見られています。",
+  偏財:"社交的で人脈が広い人という印象を与えます。フットワークの軽さと行動力が外からの評価になっています。",
+  正財:"堅実で誠実な人という印象を与えます。コツコツ積み上げる信頼感が外向きの強みです。",
+  偏官:"頼れるリーダーという印象を与えます。規律と統率力が外からの評価になっています。",
+  正官:"品格と誠実さのある人という印象を与えます。社会的なルールを守る信頼感が外に出ています。",
+  偏印:"ミステリアスで個性的な人という印象を与えます。直感力と探究心が外からは興味深く映ります。",
+  印綬:"知性的で落ち着いた人という印象を与えます。文化的な深さと品のある雰囲気が外ににじみ出ています。"
+};
+const SANMEN_HONNE={
+  比肩:"本音では「誰にも縛られず自分の力で生きたい」という欲求があります。自律性と自分のペースを最も大切にします。",
+  劫財:"本音では「勝ちたい・結果を出したい」という強い欲求があります。競争を楽しみ、勝負の中でこそ生き生きとします。",
+  食神:"本音では「楽しみたい・自分を表現したい」という欲求があります。楽しさや喜びのある環境で最大限に力を発揮します。",
+  傷官:"本音では「枠を壊したい・本当の才能を認めてほしい」という欲求があります。評価されることへの強いこだわりがあります。",
+  偏財:"本音では「もっと広い世界へ・もっと多くの人と出会いたい」という欲求があります。変化と多様性を求め、広がりの中で燃えます。",
+  正財:"本音では「安定した確実なものを積み上げたい」という欲求があります。見えない不安より確実な手応えを大切にします。",
+  偏官:"本音では「リスクを取ってでも高い目標を達成したい」という欲求があります。困難な挑戦の中でこそ燃えます。",
+  正官:"本音では「正しいことをして認められたい・信頼されたい」という欲求があります。社会的な評価と誠実さを深く求めます。",
+  偏印:"本音では「自分のペースで深く探究したい」という欲求があります。強制や締め切りより自由な探求を好みます。",
+  印綬:"本音では「深く学び・成長し続けたい」という欲求があります。知識と精神的な豊かさに最も価値を感じます。"
+};
+const DECISION_STYLE={
+  木:"目標へ向かう成長志向で決断します。「これで自分は成長・進化できるか？」を判断基準にします。理想や目標が明確なとき最も力強い決断ができます。長期的な成長を優先しすぎて、即断が遅れる場面もあります。",
+  火:"情熱と直感で決断します。「これで気持ちが高まるか？やりたいか？」を基準にします。熱量があるときは迷わず動けますが、テンションが下がると決断力も落ちやすいです。感情をエンジンにする意思決定スタイルです。",
+  土:"安定と信頼を基準に決断します。「これで周囲との信頼・安定が築けるか？」を最優先にします。十分に考えてから動くスタイルです。一度決めたことは揺らがない強さがありますが、変化への踏み出しに時間がかかる面もあります。",
+  金:"論理と基準で決断します。「これは正しいか？原則に合っているか？」で判断します。曖昧さを嫌い、白黒を明確にしてから動きます。決断は早く明快ですが、妥協や柔軟対応が苦手になりやすいです。",
+  水:"流れと洞察で決断します。「今の流れに乗るべきか？」を直感で判断します。柔軟に状況を読んで適応するのが得意ですが、情報過多になると決めきれないことも。感度の高い直感を信頼することが鍵です。"
+};
+
 /* ================= 暦計算 ================= */
 const rad=Math.PI/180;
 const jdn=(y,m,d)=>{const a=Math.floor((14-m)/12),Y=y+4800-a,M=m+12*a-3;
@@ -732,9 +797,62 @@ function drawKantei(r){
     <p class="kant-text">${nke.partner||""}</p>
   </div>`;
 
-  // 4. 向いている職業
-  const gc=GOGYO_CAREER[nkG]||{};
+  // 4. 家族関係
+  const nenCol=r.cols.find(c=>c.name==="年柱");
   const monCol=r.cols.find(c=>c.name==="月柱");
+  const nichiCol=r.cols.find(c=>c.name==="日柱");
+  const jiCol=r.cols.find(c=>c.name==="時柱");
+  const allStars=[...r.cols.map(c=>c.tsuhen),...r.cols.map(c=>c.zoTsu)].filter(Boolean);
+  const cnt=r.count;
+  const maxVal=Math.max(...Object.values(cnt));
+  const zeros=Object.keys(cnt).filter(g=>cnt[g]===0);
+  const tops=Object.keys(cnt).filter(g=>cnt[g]===maxVal);
+  const parentText=nenCol&&nenCol.tsuhen?FAMILY_PARENT[nenCol.tsuhen]:"";
+  const spouseText=nichiCol?FAMILY_SPOUSE[nichiCol.unsei]:"";
+  let childText="";
+  if(jiCol&&jiCol.tsuhen){
+    const jtc=TSUHEN_COMMENT[jiCol.tsuhen]||{};
+    childText=`時柱（${jiCol.ganshi}）に <b>${jiCol.tsuhen}</b>（${jtc.key||""}）の星を持ちます。${allStars.includes("食神")?"食神あり、子供との縁が強く子育てに喜びを感じやすい配置です。":allStars.includes("傷官")?"傷官あり、個性的な感性を持つ子供との縁がある配置です。":""}`;
+  } else if(allStars.includes("食神")){
+    childText="命式に食神を持ち、子供との縁が強く子育てに喜びを感じやすい配置です。";
+  } else if(allStars.includes("傷官")){
+    childText="命式に傷官を持ち、個性的な感性を持つ子供との縁がある配置です。";
+  }
+  h+=`<div class="kant-block">
+    <div class="kant-title">家族関係</div>
+    ${parentText?`<p class="kant-sub-title">親との縁 — 年柱 ${nenCol.ganshi}（${nenCol.tsuhen||"—"}）</p>
+    <p class="kant-text">${parentText}</p>`:""}
+    <p class="kant-sub-title" style="margin-top:14px">配偶者・パートナーとの縁 — 日柱十二運星: ${nichiCol?nichiCol.unsei:""}</p>
+    <p class="kant-text">${spouseText}</p>
+    ${r.seijitsu?`<p class="kant-text" style="margin-top:10px;border-left:2px solid var(--do);padding-left:12px;padding-top:6px;padding-bottom:6px"><b>生日中殺あり。</b>家庭や配偶者との縁は標準的な形にとらわれにくく、精神的なつながりを最も大切にする配置です。縁が「ない・薄い」のではなく、通常とは異なる形で深い絆を築く命式です。</p>`:""}
+    ${childText?`<p class="kant-sub-title" style="margin-top:14px">子供との縁</p>
+    <p class="kant-text">${childText}</p>`:""}
+  </div>`;
+
+  // 5. 意思決定プロセス（三面）
+  const omoteText=nenCol&&nenCol.tsuhen?SANMEN_OMOTE[nenCol.tsuhen]:"";
+  const honneText=monCol&&monCol.tsuhen?SANMEN_HONNE[monCol.tsuhen]:"";
+  const decText=DECISION_STYLE[nkG]||"";
+  h+=`<div class="kant-block">
+    <div class="kant-title">意思決定プロセス — 三つの顔</div>
+    <div class="kant-grid">
+      <div class="kant-card">
+        <div class="kant-card-name">表の顔（年柱 / 他者からの印象）</div>
+        <div class="kant-card-star" style="color:${nenCol?COLOR[nenCol.gk]:""}">${nenCol?nenCol.tsuhen||"—":""}</div>
+        <div class="kant-card-text">${omoteText}</div>
+      </div>
+      <div class="kant-card">
+        <div class="kant-card-name">内なる欲求（月柱 / 社会での本音）</div>
+        <div class="kant-card-star" style="color:${monCol?COLOR[monCol.gk]:""}">${monCol?monCol.tsuhen||"—":""}</div>
+        <div class="kant-card-text">${honneText}</div>
+      </div>
+    </div>
+    <p class="kant-sub-title" style="margin-top:14px">意思決定スタイル（日干 ${nk} ／ ${nkG}）</p>
+    <p class="kant-text">${decText}</p>
+  </div>`;
+
+  // 6. 向いている職業
+  const gc=GOGYO_CAREER[nkG]||{};
   const csub=monCol&&monCol.tsuhen?TSUHEN_CAREER_SUB[monCol.tsuhen]:"";
   h+=`<div class="kant-block">
     <div class="kant-title">向いている職業</div>
@@ -745,7 +863,31 @@ function drawKantei(r){
     ${nke.career_sub?`<p class="kant-sub-title">日干気質からの補足</p><p class="kant-text">${nke.career_sub}</p>`:""}
   </div>`;
 
-  // 5. 通変星
+  // 7. 五行バランス詳細
+  let gbH=`<div class="kant-block"><div class="kant-title">五行バランス詳細</div>`;
+  if(!zeros.length&&maxVal<3){
+    gbH+=`<p class="kant-text">五行はすべて揃っています。偏りが少なく、全体的に安定した命式です。各五行がバランスよく働いているため、状況に応じて柔軟に力を発揮できます。</p>`;
+  } else {
+    for(const g of zeros){
+      const gd=GOGYO_DETAIL[g]||{};
+      gbH+=`<p class="kant-sub-title" style="color:${COLOR[g]}">${g}が命式に不在 — 意味と補い方</p>
+      <p class="kant-text" style="margin-bottom:8px"><b>${g}が司るもの:</b> ${gd.meaning||""}</p>
+      <p class="kant-text" style="margin-bottom:8px">${gd.weak||""}</p>
+      <p class="kant-sub-title">日常での補い方</p>
+      <ul class="kant-list kant-positive">${(gd.supplement||[]).map(s=>`<li>${s}</li>`).join("")}</ul>`;
+    }
+    if(maxVal>=3){
+      for(const g of tops){
+        const gd=GOGYO_DETAIL[g]||{};
+        gbH+=`<p class="kant-sub-title" style="color:${COLOR[g]};margin-top:${zeros.length?18:0}px">${g}が最多（${maxVal}個）— 注意点</p>
+        <p class="kant-text">${gd.strong||""}</p>`;
+      }
+    }
+  }
+  gbH+=`</div>`;
+  h+=gbH;
+
+  // 8. 通変星（旧5）→ 9
   const tCols=r.cols.filter(c=>c.tsuhen);
   if(tCols.length){
     h+=`<div class="kant-block">
@@ -763,7 +905,7 @@ function drawKantei(r){
     h+=`</div></div>`;
   }
 
-  // 6. 十二運星
+  // 9. 十二運星
   h+=`<div class="kant-block">
     <div class="kant-title">十二運星 — エネルギーの質</div>
     <div class="kant-grid">`;
@@ -778,7 +920,7 @@ function drawKantei(r){
   }
   h+=`</div></div>`;
 
-  // 7. 天中殺
+  // 10. 天中殺
   const tcc=TCS_COMMENT[r.tcsDay]||{};
   h+=`<div class="kant-block">
     <div class="kant-title">天中殺 — 充電の季節</div>
@@ -794,8 +936,7 @@ function drawKantei(r){
     <ul class="kant-list kant-positive">${TCS_POSITIVE.map(c=>`<li>${c}</li>`).join("")}</ul>
   </div>`;
 
-  // 8. 幼少期〜青年期の傾向（年柱から）
-  const nenCol=r.cols.find(c=>c.name==="年柱");
+  // 11. 幼少期〜青年期の傾向（年柱から）
   if(nenCol){
     const ht=nenCol.tsuhen?HIST_TSUHEN[nenCol.tsuhen]:"";
     const hu=HIST_UNSEI[nenCol.unsei]||"";
