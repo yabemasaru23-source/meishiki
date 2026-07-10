@@ -199,6 +199,28 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .kant-strength li::before{content:"◎";color:var(--moku)}
 .kant-shadow li::before{content:"△";color:var(--do)}
 
+/* ---- 相性鑑定 ---- */
+.aisho-trigger{display:block;width:100%;margin-top:36px;background:none!important;border:2px solid var(--do)!important;color:var(--do)!important;font-family:var(--display)!important;font-size:.88rem!important;letter-spacing:.28em!important;text-indent:.28em;padding:16px!important;font-weight:600!important;transition:all .2s!important;opacity:1!important}
+.aisho-trigger:hover{background:var(--do)!important;color:#fff!important}
+.aisho-section{padding:36px 0 0;border-top:2px solid var(--ink-line);margin-top:10px}
+.aisho-label{font-size:.68rem;letter-spacing:.2em;color:var(--nibi);margin-bottom:10px}
+.aisho-types{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.atype{grid-column:unset!important;margin:0!important;background:none!important;border:1px solid var(--ink-line)!important;color:var(--nibi)!important;font-family:var(--body)!important;font-size:.78rem!important;letter-spacing:.06em!important;text-indent:0!important;padding:7px 14px!important;font-weight:400!important;transition:all .15s!important}
+.atype.on,.atype:hover{background:var(--do)!important;border-color:var(--do)!important;color:#fff!important;opacity:1!important}
+.aisho-fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.aisho-persons{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.aisho-person{background:var(--ink-panel);border:1px solid var(--ink-line);padding:14px 16px;text-align:center}
+.aisho-pname{font-family:var(--display);font-size:1rem;font-weight:600;margin-bottom:3px}
+.aisho-psub{font-size:.72rem;color:var(--nibi)}
+.aisho-rel{display:grid;grid-template-columns:1fr 60px 1fr;gap:8px;align-items:center;margin-bottom:16px;padding:14px 12px;background:var(--ink-panel);border:1px solid var(--ink-line)}
+.aisho-rel-side{text-align:center}
+.aisho-rel-ts{font-family:var(--display);font-size:1.05rem;font-weight:600;margin-bottom:2px}
+.aisho-rel-lbl{font-size:.64rem;color:var(--nibi)}
+.aisho-mark{font-family:var(--display);font-size:2.2rem;font-weight:900;text-align:center;padding:4px 0}
+.mark-good{color:var(--do)}
+.mark-ok{color:var(--moku)}
+.mark-care{color:var(--nibi)}
+
 /* ---- 大運 ---- */
 .daiun-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
 .daiun-item{flex:0 0 96px;background:var(--ink);border:1px solid var(--ink-line);padding:12px 8px;text-align:center;position:relative;transition:border-color .2s}
@@ -325,6 +347,27 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
 
   <p class="sec-label">鑑 定 コ メ ン ト</p>
   <div id="kantei"></div>
+  <button class="aisho-trigger" id="aisho-open" style="display:none">＋ 相 性 鑑 定 を 追 加 す る</button>
+  <section class="aisho-section" id="aisho-section" style="display:none">
+    <p class="sec-label">相 性 鑑 定</p>
+    <p class="aisho-label">鑑定の種類</p>
+    <div class="aisho-types">
+      <button class="atype on" data-t="恋愛・婚活">恋愛・婚活</button>
+      <button class="atype" data-t="夫婦・パートナー">夫婦・パートナー</button>
+      <button class="atype" data-t="仕事・ビジネス">仕事・ビジネス</button>
+      <button class="atype" data-t="友人・知人">友人・知人</button>
+      <button class="atype" data-t="親子・家族">親子・家族</button>
+    </div>
+    <p class="aisho-label">相手の情報</p>
+    <div class="aisho-fgrid">
+      <div class="field full"><label>お名前（相手）</label><input type="text" id="bName" placeholder="お名前"></div>
+      <div class="field"><label>生年月日</label><input type="date" id="bBirth" min="1900-01-01" max="2100-12-31"></div>
+      <div class="field"><label>性別</label><select id="bSex"><option value="女性">女性</option><option value="男性">男性</option><option value="回答しない">回答しない</option></select></div>
+      <div class="field full"><label>出生時刻（任意）</label><select id="bHour"><option value="">不明</option></select></div>
+      <button id="aisho-go">相 性 を 鑑 定 す る</button>
+    </div>
+    <div id="aisho-result"></div>
+  </section>
 </main>
 
 <footer>
@@ -638,6 +681,28 @@ const NENUN_TSUHEN={
   偏印:{theme:"学び・直観",past:"学習・情報収集・研究に充実感があった年。直感が冴えた場面も多く、内省が深まった時期です。",cur:"情報収集・学習・直感が冴える年。専門的な学びや内省に充てると充実感を得やすいです。継続力が課題になる場面も。",fut:"知識と洞察が深まる時期です。静かに実力を蓄える準備をしておきましょう。"},
   印綬:{theme:"理解・安定",past:"精神的な安定や深い洞察が得られた年。サポートや学びを受けた縁があり、土台が整った時期です。",cur:"精神的な安定と実力蓄積の年。焦らず自分のペースで実力を磨くことが吉。学問・資格・指導を受ける縁にも恵まれます。",fut:"回復・充電・学びの時期が訪れます。土台を固める意識をもって臨みましょう。"}
 };
+
+const AISHO_NIKKAN={
+  比肩:{label:"同志・ライバル",mark:"○",love:"共鳴しやすい関係。ただし似すぎて刺激が薄れることも。互いの個性を尊重するほど深まります。",work:"同じ目標に向かって力強く進める組み合わせ。競争しながら高め合えるチームになれます。",friend:"共通の趣味や価値観でつながりやすく、自然体で付き合える関係です。",family:"似た感性を持つ間柄。共感しやすく対等に話し合える関係です。",text:"同じ五行を持つ同士。価値観や行動パターンが似ており、共感しやすい反面、似すぎて競い合うことも。対等な関係が長続きのコツです。"},
+  劫財:{label:"切磋琢磨",mark:"○",love:"お互い自立した個性を持ち刺激のある関係。感情がぶつかる場面もありますが、乗り越えると絆が深まります。",work:"切磋琢磨して能力を引き出し合える組み合わせ。競争意識をうまく活かせれば大きな成果が出ます。",friend:"刺激し合える仲。時に言い合いになっても関係はしっかり続きます。",family:"お互い意見を言い合える関係。衝突もありますが本音で向き合える間柄です。",text:"近い五行でありながら陰陽が異なる関係。互いに刺激し合い成長できますが、主導権争いになりやすい面も。"},
+  食神:{label:"包容・育成",mark:"◎",love:"Aが自然にBを包み込む温かい関係。BはリラックスしてAの前で本来の自分を出せます。",work:"AがBの才能を引き出し育てるような関係。長期的な協力関係に向いています。",friend:"Aが自然とBをサポートする関係。気持ちよく付き合える組み合わせです。",family:"Aが面倒見よくBを支える形が自然。温かみのある間柄になりやすいです。",text:"AがBを自然に育て・支える流れを持つ組み合わせ。AはBに惜しみなくエネルギーを与えやすく、穏やかな関係が築きやすいです。"},
+  傷官:{label:"才能の刺激",mark:"○",love:"お互いの個性を刺激し合う情熱的な関係。感情が大きく動くため、コミュニケーションが鍵です。",work:"革新的なアイデアが生まれやすい組み合わせ。変革・クリエイティブな仕事で力を発揮します。",friend:"お互いに刺激的な存在。話が弾みやすく発想が広がる友人関係です。",family:"個性がぶつかることもありますが、互いの才能を認め合える間柄です。",text:"AがBに強いエネルギーを放ちBの個性を引き出す組み合わせ。創造的で刺激的な関係ですが、摩擦も生まれやすいです。"},
+  偏財:{label:"活発・縁の広がり",mark:"◎",love:"Aが積極的に歩み寄ると縁が深まる関係。自然体で楽しめる明るい組み合わせです。",work:"お互いの強みを活かして展開が期待できる組み合わせ。行動力を合わせると成果が出ます。",friend:"いつも楽しく過ごせる関係。一緒に動くと縁や出来事が広がります。",family:"にぎやかで活発な間柄。一緒にいると縁が増えます。",text:"BがAにとって財・縁の象徴となる関係。Aが積極的に動くとBとの縁が広がりやすく、ビジネス的な発展が期待できます。"},
+  正財:{label:"安定・信頼",mark:"◎",love:"着実に深まる安定した愛情関係。焦らず時間をかけて絆を育てると長続きします。",work:"長期的に信頼を積み上げられるパートナーシップ。誠実さが成功の鍵です。",friend:"じっくりと信頼を育む関係。長く付き合えるタイプの友人です。",family:"安定感のある間柄。時間をかけて関係が深まっていきます。",text:"AとBの関係が堅実で安定した縁を持つ組み合わせ。信頼関係を着実に積み上げていける相性です。"},
+  偏官:{label:"挑戦・成長",mark:"△",love:"刺激と緊張感のある関係。Bがリードしやすく、Aが成長できる一方でプレッシャーを感じる場面も。",work:"Bがリーダーシップを発揮しAを引っ張る組み合わせ。明確な役割分担があればうまく機能します。",friend:"刺激を与え合える関係。Bのペースに引っ張られやすいですが刺激として活かせます。",family:"Bが主導権を持ちやすい間柄。役割が明確なほど安定します。",text:"BがAに適度な緊張やプレッシャーをもたらす関係。刺激と成長を促しますが、過度になると負担になることも。"},
+  正官:{label:"秩序・尊重",mark:"○",love:"誠実さと秩序を大切にする関係。お互いへの敬意が深まるほど安定します。",work:"明確なルールと役割分担のもとで力を発揮できる組み合わせ。組織的な仕事に向いています。",friend:"礼儀と信頼を大切にした関係。いい意味での誠実な付き合いができます。",family:"秩序感のある間柄。それぞれの役割を尊重し合えます。",text:"BがAにとって規範や規律をもたらす関係。秩序ある関係が築けますが、Aが窮屈に感じることも。"},
+  偏印:{label:"知的刺激",mark:"○",love:"知的なつながりが深い関係。精神的な共鳴を大切にすることで絆が深まります。",work:"学びと専門性を高め合える組み合わせ。研究・専門職での協力に向いています。",friend:"話が深くて刺激的な関係。知的な話で盛り上がれる友人です。",family:"精神的な理解が深い間柄。内面での共鳴がある関係です。",text:"BがAの思考や学びを活性化させる関係。知的な刺激をもたらしますが、感情的なつながりは意識して育てる必要があります。"},
+  印綬:{label:"支援・理解",mark:"◎",love:"BがAの心の支えとなる、温かく安定した関係。精神的なつながりが深く長期的な絆になりやすいです。",work:"BがAの能力を引き出しバックアップする組み合わせ。支援・教育・コーチング系の仕事で力を発揮します。",friend:"Bが自然にAを理解してくれる、安心できる関係です。",family:"BがAをしっかり支える形が自然。温かい信頼関係です。",text:"BがAを深く理解し精神的なサポートをもたらす関係。AはリラックスしてBの前で本来の力を発揮できます。"}
+};
+const AISHO_GOGYO={
+  木:{give:"木（成長・発展・活力）のエネルギーを補い合えます。"},
+  火:{give:"火（情熱・直感・明るさ）のエネルギーを補い合えます。"},
+  土:{give:"土（安定・信頼・包容力）のエネルギーを補い合えます。"},
+  金:{give:"金（決断力・論理・整理力）のエネルギーを補い合えます。"},
+  水:{give:"水（知恵・柔軟性・洞察力）のエネルギーを補い合えます。"}
+};
+const RICHI_ROKUGOU={"子":"丑","丑":"子","寅":"亥","亥":"寅","卯":"戌","戌":"卯","辰":"酉","酉":"辰","巳":"申","申":"巳","午":"未","未":"午"};
+const RICHI_CHUU={"子":"午","午":"子","丑":"未","未":"丑","寅":"申","申":"寅","卯":"酉","酉":"卯","辰":"戌","戌":"辰","巳":"亥","亥":"巳"};
 
 /* ================= 暦計算 ================= */
 const rad=Math.PI/180;
@@ -1148,6 +1213,139 @@ $("go").addEventListener("click",()=>{
   $("result").classList.add("on");
   $("result").scrollIntoView({behavior:"smooth",block:"start"});
   if(window.gtag) gtag("event","meishiki_calculated");
+  _rA=r; _nameA=nm;
+  _rB=null;
+  $("aisho-result").innerHTML="";
+  $("aisho-result").style.display="none";
+  $("aisho-section").style.display="none";
+  $("aisho-open").style.display="block";
+});
+
+// ---- 相性鑑定 ----
+let _rA=null,_rB=null,_nameA="あなた",_nameB="相手",_aishoType="恋愛・婚活";
+
+// bHour セレクト初期化
+(()=>{const h=$("bHour");
+ for(let i=0;i<24;i++){
+   const si=Math.floor(((i+1)%24)/2);
+   const o=document.createElement("option");
+   o.value=i;o.textContent=`${String(i).padStart(2,"0")}時台 — ${SHI[si]}の刻`;
+   h.appendChild(o);
+ }})();
+
+function drawAisho(){
+  if(!_rA||!_rB) return;
+  const tsAB=tsuhen(_rA.nikkan,_rB.nikkan);
+  const tsBA=tsuhen(_rB.nikkan,_rA.nikkan);
+  const nkAB=AISHO_NIKKAN[tsAB]||{};
+  const nkBA=AISHO_NIKKAN[tsBA]||{};
+  const GG=["木","火","土","金","水"];
+  const aZero=GG.filter(g=>_rA.count[g]===0);
+  const bZero=GG.filter(g=>_rB.count[g]===0);
+  const bHelpsA=aZero.filter(g=>_rB.count[g]>0);
+  const aHelpsB=bZero.filter(g=>_rA.count[g]>0);
+  const tcsSame=_rA.tcsDay===_rB.tcsDay;
+  const dayShiA=_rA.cols.find(c=>c.name==="日柱").shi;
+  const dayShiB=_rB.cols.find(c=>c.name==="日柱").shi;
+  const isRokugou=RICHI_ROKUGOU[dayShiA]===dayShiB;
+  const isChuu=RICHI_CHUU[dayShiA]===dayShiB;
+  const marks={◎:3,○:2,△:1};
+  let ms=(marks[nkAB.mark]||2)+(marks[nkBA.mark]||2);
+  if(isRokugou) ms+=2; if(isChuu) ms-=2;
+  const overMark=ms>=7?"◎":ms>=5?"○":"△";
+  const typeKey=_aishoType==="恋愛・婚活"||_aishoType==="夫婦・パートナー"?"love":
+    _aishoType==="仕事・ビジネス"?"work":_aishoType==="親子・家族"?"family":"friend";
+  const cAB=nkAB[typeKey]||nkAB.text||"";
+  const cBA=nkBA[typeKey]||nkBA.text||"";
+  const nkGa=KAN_G[KAN.indexOf(_rA.nikkan)], nkGb=KAN_G[KAN.indexOf(_rB.nikkan)];
+  $("aisho-result").innerHTML=`
+  <div style="margin-top:22px">
+    <div class="aisho-persons">
+      <div class="aisho-person">
+        <div class="aisho-pname">${_nameA}</div>
+        <div class="aisho-psub">日干 ${_rA.nikkan}（${nkGa}）／ ${_rA.tcsDay}天中殺</div>
+      </div>
+      <div class="aisho-person">
+        <div class="aisho-pname">${_nameB}</div>
+        <div class="aisho-psub">日干 ${_rB.nikkan}（${nkGb}）／ ${_rB.tcsDay}天中殺</div>
+      </div>
+    </div>
+    <div class="kant-block">
+      <div class="kant-title">総合相性 — ${_aishoType}</div>
+      <div class="aisho-mark ${overMark==="◎"?"mark-good":overMark==="○"?"mark-ok":"mark-care"}">${overMark}</div>
+      <p class="kant-text" style="text-align:center;margin-top:6px">${overMark==="◎"?"非常に相性の良い組み合わせです。":overMark==="○"?"バランスの取れた、成長できる関係性です。":"お互いの違いを理解することが鍵となる組み合わせです。"}</p>
+    </div>
+    <div class="kant-block">
+      <div class="kant-title">日干の関係性</div>
+      <div class="aisho-rel">
+        <div class="aisho-rel-side">
+          <div style="font-size:.7rem;color:var(--nibi);margin-bottom:3px">${_nameA} → ${_nameB}</div>
+          <div class="aisho-rel-ts" style="color:${COLOR[nkGa]}">${tsAB}</div>
+          <div class="aisho-rel-lbl">${nkAB.label||""}</div>
+          <div class="aisho-rel-lbl" style="font-size:.8rem;margin-top:2px">${nkAB.mark||""}</div>
+        </div>
+        <div style="text-align:center;font-size:.62rem;color:var(--nibi)">vs</div>
+        <div class="aisho-rel-side">
+          <div style="font-size:.7rem;color:var(--nibi);margin-bottom:3px">${_nameB} → ${_nameA}</div>
+          <div class="aisho-rel-ts" style="color:${COLOR[nkGb]}">${tsBA}</div>
+          <div class="aisho-rel-lbl">${nkBA.label||""}</div>
+          <div class="aisho-rel-lbl" style="font-size:.8rem;margin-top:2px">${nkBA.mark||""}</div>
+        </div>
+      </div>
+      <p class="kant-text"><b>${_nameA}から見た${_nameB}（${tsAB}）:</b> ${cAB}</p>
+      ${cBA&&cBA!==cAB?`<p class="kant-text" style="margin-top:10px"><b>${_nameB}から見た${_nameA}（${tsBA}）:</b> ${cBA}</p>`:""}
+    </div>
+    <div class="kant-block">
+      <div class="kant-title">五行の補い合い</div>
+      ${bHelpsA.length?`<p class="kant-sub-title">${_nameB}が${_nameA}に補う五行</p>
+      <div class="kant-info-row">${bHelpsA.map(g=>`<span class="kant-badge" style="border-color:${COLOR[g]};color:${COLOR[g]}">${g}</span>`).join("")}</div>
+      <p class="kant-text">${bHelpsA.map(g=>AISHO_GOGYO[g]?.give||"").join(" ")}</p>`:""}
+      ${aHelpsB.length?`<p class="kant-sub-title" style="margin-top:${bHelpsA.length?14:0}px">${_nameA}が${_nameB}に補う五行</p>
+      <div class="kant-info-row">${aHelpsB.map(g=>`<span class="kant-badge" style="border-color:${COLOR[g]};color:${COLOR[g]}">${g}</span>`).join("")}</div>
+      <p class="kant-text">${aHelpsB.map(g=>AISHO_GOGYO[g]?.give||"").join(" ")}</p>`:""}
+      ${!bHelpsA.length&&!aHelpsB.length?`<p class="kant-text">2人の命式に同様の五行の偏りがあります。同じ強みを持ち共鳴しやすい一方、共通の弱点も意識しておくとよいでしょう。</p>`:""}
+      ${isRokugou?`<p class="kant-text" style="margin-top:10px;border-left:2px solid var(--moku);padding-left:10px"><b>日支の六合</b>（${dayShiA}・${dayShiB}）: 日柱の地支が六合の関係にあり、自然と調和しやすい配置です。</p>`:""}
+      ${isChuu?`<p class="kant-text" style="margin-top:10px;border-left:2px solid var(--ka);padding-left:10px"><b>日支の相冲</b>（${dayShiA}・${dayShiB}）: 日柱の地支が相冲の関係にあり、エネルギーがぶつかりやすい配置です。互いの違いを認め合う意識が大切です。</p>`:""}
+    </div>
+    <div class="kant-block">
+      <div class="kant-title">天中殺の関係</div>
+      <div class="kant-info-row">
+        <span class="kant-badge">${_nameA}: ${_rA.tcsDay}天中殺</span>
+        <span class="kant-badge">${_nameB}: ${_rB.tcsDay}天中殺</span>
+      </div>
+      <p class="kant-text">${tcsSame
+        ?`2人は同じ天中殺（${_rA.tcsDay}）を持っています。同じ「充電の時期」を共有するため、困難な局面を共に理解し乗り越えやすいです。一方で天中殺の年は2人同時に不安定になりやすいため、重要な決断はその時期を避けることが重要です。`
+        :`2人の天中殺は異なります。一方が天中殺の時期でも、もう一方はその影響を受けません。一方が不安定なときに相手が支えになれる、バランスの取れた配置です。`
+      }</p>
+    </div>
+  </div>`;
+  $("aisho-result").style.display="block";
+}
+
+$("aisho-open").addEventListener("click",()=>{
+  const s=$("aisho-section");
+  const willOpen=s.style.display==="none";
+  s.style.display=willOpen?"block":"none";
+  if(willOpen) s.scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+document.querySelectorAll(".atype").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".atype").forEach(b=>b.classList.remove("on"));
+    btn.classList.add("on");
+    _aishoType=btn.dataset.t;
+    if(_rB) drawAisho();
+  });
+});
+
+$("aisho-go").addEventListener("click",()=>{
+  const b=$("bBirth").value;
+  if(!b){alert("相手の生年月日を入力してください。");return;}
+  const [y,m,d]=b.split("-").map(Number);
+  _rB=meishiki(y,m,d,$("bHour").value);
+  _nameB=$("bName").value.trim()||"相手";
+  drawAisho();
+  $("aisho-result").scrollIntoView({behavior:"smooth",block:"start"});
 });
 
 // ---- 履歴（localStorage）----
