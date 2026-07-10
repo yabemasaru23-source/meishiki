@@ -137,18 +137,18 @@ button:focus-visible{outline:2px solid var(--do);outline-offset:3px}
 }
 .chart thead th{
   font-family:var(--display);font-weight:600;font-size:.9rem;letter-spacing:.08em;
-  color:var(--gofun);background:#20242c;
+  color:var(--ink);background:var(--gofun);
 }
 .chart th.rowlab{
   width:20%;font-family:var(--display);font-weight:400;font-size:.78rem;
-  color:var(--nibi);background:#181b21;letter-spacing:.06em;line-height:1.4;
+  color:var(--nibi);background:#e6e0d4;letter-spacing:.06em;line-height:1.4;
 }
 .ganshi{font-family:var(--display);font-size:1.5rem;font-weight:600;letter-spacing:.05em;display:block;margin:3px 0}
 .tiny{font-size:.64rem;color:var(--nibi);display:block;letter-spacing:.04em}
-.no{font-size:.7rem;color:#6a7079;display:block;margin-top:5px;font-variant-numeric:tabular-nums}
+.no{font-size:.7rem;color:var(--nibi);display:block;margin-top:5px;font-variant-numeric:tabular-nums}
 .star{font-family:var(--display);font-size:1rem;letter-spacing:.04em}
 .energy{font-size:.66rem;color:var(--nibi);display:block;font-variant-numeric:tabular-nums}
-td.empty{color:#3d434c}
+td.empty{color:var(--ink-line)}
 
 /* ---- 天中殺 ---- */
 .tcs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
@@ -157,10 +157,10 @@ td.empty{color:#3d434c}
 .tcs-card .v{font-family:var(--display);font-size:1.55rem;letter-spacing:.12em}
 .chusatsu{
   margin-top:16px;padding:16px 18px;border-left:2px solid var(--do);
-  background:#1a1c1f;font-size:.84rem;line-height:1.9;
+  background:#fdf6e8;font-size:.84rem;line-height:1.9;
 }
 .chusatsu b{font-family:var(--display);font-weight:600;letter-spacing:.06em;color:var(--do)}
-.chusatsu.none{border-left-color:var(--ink-line);color:var(--nibi)}
+.chusatsu.none{border-left-color:var(--ink-line);color:var(--nibi);background:var(--ink-panel)}
 
 /* ---- 五行 (signature) ---- */
 .gogyo-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
