@@ -201,8 +201,8 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 
 /* ---- 印刷・PDF ---- */
 .print-header{display:none}
-.print-btn{grid-column:unset!important;margin:14px 0 0!important;background:none!important;border:1px solid var(--ink-line)!important;color:var(--nibi)!important;font-family:var(--body)!important;font-size:.7rem!important;letter-spacing:.2em!important;text-indent:.2em;padding:9px!important;font-weight:400!important;opacity:1!important;cursor:pointer;transition:border-color .15s,color .15s;width:100%}
-.print-btn:hover{border-color:var(--gofun)!important;color:var(--gofun)!important}
+.print-btn{grid-column:unset!important;margin:10px 0 0!important;background:none!important;border:1.5px solid var(--gofun)!important;color:var(--gofun)!important;font-family:var(--body)!important;font-size:.76rem!important;letter-spacing:.22em!important;text-indent:.22em;padding:11px!important;font-weight:500!important;opacity:1!important;cursor:pointer;transition:background .18s,color .18s;width:100%}
+.print-btn:hover{background:var(--gofun)!important;color:var(--ink)!important}
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   header,.form,#hist-wrap,.tab-nav,.print-btn,footer,.btn-save,.aisho-types,.aisho-fgrid,.aisho-label,#aisho-go{display:none!important}
@@ -232,10 +232,10 @@ svg.cycle{width:100%;height:auto;overflow:visible}
   p.who-sub{font-size:9pt}
 }
 /* ---- タブ ---- */
-.tab-nav{display:flex;border-bottom:2px solid var(--ink-line);margin-bottom:28px;gap:0}
-.tab-btn{flex:1!important;grid-column:unset!important;margin:0 0 -2px 0!important;background:none!important;border:none!important;border-bottom:2px solid transparent!important;color:var(--nibi)!important;font-family:var(--display)!important;font-size:.78rem!important;letter-spacing:.14em!important;text-indent:0!important;padding:12px 4px!important;font-weight:400!important;opacity:1!important;cursor:pointer;transition:color .15s,border-color .15s}
-.tab-btn:hover{color:var(--gofun)!important}
-.tab-btn.on{color:var(--gofun)!important;border-bottom-color:var(--gofun)!important;font-weight:700!important}
+.tab-nav{display:flex;gap:3px;padding:3px;background:var(--ink-line);border-radius:3px;margin-bottom:20px}
+.tab-btn{flex:1!important;grid-column:unset!important;margin:0!important;background:transparent!important;border:none!important;border-radius:2px!important;color:var(--nibi)!important;font-family:var(--display)!important;font-size:.76rem!important;letter-spacing:.12em!important;text-indent:0!important;padding:10px 4px!important;font-weight:500!important;opacity:1!important;cursor:pointer;transition:background .18s,color .18s}
+.tab-btn:not(.on):hover{background:rgba(0,0,0,.07)!important;color:var(--gofun)!important}
+.tab-btn.on{background:var(--gofun)!important;color:var(--ink)!important;font-weight:700!important}
 .tab-panel{display:none}
 .tab-panel.on{display:block}
 #tab-aisho .aisho-section{border-top:none;padding-top:0;margin-top:0}
@@ -294,8 +294,8 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .hist-date{font-size:.64rem;color:var(--nibi)}
 .hist-del{background:none;border:none;color:var(--nibi);cursor:pointer;font-size:.85rem;padding:0 0 0 5px;line-height:1;grid-column:unset;margin:0;font-family:var(--body);font-weight:400;letter-spacing:0;text-indent:0}
 .hist-del:hover{color:var(--ka);opacity:1}
-.btn-save{background:none!important;border:1px solid var(--ink-line)!important;color:var(--nibi)!important;font-size:.76rem!important;letter-spacing:.22em;padding:10px!important;font-weight:400!important;font-family:var(--body)!important}
-.btn-save:hover{border-color:var(--nibi)!important;color:var(--gofun)!important;opacity:1!important}
+.btn-save{background:none!important;border:1.5px solid var(--do)!important;color:var(--do)!important;font-size:.76rem!important;letter-spacing:.22em;padding:10px!important;font-weight:500!important;font-family:var(--body)!important;opacity:1!important;transition:all .18s!important}
+.btn-save:hover{background:var(--do)!important;color:var(--ink)!important;opacity:1!important}
 .hist-actions{display:flex;gap:8px;margin-top:8px}
 .hist-exp{background:none;border:1px solid var(--ink-line);color:var(--nibi);font-size:.68rem;padding:5px 10px;cursor:pointer;letter-spacing:.08em;font-family:var(--body);font-weight:400}
 .hist-exp:hover{border-color:var(--nibi);color:var(--gofun);opacity:1}
