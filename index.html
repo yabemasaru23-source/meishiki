@@ -1,43 +1,675 @@
-# Claude Code への引き継ぎプロンプト
 
-Claude Code でこのリポジトリを開いたあと、最初に以下をそのまま貼ってください。
+Claudeが応答を完了しました
+ありがとうございます
+これをクラウドコード側に引き継げますか？
 
----
 
-このリポジトリは四柱推命・算命学の命式算出サイトです。
-まず `CLAUDE.md` を全文読んでから作業を始めてください。
+考えていること：前のコンテキストをクラウドコード環境に移行できるかどうか
+考えていること：前のコンテキストをクラウドコード環境に移行できるかどうか
+はい、引き継げます。Claude Code がそのまま作業を継続できる形にパッケージ化します。
 
-現状は第1段階（命式算出プロトタイプ）が完成しています。
-以下の3点を必ず守ってください。
+鍵になるのは、検算済みの正解データを回帰テストとして残しておくことです。これがあれば、Claude Code が第2段階以降でコードを書き換えても、命式の計算が壊れていないことを毎回自動で確認できます。
 
-1. `index.html` の `PROTECTED HEAD BLOCK` 内（GA4・meta・OGP・JSON-LD）は編集しない
-2. コードを変更したら必ず `node tests/verify.js` を実行し、`✓ 全項目一致` を確認する
-3. `<script>` 内の `/* ===== 定数 ===== */` などの区切りコメントは消さない
-   （テストがこの位置を基準にロジックを抽出しています）
 
-次にやりたいのは【 ここに依頼内容を書く 】です。
+3個のコマンドを実行しました, ファイルを作成しました, ファイルを読み取りました
+3個のコマンドを実行しました, ファイルを作成しました, ファイルを読み取りました
+引き継ぎパッケージができました。ZIPを展開してGitHubに上げるだけで、Claude Codeがそのまま作業を再開できます。
 
----
+中身と役割
 
-## 依頼内容の例
+CLAUDE.md が要です。Claude Code はリポジトリを開くとこのファイルを自動で読むので、プロジェクトの背景・計算ロジックの根拠・デザイントークン・禁止事項が最初から共有されます。矢部さんが毎回説明し直す必要がありません。
 
-**第2段階に進む場合**
+tests/verify.js は回帰テストです。index.html の <script> からロジック部分だけを切り出して実行し、大森さん・矢部さんの実データ77項目と突き合わせます。依存パッケージゼロ、node tests/verify.js だけで動きます。Claude Code が姓名判断を追加するときにうっかり命式のコードを壊しても、その場で検知できます。
 
-> 第2段階の姓名判断エンジンを作ってください。
-> まず新字体→旧字体の変換辞書を `data/kyujitai.json` として設計し、
-> 常用漢字のうち字体が変わるものを網羅してください。
-> 画数マスター（1〜81画）は `data/kakusu.json` に外出しします。
-> index.html には姓名入力欄と五格の表示を追加してください。
+HANDOFF.md には、Claude Code に最初に貼るプロンプトのひな形を用意しました。第2段階に進む場合・公開作業をする場合・表示を調整する場合の3パターンです。
 
-**公開作業をする場合**
+Codex対策も入れてあります。 PROTECTED HEAD BLOCK の禁止ルールが CLAUDE.md とHTML内コメントの両方に書いてあるので、Claude Code は GA4・OGP・JSON-LD を勝手に上書きしません。Codex を併用する場合も、HANDOFF.md の文面をそのまま渡せば同じ効果が期待できます。
 
-> GA4 の測定ID `G-XXXXXXXXXX` を実際のIDに差し替え、
-> canonical と og:url を実際の公開URLに変更してください。
-> あわせて og:image 用の 1200x630 の OGP 画像を SVG で作ってください。
-> PROTECTED HEAD BLOCK 内の編集を許可します。
+流れとしては、ZIPを展開 → GitHubに新規リポジトリを作ってプッシュ → Settings → Pages で公開 → ターミナルで claude を起動して HANDOFF.md の文面を貼る、という順です。
 
-**表示を調整する場合**
+第2段階に進むとき、Claude Code に最初に投げるべき課題は旧字体変換辞書です。ここが姓名判断の精度を決めます。ここだけは設計方針を先に決めておいたほうがいいので、必要ならこのチャットで詰めましょう。
 
-> 命式表をタブ切り替えにして、
-> 「基本性格」「仕事運」「恋愛運」「健康運」の4タブに分けてください。
-> デザイントークン（--ink, --moku など）は変更しないでください。
+
+Meishiki handoff
+ZIP 
+
+Claude
+ドキュメント · MD 
+
+Handoff
+ドキュメント · MD 
+
+Verify
+JS 
+
+Index
+コード · HTML 
+1783658720138_image.png
+今この画面です
+
+
+6秒間思考しました
+6秒間思考しました
+画面を見ました。リポジトリがまだ空っぽなので、GitHub Pagesが有効化できない状態です。「支店（Branch）」が「なし」になっているのがその証拠です。まずファイルを上げる必要があります。
+
+順番に進めましょう。
+
+手順1：ファイルをアップロード
+上部の「コード」タブをクリックして、リポジトリのトップに戻ります。
+
+空のリポジトリなので、…or upload an existing file（既存ファイルをアップロード）というリンクが表示されているはずです。それをクリックします。
+
+そこにZIPを展開したフォルダの中身をドラッグ＆ドロップしてください。フォルダごとではなく、中のファイルです。
+
+index.html
+README.md
+CLAUDE.md
+HANDOFF.md
+package.json
+tests フォルダ（これはフォルダごとで大丈夫です）
+.gitignore はMacだと隠しファイルで見えないことがあります。上がらなくても支障ありません。
+
+下の方の「Commit changes（変更をコミット）」の緑ボタンを押します。
+
+手順2：Pagesを有効化
+「設定」→「ページ」に戻ります。今度は「支店」のドロップダウンに main が選べるようになっています。
+
+左のドロップダウン：main
+右のドロップダウン：/ (root)
+「保存」
+2〜5分待つと、同じ画面の上部に公開URLが表示されます。
+
+先に直したほうがいいこと
+リポジトリ名が -2026 になっています。先頭がハイフンです。動きはしますが、公開URLが https://yabemasaru23-source.github.io/-2026/ という見栄えの悪いものになります。
+
+「設定」→「一般的な」の一番上でリポジトリ名を変更できます。meishiki あたりにしておくと、URLが https://yabemasaru23-source.github.io/meishiki/ になり、SEO上もわかりやすくなります。
+
+名前を変えるなら、ファイルを上げる前の今のうちが一番楽です。
+
+まずリネームしますか？それともこのまま進めますか？
+
+https://github.com/yabemasaru23-source/meishiki/settings
+こうしました
+
+リネームできましたね。公開URLは https://yabemasaru23-source.github.io/meishiki/ になります。
+
+次はファイルのアップロードです。
+
+手順1：ファイルを上げる
+上部の「コード」タブへ移動します。
+
+空のリポジトリなので、uploading an existing file（既存のファイルをアップロード）というリンクがあるはずです。もし見当たらなければ、ブラウザで直接ここを開いてください。
+
+https://github.com/yabemasaru23-source/meishiki/upload/main
+ここにZIPを展開した中身をドラッグ＆ドロップします。フォルダごとではなく、中のファイルです。
+
+index.html
+README.md
+CLAUDE.md
+HANDOFF.md
+package.json
+tests フォルダ
+下の緑ボタン「Commit changes」を押します。
+
+手順2：Pagesを有効化
+「設定」→「ページ」に戻ると、今度は「支店」に main が選べます。
+
+左：main
+右：/ (root)
+「保存」
+2〜5分待つと、同じ画面の上部に公開URLが表示されます。
+
+手順3：公開後に必ず直す2箇所
+公開URLが確定したら、index.html の PROTECTED HEAD BLOCK 内を書き換えます。ここだけは触ってよい場所です。
+
+html
+<link rel="canonical" href="https://yabemasaru23-source.github.io/meishiki/">
+<meta property="og:url" content="https://yabemasaru23-source.github.io/meishiki/">
+もう1つ、G-XXXXXXXXXX を実際のGA4測定IDに差し替えます（2箇所あります）。GA4のプロパティはもうお持ちですか？なければ、この段階で新規作成しておくと、公開初日からのデータが取れます。
+
+アップロードが終わったら教えてください。次のステップに進みます。
+
+1783658929569_image.png
+
+11秒間思考しました
+11秒間思考しました
+画面をよく見ると、2つ問題があります。
+
+問題1：index.html の中身が違う
+URLは index.html なのに、表示されている内容は「クロード・コードへの引き継ぎプロンプト」——つまり HANDOFF.md の中身です。ファイルサイズも 1.93KB / 43行 と表示されていますが、本来の index.html は約23KB・550行以上あります。
+
+アップロード時に中身が取り違えられたようです。
+
+問題2：tests フォルダがない
+左のファイル一覧に tests が見当たりません。回帰テストが入っていないので、Claude Code が「テストを実行してください」と指示されても実行できません。
+
+直し方
+まず index.html を上書きします。
+
+このチャットの index.html を再ダウンロードして、以下を開いてください。
+
+https://github.com/yabemasaru23-source/meishiki/upload/main
+index.html をドラッグ＆ドロップ → 下部の緑ボタン「Commit changes」。同じ名前なので上書きされます。
+
+次に tests/verify.js を作ります。
+
+こちらはフォルダごと上げるより、GitHub上で作るほうが確実です。
+
+https://github.com/yabemasaru23-source/meishiki/new/main
+ファイル名の欄に、スラッシュを含めてこう入力します。
+
+tests/verify.js
+tests/ と打った瞬間にフォルダとして認識されます。そこに verify.js の中身を貼り付けて、緑ボタンでコミットします。
+
+確認方法
+上書きが成功すると、index.html を開いたときに1行目が
+
+html
+<!DOCTYPE html>
+になり、サイズが 23KB 前後になります。そうなっていればOKです。
+
+なお、Chromeの自動翻訳がオンになっているようです（「Blame」が「非難」、「main」が「主要」と訳されています）。GitHubの操作中は翻訳を切ったほうが、ボタン名が原文のままで迷いにくいですよ。アドレスバー右の翻訳アイコンから切り替えられます。
+
+上書きが終わったら教えてください。Pagesの有効化に進みます。
+
+
+
+
+
+
+
+Claude は AI のため、誤りを含む可能性があります。回答内容は必ずご確認ください。
+
+
+Index · HTML
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- ============================================================
+     ▼▼▼ PROTECTED HEAD BLOCK — 編集禁止 / DO NOT EDIT ▼▼▼
+     Codex や他のAIツールでこのファイルを編集する場合、
+     このブロック内（GA4 / meta / OGP / JSON-LD）は変更しないこと。
+     ============================================================ -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>命式算出 | 四柱推命・算命学の命式を生年月日から自動計算</title>
+<meta name="description" content="生年月日と出生時刻から、四柱推命の命式（年柱・月柱・日柱・時柱）、通変星、蔵干通変星、十二運星、天中殺、五行バランスを自動算出します。節入りは太陽黄経から精密計算。">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://example.github.io/meishiki/">
+ 
+<!-- OGP -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="命式算出 | 四柱推命・算命学">
+<meta property="og:description" content="生年月日から命式・通変星・十二運星・天中殺・五行バランスを自動計算。">
+<meta property="og:url" content="https://example.github.io/meishiki/">
+<meta property="og:site_name" content="命式算出">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+ 
+<!-- JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "命式算出",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ja",
+  "description": "生年月日と出生時刻から四柱推命の命式、通変星、十二運星、天中殺、五行バランスを自動算出するツール。",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" }
+}
+</script>
+ 
+<!-- Google Analytics 4 — 公開前に G-XXXXXXXXXX を実IDへ差し替える -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<!-- ▲▲▲ PROTECTED HEAD BLOCK END ▲▲▲ -->
+ 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;600;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+ 
+<style>
+:root{
+  --ink:#14161a;
+  --ink-panel:#1c1f26;
+  --ink-line:#333842;
+  --gofun:#ece8df;
+  --nibi:#8b919c;
+  --moku:#4f9e6f;
+  --ka:#d2453e;
+  --do:#c9922e;
+  --kin:#bfc5cd;
+  --sui:#4272ab;
+  --display:"Zen Old Mincho",serif;
+  --body:"Noto Sans JP",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--ink);
+  color:var(--gofun);
+  font-family:var(--body);
+  font-weight:300;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+ 
+/* ---- header ---- */
+header{padding:64px 0 40px;text-align:center;border-bottom:1px solid var(--ink-line)}
+.eyebrow{
+  font-family:var(--body);font-size:.68rem;font-weight:500;
+  letter-spacing:.42em;color:var(--nibi);text-indent:.42em;margin-bottom:22px;
+}
+h1{
+  font-family:var(--display);font-weight:900;
+  font-size:clamp(1.9rem,6vw,2.9rem);letter-spacing:.16em;
+  text-indent:.16em;line-height:1.3;
+}
+.lede{margin-top:18px;font-size:.86rem;color:var(--nibi);letter-spacing:.03em}
+ 
+/* ---- form ---- */
+.form{
+  margin:40px 0;padding:28px 24px;
+  background:var(--ink-panel);border:1px solid var(--ink-line);
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field.full{grid-column:1/-1}
+label{font-size:.72rem;letter-spacing:.14em;color:var(--nibi);font-weight:500}
+input,select{
+  background:#12141a;border:1px solid var(--ink-line);color:var(--gofun);
+  font-family:var(--body);font-size:.98rem;padding:11px 12px;border-radius:0;
+  width:100%;
+}
+input:focus,select:focus{outline:2px solid var(--do);outline-offset:1px;border-color:transparent}
+.hint{font-size:.68rem;color:#666c77;letter-spacing:.02em}
+button{
+  grid-column:1/-1;margin-top:6px;
+  background:var(--gofun);color:var(--ink);border:none;
+  font-family:var(--display);font-weight:600;font-size:1rem;letter-spacing:.3em;
+  text-indent:.3em;padding:15px;cursor:pointer;transition:opacity .18s;
+}
+button:hover{opacity:.82}
+button:focus-visible{outline:2px solid var(--do);outline-offset:3px}
+ 
+/* ---- result ---- */
+#result{display:none}
+#result.on{display:block}
+.who{
+  font-family:var(--display);font-size:1.5rem;letter-spacing:.1em;
+  text-align:center;margin:52px 0 6px;
+}
+.who-sub{text-align:center;font-size:.76rem;color:var(--nibi);letter-spacing:.12em;margin-bottom:36px}
+ 
+.sec-label{
+  font-size:.68rem;letter-spacing:.34em;color:var(--nibi);text-indent:.34em;
+  padding-bottom:10px;margin:56px 0 20px;border-bottom:1px solid var(--ink-line);
+  font-weight:500;
+}
+ 
+/* ---- 命式表 ---- */
+.chart{width:100%;border-collapse:collapse;font-size:.86rem;table-layout:fixed}
+.chart th,.chart td{
+  border:1px solid var(--ink-line);padding:12px 4px;text-align:center;vertical-align:middle;
+}
+.chart thead th{
+  font-family:var(--display);font-weight:600;font-size:.9rem;letter-spacing:.08em;
+  color:var(--gofun);background:#20242c;
+}
+.chart th.rowlab{
+  width:20%;font-family:var(--display);font-weight:400;font-size:.78rem;
+  color:var(--nibi);background:#181b21;letter-spacing:.06em;line-height:1.4;
+}
+.ganshi{font-family:var(--display);font-size:1.5rem;font-weight:600;letter-spacing:.05em;display:block;margin:3px 0}
+.tiny{font-size:.64rem;color:var(--nibi);display:block;letter-spacing:.04em}
+.no{font-size:.7rem;color:#6a7079;display:block;margin-top:5px;font-variant-numeric:tabular-nums}
+.star{font-family:var(--display);font-size:1rem;letter-spacing:.04em}
+.energy{font-size:.66rem;color:var(--nibi);display:block;font-variant-numeric:tabular-nums}
+td.empty{color:#3d434c}
+ 
+/* ---- 天中殺 ---- */
+.tcs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+.tcs-card{background:var(--ink-panel);border:1px solid var(--ink-line);padding:18px 16px;text-align:center}
+.tcs-card .k{font-size:.66rem;letter-spacing:.2em;color:var(--nibi);display:block;margin-bottom:8px}
+.tcs-card .v{font-family:var(--display);font-size:1.55rem;letter-spacing:.12em}
+.chusatsu{
+  margin-top:16px;padding:16px 18px;border-left:2px solid var(--do);
+  background:#1a1c1f;font-size:.84rem;line-height:1.9;
+}
+.chusatsu b{font-family:var(--display);font-weight:600;letter-spacing:.06em;color:var(--do)}
+.chusatsu.none{border-left-color:var(--ink-line);color:var(--nibi)}
+ 
+/* ---- 五行 (signature) ---- */
+.gogyo-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
+svg.cycle{width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-direction:column;gap:2px}
+.bar-row{display:grid;grid-template-columns:2.2rem 1fr 1.6rem;align-items:center;gap:12px;padding:7px 0}
+.bar-name{font-family:var(--display);font-size:1.05rem;letter-spacing:.05em}
+.bar-track{height:5px;background:#252932;position:relative}
+.bar-fill{height:100%;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.bar-num{font-size:.8rem;color:var(--nibi);text-align:right;font-variant-numeric:tabular-nums}
+.gogyo-note{margin-top:20px;font-size:.8rem;color:var(--nibi);line-height:1.9;grid-column:1/-1}
+.gogyo-note b{color:var(--gofun);font-weight:500}
+ 
+/* ---- footer ---- */
+footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);font-size:.7rem;color:#5c626b;line-height:2;text-align:center}
+ 
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .gogyo-wrap{grid-template-columns:1fr;gap:8px}
+  .chart{font-size:.74rem}
+  .chart th.rowlab{width:19%;font-size:.68rem}
+  .ganshi{font-size:1.2rem}
+  .tcs{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ 
+<header>
+  <p class="eyebrow">四柱推命 / 算命学</p>
+  <h1>命 式 算 出</h1>
+  <p class="lede">生年月日から、あなたの四柱を立てる。</p>
+</header>
+ 
+<section class="form">
+  <div class="grid">
+    <div class="field full">
+      <label for="name">お名前</label>
+      <input type="text" id="name" placeholder="矢部 大" autocomplete="name">
+    </div>
+    <div class="field">
+      <label for="birth">生年月日</label>
+      <input type="date" id="birth" value="1975-03-31" min="1900-01-01" max="2100-12-31">
+    </div>
+    <div class="field">
+      <label for="sex">性別</label>
+      <select id="sex">
+        <option value="男性">男性</option>
+        <option value="女性">女性</option>
+        <option value="回答しない">回答しない</option>
+      </select>
+    </div>
+    <div class="field full">
+      <label for="hour">出生時刻（任意）</label>
+      <select id="hour">
+        <option value="">不明 — 時柱を算出しない</option>
+      </select>
+      <p class="hint">時刻がわかると時柱（晩年・子供運）まで算出できます。不明の場合、年柱・月柱・日柱は変わりません。</p>
+    </div>
+    <button id="go">命 式 を 立 て る</button>
+  </div>
+</section>
+ 
+<main id="result" aria-live="polite">
+  <h2 class="who" id="who"></h2>
+  <p class="who-sub" id="whoSub"></p>
+ 
+  <p class="sec-label">命 式</p>
+  <table class="chart">
+    <thead><tr id="head"></tr></thead>
+    <tbody id="body"></tbody>
+  </table>
+ 
+  <p class="sec-label">天 中 殺</p>
+  <div class="tcs">
+    <div class="tcs-card"><span class="k">日柱から</span><span class="v" id="tcsDay"></span></div>
+    <div class="tcs-card"><span class="k">年柱から</span><span class="v" id="tcsYear"></span></div>
+  </div>
+  <div id="chusatsu"></div>
+ 
+  <p class="sec-label">五 行 バ ラ ン ス</p>
+  <div class="gogyo-wrap">
+    <svg class="cycle" viewBox="0 0 300 290" role="img" aria-label="五行の相生・相剋図"></svg>
+    <div class="legend" id="legend"></div>
+    <p class="gogyo-note" id="gogyoNote"></p>
+  </div>
+</main>
+ 
+<footer>
+  節入りは太陽黄経（Meeus法）から算出しています。<br>
+  本ツールは伝統的な命理学の算出手順に基づく参考情報であり、医療・法律・投資上の判断材料ではありません。
+</footer>
+ 
+</div>
+ 
+<script>
+/* ================= 定数 ================= */
+const KAN=["甲","乙","丙","丁","戊","己","庚","辛","壬","癸"];
+const SHI=["子","丑","寅","卯","辰","巳","午","未","申","酉","戌","亥"];
+const KAN_G=["木","木","火","火","土","土","金","金","水","水"];
+const KAN_Y=[0,1,0,1,0,1,0,1,0,1];
+const SHI_G=["水","土","木","木","土","火","火","土","金","金","土","水"];
+const SHI_Y=[0,1,0,1,0,1,0,1,0,1,0,1];
+const SHI_YOMI={子:"ね",丑:"うし",寅:"とら",卯:"う",辰:"たつ",巳:"み",午:"うま",未:"ひつじ",申:"さる",酉:"とり",戌:"いぬ",亥:"い"};
+const COLOR={木:"var(--moku)",火:"var(--ka)",土:"var(--do)",金:"var(--kin)",水:"var(--sui)"};
+ 
+const SETSU=[
+ {lon:315,shi:"寅",name:"立春"},{lon:345,shi:"卯",name:"啓蟄"},{lon:15,shi:"辰",name:"清明"},
+ {lon:45,shi:"巳",name:"立夏"},{lon:75,shi:"午",name:"芒種"},{lon:105,shi:"未",name:"小暑"},
+ {lon:135,shi:"申",name:"立秋"},{lon:165,shi:"酉",name:"白露"},{lon:195,shi:"戌",name:"寒露"},
+ {lon:225,shi:"亥",name:"立冬"},{lon:255,shi:"子",name:"大雪"},{lon:285,shi:"丑",name:"小寒"}
+];
+const ZOKAN={
+ 子:[["壬",10],["癸",99]], 丑:[["癸",9],["辛",12],["己",99]], 寅:[["戊",7],["丙",14],["甲",99]],
+ 卯:[["甲",10],["乙",99]], 辰:[["乙",9],["癸",12],["戊",99]], 巳:[["戊",7],["庚",14],["丙",99]],
+ 午:[["丙",10],["己",19],["丁",99]], 未:[["丁",9],["乙",12],["己",99]], 申:[["戊",7],["壬",14],["庚",99]],
+ 酉:[["庚",10],["辛",99]], 戌:[["辛",9],["丁",12],["戊",99]], 亥:[["戊",7],["甲",14],["壬",99]]
+};
+const SEI={木:"火",火:"土",土:"金",金:"水",水:"木"};
+const KOKU={木:"土",火:"金",土:"水",金:"木",水:"火"};
+const UNSEI=["長生","沐浴","冠帯","建禄","帝旺","衰","病","死","墓","絶","胎","養"];
+const ENERGY={長生:9,沐浴:7,冠帯:10,建禄:11,帝旺:12,衰:8,病:4,死:2,墓:5,絶:1,胎:3,養:6};
+const CHOSEI={甲:"亥",乙:"午",丙:"寅",丁:"酉",戊:"寅",己:"酉",庚:"巳",辛:"子",壬:"申",癸:"卯"};
+const ORGAN={木:"肝臓・胆嚢・目・神経",火:"心臓・小腸・血脈・舌",土:"胃・脾臓・口",金:"肺・大腸・呼吸器・皮膚",水:"腎臓・膀胱・耳・骨"};
+const TASTE={木:"酸味／青",火:"苦味／赤",土:"甘味／黄",金:"辛味／白",水:"塩味／黒"};
+ 
+/* ================= 暦計算 ================= */
+const rad=Math.PI/180;
+const jdn=(y,m,d)=>{const a=Math.floor((14-m)/12),Y=y+4800-a,M=m+12*a-3;
+  return d+Math.floor((153*M+2)/5)+365*Y+Math.floor(Y/4)-Math.floor(Y/100)+Math.floor(Y/400)-32045;};
+const jdUT=(y,m,d,h)=>jdn(y,m,d)-0.5+h/24;
+ 
+function solarLon(jd){
+  const T=(jd-2451545)/36525;
+  const L0=280.46646+36000.76983*T+0.0003032*T*T;
+  const M=357.52911+35999.05029*T-0.0001537*T*T;
+  const C=(1.914602-0.004817*T-0.000014*T*T)*Math.sin(M*rad)
+        +(0.019993-0.000101*T)*Math.sin(2*M*rad)+0.000289*Math.sin(3*M*rad);
+  const O=125.04-1934.136*T;
+  return ((L0+C-0.00569-0.00478*Math.sin(O*rad))%360+360)%360;
+}
+function setsuJD(year,lon){
+  const f=jd=>{let d=solarLon(jd)-lon;while(d>180)d-=360;while(d<-180)d+=360;return d;};
+  let start=jdUT(year,1,1,0)-40;
+  for(let jd=start;jd<start+400;jd+=0.5){
+    if(f(jd)<0&&f(jd+0.5)>=0&&Math.abs(f(jd+0.5)-f(jd))<10){start=jd;break;}
+  }
+  let a=start,b=start+0.5;
+  for(let i=0;i<60;i++){const m=(a+b)/2;if(f(m)<0)a=m;else b=m;}
+  return (a+b)/2+9/24;
+}
+function jdToDate(jd){
+  const z=Math.floor(jd+0.5),f=jd+0.5-z;
+  let A=z; if(z>=2299161){const al=Math.floor((z-1867216.25)/36524.25);A=z+1+al-Math.floor(al/4);}
+  const B=A+1524,C=Math.floor((B-122.1)/365.25),D=Math.floor(365.25*C),E=Math.floor((B-D)/30.6001);
+  const day=B-D-Math.floor(30.6001*E)+f, mo=(E<14)?E-1:E-13;
+  return {y:(mo>2)?C-4716:C-4715,m:mo,d:Math.floor(day)};
+}
+function getSetsu(y,m,d){
+  const bjd=jdn(y,m,d); let best=null;
+  for(const yr of [y-1,y]) for(const s of SETSU){
+    const dt=jdToDate(setsuJD(yr,s.lon)), sjd=jdn(dt.y,dt.m,dt.d);
+    if(sjd<=bjd&&(!best||sjd>best.sjd)) best={...s,sjd,dt};
+  }
+  return {...best,days:bjd-best.sjd+1};
+}
+ 
+/* ================= 命式 ================= */
+const dayPil=(y,m,d)=>{const j=jdn(y,m,d);return [(j+9)%10,(j+1)%12];};
+const ganshiNo=(k,s)=>{for(let n=0;n<60;n++) if(n%10===k&&n%12===s) return n+1;};
+const zokan=(s,days)=>{for(const [k,l] of ZOKAN[s]) if(days<=l) return k;};
+ 
+function tsuhen(nk,tg){
+  const a=KAN.indexOf(nk),b=KAN.indexOf(tg),ga=KAN_G[a],gb=KAN_G[b],same=KAN_Y[a]===KAN_Y[b];
+  if(ga===gb) return same?"比肩":"劫財";
+  if(SEI[ga]===gb) return same?"食神":"傷官";
+  if(KOKU[ga]===gb) return same?"偏財":"正財";
+  if(KOKU[gb]===ga) return same?"偏官":"正官";
+  return same?"偏印":"印綬";
+}
+function unsei(nk,s){
+  const st=SHI.indexOf(CHOSEI[nk]),cu=SHI.indexOf(s),yin=KAN_Y[KAN.indexOf(nk)];
+  return UNSEI[yin?(st-cu+12)%12:(cu-st+12)%12];
+}
+const kubou=(k,s)=>{const h=(s-k+12)%12;return [SHI[(h+10)%12],SHI[(h+11)%12]];};
+ 
+function meishiki(y,m,d,hour){
+  const st=getSetsu(y,m,d);
+  const r=jdToDate(setsuJD(y,315));
+  const sy=(jdn(y,m,d)>=jdn(r.y,r.m,r.d))?y:y-1;
+  const yk=(sy-4+1000)%10, ys=(sy-4+1200)%12;
+  const msi=SHI.indexOf(st.shi);
+  const mk=([2,4,6,8,0,2,4,6,8,0][yk]+(msi-2+12)%12)%10;
+  const [dk,ds]=dayPil(y,m,d);
+  const nk=KAN[dk];
+ 
+  const pillars=[{n:"年柱",sub:"〜29歳 / 第一印象",k:yk,s:ys},
+                 {n:"月柱",sub:"30〜59歳 / 仕事",k:mk,s:msi},
+                 {n:"日柱",sub:"60〜79歳 / 自分・伴侶",k:dk,s:ds}];
+  if(hour!==""){
+    const hi=Math.floor(((+hour+1)%24)/2);
+    const hk=([0,2,4,6,8,0,2,4,6,8][dk]+hi)%10;
+    pillars.push({n:"時柱",sub:"80歳〜 / 晩年・子供",k:hk,s:hi});
+  }
+  const cols=pillars.map(p=>{
+    const kan=KAN[p.k],shi=SHI[p.s],zk=zokan(shi,st.days);
+    return{name:p.n,sub:p.sub,kan,shi,ganshi:kan+shi,no:ganshiNo(p.k,p.s),
+      kanG:(KAN_Y[p.k]?"−":"＋")+KAN_G[p.k], shiG:(SHI_Y[p.s]?"−":"＋")+SHI_G[p.s],
+      zokan:zk, tsuhen:p.n==="日柱"?null:tsuhen(nk,kan), zoTsu:tsuhen(nk,zk),
+      unsei:unsei(nk,shi), energy:ENERGY[unsei(nk,shi)],
+      gk:KAN_G[p.k], gs:SHI_G[p.s]};
+  });
+  const kd=kubou(dk,ds), ky=kubou(yk,ys);
+  const count={木:0,火:0,土:0,金:0,水:0};
+  cols.forEach(c=>{count[c.gk]++;count[c.gs]++;});
+  return{setsu:st,setsuYear:sy,cols,nikkan:nk,count,
+    tcsDay:kd.join(""),tcsYear:ky.join(""),
+    seijitsu:ky.includes(SHI[ds]), seigetsu:ky.includes(st.shi)};
+}
+ 
+/* ================= 描画 ================= */
+const $=id=>document.getElementById(id);
+ 
+// 時刻セレクト
+(()=>{const h=$("hour");
+ for(let i=0;i<24;i++){
+   const si=Math.floor(((i+1)%24)/2);
+   const o=document.createElement("option");
+   o.value=i; o.textContent=`${String(i).padStart(2,"0")}時台 — ${SHI[si]}の刻`;
+   h.appendChild(o);
+ }})();
+ 
+function drawChart(r){
+  const head=$("head"), body=$("body");
+  head.innerHTML=`<th class="rowlab"></th>`+
+    [...r.cols].reverse().map(c=>`<th>${c.name}<span class="tiny" style="margin-top:4px">${c.sub}</span></th>`).join("");
+  const cells=(fn)=>[...r.cols].reverse().map(fn).join("");
+  body.innerHTML=`
+   <tr><th class="rowlab">干支</th>${cells(c=>
+     `<td><span class="tiny">${c.kanG}</span><span class="ganshi">${c.ganshi}</span>
+      <span class="tiny">${c.shiG} ・ ${SHI_YOMI[c.shi]}</span><span class="no">No.${c.no}</span></td>`)}</tr>
+   <tr><th class="rowlab">蔵干</th>${cells(c=>`<td><span class="star">${c.zokan}</span></td>`)}</tr>
+   <tr><th class="rowlab">通変星</th>${cells(c=>
+     c.tsuhen?`<td><span class="star">${c.tsuhen}</span></td>`:`<td class="empty">—</td>`)}</tr>
+   <tr><th class="rowlab">蔵干<br>通変星</th>${cells(c=>`<td><span class="star">${c.zoTsu}</span></td>`)}</tr>
+   <tr><th class="rowlab">十二運星</th>${cells(c=>
+     `<td><span class="star">${c.unsei}</span><span class="energy">エネルギー ${c.energy}</span></td>`)}</tr>`;
+}
+ 
+function drawTcs(r){
+  $("tcsDay").textContent=r.tcsDay+"天中殺";
+  $("tcsYear").textContent=r.tcsYear+"天中殺";
+  const box=$("chusatsu"); const hits=[];
+  if(r.seijitsu) hits.push(`<b>生日中殺</b>があります。日柱（自分自身・伴侶・家庭）が年柱の天中殺に入っています。自我や所有への執着が薄く、精神的な充足を求めやすい配置です。家庭や配偶者との縁は「悪い」のではなく、標準的な形に収まりにくいと読みます。`);
+  if(r.seigetsu) hits.push(`<b>生月中殺</b>があります。月柱（仕事・社会性）が年柱の天中殺に入っています。既存の枠組みの中で評価されるより、自分で領域を切り拓くほうが力を発揮しやすい配置です。`);
+  box.className=hits.length?"chusatsu":"chusatsu none";
+  box.innerHTML=hits.length?hits.join("<br><br>"):"中殺（生日中殺・生月中殺）はありません。";
+}
+ 
+function drawGogyo(r){
+  const c=r.count, max=Math.max(...Object.values(c),1);
+  $("legend").innerHTML=Object.entries(c).map(([g,v])=>`
+    <div class="bar-row">
+      <span class="bar-name" style="color:${COLOR[g]}">${g}</span>
+      <span class="bar-track"><span class="bar-fill" style="width:0;background:${COLOR[g]}" data-w="${v/max*100}"></span></span>
+      <span class="bar-num">${v}</span>
+    </div>`).join("");
+  requestAnimationFrame(()=>document.querySelectorAll(".bar-fill").forEach(b=>b.style.width=b.dataset.w+"%"));
+ 
+  // 相生・相剋図
+  const order=["木","火","土","金","水"], R=105, cx=150, cy=140;
+  const pos=order.map((_,i)=>{const a=(-90+i*72)*rad;return[cx+R*Math.cos(a),cy+R*Math.sin(a)];});
+  const svg=document.querySelector("svg.cycle");
+  let s=`<defs><marker id="ar" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+    <path d="M0,0 L7,3 L0,6 z" fill="#5a6069"/></marker></defs>`;
+  // 相剋（内側の星）
+  for(let i=0;i<5;i++){const [x1,y1]=pos[i],[x2,y2]=pos[(i+2)%5];
+    s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#333842" stroke-width="1" stroke-dasharray="3 4"/>`;}
+  // 相生（外周・矢印）
+  for(let i=0;i<5;i++){const [x1,y1]=pos[i],[x2,y2]=pos[(i+1)%5];
+    const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L;
+    s+=`<line x1="${x1+ux*30}" y1="${y1+uy*30}" x2="${x2-ux*34}" y2="${y2-uy*34}"
+        stroke="#5a6069" stroke-width="1.2" marker-end="url(#ar)"/>`;}
+  // ノード
+  order.forEach((g,i)=>{
+    const [x,y]=pos[i], v=c[g], rr=17+v*4.4;
+    s+= v===0
+      ? `<circle cx="${x}" cy="${y}" r="20" fill="none" stroke="${COLOR[g]}" stroke-width="1.2" stroke-dasharray="3 3" opacity=".55"/>`
+      : `<circle cx="${x}" cy="${y}" r="${rr}" fill="${COLOR[g]}" opacity=".16"/>
+         <circle cx="${x}" cy="${y}" r="${rr}" fill="none" stroke="${COLOR[g]}" stroke-width="1.4"/>`;
+    s+=`<text x="${x}" y="${y+7}" text-anchor="middle" font-family="Zen Old Mincho,serif"
+         font-size="20" fill="${v===0?'#4a5058':COLOR[g]}">${g}</text>`;
+    s+=`<text x="${x}" y="${y+rr+16}" text-anchor="middle" font-size="10" fill="#7b818b">${v}</text>`;
+  });
+  s+=`<text x="${cx}" y="272" text-anchor="middle" font-size="9.5" fill="#5c626b" letter-spacing="2">実線＝相生　破線＝相剋</text>`;
+  svg.innerHTML=s;
+ 
+  const zero=order.filter(g=>c[g]===0), top=order.filter(g=>c[g]===max);
+  const parts=[];
+  parts.push(`日干は<b>${r.nikkan}</b>（${KAN_Y[KAN.indexOf(r.nikkan)]?"陰":"陽"}の${KAN_G[KAN.indexOf(r.nikkan)]}）。`);
+  parts.push(`最も多いのは<b>${top.join("・")}</b>で、${ORGAN[top[0]]}に負担が出やすく、${TASTE[top[0]]}は控えめに。`);
+  parts.push(zero.length
+    ? `<b>${zero.join("・")}</b>が命式に含まれていません。${TASTE[zero[0]]}を意識して取り入れると、巡りが整いやすくなります。`
+    : `五行はすべて揃っています。偏りが少なく、巡りの安定した命式です。`);
+  $("gogyoNote").innerHTML=parts.join(" ");
+}
+ 
+$("go").addEventListener("click",()=>{
+  const b=$("birth").value;
+  if(!b){alert("生年月日を入力してください。");return;}
+  const [y,m,d]=b.split("-").map(Number);
+  const r=meishiki(y,m,d,$("hour").value);
+  const nm=$("name").value.trim()||"あなた";
+  $("who").textContent=`${nm} さんの命式`;
+  $("whoSub").textContent=`${y}年${String(m).padStart(2,"0")}月${String(d).padStart(2,"0")}日 ・ ${$("sex").value} ・ ${r.setsu.name}（${r.setsu.dt.m}/${r.setsu.dt.d}）より ${r.setsu.days} 日目`;
+  drawChart(r); drawTcs(r); drawGogyo(r);
+  $("result").classList.add("on");
+  $("result").scrollIntoView({behavior:"smooth",block:"start"});
+  if(window.gtag) gtag("event","meishiki_calculated");
+});
+</script>
+</body>
+</html>
+ 
+
+
+
