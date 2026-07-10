@@ -187,6 +187,14 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .kant-card-star{font-family:var(--display);font-size:1rem;font-weight:600;margin-bottom:3px}
 .kant-card-key{font-size:.7rem;color:var(--nibi);margin-bottom:7px}
 .kant-card-text{font-size:.8rem;line-height:1.8}
+.kant-info-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.kant-badge{font-size:.72rem;padding:4px 12px;border:1px solid var(--ink-line);color:var(--nibi);letter-spacing:.06em;white-space:nowrap}
+.kant-sub-title{font-size:.68rem;letter-spacing:.16em;color:var(--nibi);margin:14px 0 4px;font-weight:500}
+.kant-list{padding-left:0;list-style:none;margin-bottom:4px}
+.kant-list li{font-size:.84rem;line-height:1.85;padding:3px 0 3px 1.4em;position:relative;color:var(--gofun)}
+.kant-list li::before{position:absolute;left:0;font-weight:600}
+.kant-caution li::before{content:"×";color:var(--ka)}
+.kant-positive li::before{content:"○";color:var(--moku)}
 
 /* ---- footer ---- */
 footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);font-size:.7rem;color:#5c626b;line-height:2;text-align:center}
@@ -344,13 +352,45 @@ const UNSEI_COMMENT={
   胎: {key:"可能性",text:"可能性の種が宿る位置。何かが生まれる一歩手前のエネルギーを持ち、将来の大きな展開につながります。"},
   養: {key:"育む",text:"人に守られ、また人を育てる位置。周囲との協調の中で力を発揮し、柔軟な対応力が持ち味です。"}
 };
+const TCS_CAUTION=["新規事業・起業・大型投資の開始","重要な契約・署名・約束の取り交わし","転職・転居など大きな環境の変化","新しい人間関係への深い踏み込み","衝動的な大きな買い物・借金"];
+const TCS_POSITIVE=["学習・資格取得・スキルアップ","現状の整理・断捨離・見直し","既存プロジェクトの仕上げ・総まとめ","瞑想・内省・心身のメンテナンス","次の時期への計画立案・準備"];
 const TCS_COMMENT={
-  子丑:{season:"冬",text:"十二支の冬（子・丑）が空亡となる配置。静かに充電し内側を整える期間に、本来の力が蓄えられます。焦らず守りを固め土台を見直すことで運が開けます。"},
-  寅卯:{season:"春",text:"春（寅・卯）が空亡となる配置。外への急な拡張より、内側から着実に育てることで力が発揮されます。焦らず根を張ることが、長期的な飛躍につながります。"},
-  辰巳:{season:"晩春〜初夏",text:"辰・巳が空亡となる配置。変化の多い局面で力を発揮します。既存の枠組みにとらわれず、新しい流れに乗ることが開運のカギとなります。"},
-  午未:{season:"夏",text:"夏（午・未）が空亡となる配置。表立った華やかさより、内なる深みで勝負することで実力が発揮されます。精神的な豊かさが物質的な充実より先行する配置です。"},
-  申酉:{season:"秋",text:"秋（申・酉）が空亡となる配置。結果や効率を急がず、プロセスを大切にすることで本来の力が出ます。精度より柔軟さを意識すると流れが良くなります。"},
-  戌亥:{season:"秋から冬",text:"戌・亥が空亡となる配置。表面的な成果や評価よりも、見えないところでの積み上げに強みがあります。人知れず準備を重ねることで、やがて大きな実りが生まれます。"}
+  子丑:{
+    season:"冬",
+    months:"大雪〜立春前（おおよそ12月上旬〜2月上旬）",
+    days:"子の日・丑の日（12日ごとに各1日、月に約5日）",
+    text:"冬（子・丑）が空亡となる配置。静かに充電し内側を整えることで本来の力が蓄えられます。「守りの時期」と捉え土台を固めることが、次の飛躍の種になります。"
+  },
+  寅卯:{
+    season:"春",
+    months:"立春〜清明前（おおよそ2月上旬〜4月上旬）",
+    days:"寅の日・卯の日（12日ごとに各1日、月に約5日）",
+    text:"春（寅・卯）が空亡となる配置。外への急な拡張より内側から着実に育てることで力が発揮されます。根を深く張る期間と捉えることが、長期的な飛躍につながります。"
+  },
+  辰巳:{
+    season:"晩春〜初夏",
+    months:"清明〜芒種前（おおよそ4月上旬〜6月上旬）",
+    days:"辰の日・巳の日（12日ごとに各1日、月に約5日）",
+    text:"辰・巳が空亡となる配置。変化の多い局面ほど外に動くより内側を整えることで力が安定します。蓄積した準備が空亡明けに一気に花開く配置です。"
+  },
+  午未:{
+    season:"夏",
+    months:"芒種〜立秋前（おおよそ6月上旬〜8月上旬）",
+    days:"午の日・未の日（12日ごとに各1日、月に約5日）",
+    text:"夏（午・未）が空亡となる配置。表立った華やかさより内なる深みで勝負することで実力が発揮されます。精神的な豊かさが物質的な充実に先行する命式です。"
+  },
+  申酉:{
+    season:"秋",
+    months:"立秋〜寒露前（おおよそ8月上旬〜10月上旬）",
+    days:"申の日・酉の日（12日ごとに各1日、月に約5日）",
+    text:"秋（申・酉）が空亡となる配置。結果や効率を急がず、プロセスを大切にすることで本来の力が出ます。精度より柔軟さを意識すると流れが整います。"
+  },
+  戌亥:{
+    season:"秋から冬",
+    months:"寒露〜大雪前（おおよそ10月上旬〜12月上旬）",
+    days:"戌の日・亥の日（12日ごとに各1日、月に約5日）",
+    text:"戌・亥が空亡となる配置。表面的な成果より見えないところでの積み上げに強みがあります。人知れず準備を重ねることで、空亡明けに大きな実りが生まれます。"
+  }
 };
 
 /* ================= 暦計算 ================= */
@@ -581,7 +621,15 @@ function drawKantei(r){
   h+=`<div class="kant-block">
     <div class="kant-title">天中殺 — 充電の季節</div>
     <div class="kant-heading">${r.tcsDay}天中殺（${tcc.season||""}）</div>
+    <div class="kant-info-row">
+      <span class="kant-badge">天中殺月　${tcc.months||""}</span>
+      <span class="kant-badge">天中殺日　${tcc.days||""}</span>
+    </div>
     <p class="kant-text">${tcc.text||""}</p>
+    <p class="kant-sub-title">天中殺の月・日に避けること</p>
+    <ul class="kant-list kant-caution">${TCS_CAUTION.map(c=>`<li>${c}</li>`).join("")}</ul>
+    <p class="kant-sub-title">天中殺の月・日に向いていること</p>
+    <ul class="kant-list kant-positive">${TCS_POSITIVE.map(c=>`<li>${c}</li>`).join("")}</ul>
   </div>`;
 
   $("kantei").innerHTML=h;
