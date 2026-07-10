@@ -199,6 +199,38 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .kant-strength li::before{content:"◎";color:var(--moku)}
 .kant-shadow li::before{content:"△";color:var(--do)}
 
+/* ---- 印刷・PDF ---- */
+.print-header{display:none}
+.print-btn{grid-column:unset!important;margin:14px 0 0!important;background:none!important;border:1px solid var(--ink-line)!important;color:var(--nibi)!important;font-family:var(--body)!important;font-size:.7rem!important;letter-spacing:.2em!important;text-indent:.2em;padding:9px!important;font-weight:400!important;opacity:1!important;cursor:pointer;transition:border-color .15s,color .15s;width:100%}
+.print-btn:hover{border-color:var(--gofun)!important;color:var(--gofun)!important}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  header,.form,#hist-wrap,.tab-nav,.print-btn,footer,.btn-save,.aisho-types,.aisho-fgrid,.aisho-label,#aisho-go{display:none!important}
+  .wrap{max-width:100%;padding:0 12mm;box-shadow:none!important;background:#fff!important}
+  body{background:#fff!important}
+  :root{--ink:#fff;--ink-panel:#fff;--ink-line:#ccc;--gofun:#111;--nibi:#555}
+  #result,#result.on{display:block!important}
+  .tab-panel{display:block!important}
+  #tab-aisho{display:none!important}
+  #result.has-aisho #tab-aisho{display:block!important}
+  .tab-panel+.tab-panel{page-break-before:always;padding-top:18pt}
+  .kant-block{page-break-inside:avoid}
+  .daiun-row{overflow:visible!important;flex-wrap:wrap!important;gap:6px!important}
+  .daiun-item{flex:0 0 80px!important}
+  .print-header{display:block!important;text-align:center;border-bottom:1pt solid #bbb;padding-bottom:14pt;margin-bottom:20pt}
+  .print-hname{font-family:'Shippori Mincho B1',serif;font-size:16pt;font-weight:800;color:#111;margin-bottom:4pt}
+  .print-hsub{font-size:9pt;color:#555}
+  .print-hbrand{font-size:8pt;color:#999;margin-top:6pt}
+  .chart thead th{background:#111!important;color:#fff!important}
+  .chart th.rowlab{background:#eee!important;color:#555!important}
+  .sec-label{color:#111!important;border-color:#ccc!important}
+  .aisho-person{background:#f5f5f5!important;border-color:#ccc!important}
+  #aisho-result{display:block!important}
+  .gogyo-wrap{justify-content:flex-start}
+  .cycle{max-width:220px}
+  h2.who{font-size:14pt}
+  p.who-sub{font-size:9pt}
+}
 /* ---- タブ ---- */
 .tab-nav{display:flex;border-bottom:2px solid var(--ink-line);margin-bottom:28px;gap:0}
 .tab-btn{flex:1!important;grid-column:unset!important;margin:0 0 -2px 0!important;background:none!important;border:none!important;border-bottom:2px solid transparent!important;color:var(--nibi)!important;font-family:var(--display)!important;font-size:.78rem!important;letter-spacing:.14em!important;text-indent:0!important;padding:12px 4px!important;font-weight:400!important;opacity:1!important;cursor:pointer;transition:color .15s,border-color .15s}
@@ -333,12 +365,19 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
   <h2 class="who" id="who"></h2>
   <p class="who-sub" id="whoSub"></p>
 
+  <div class="print-header">
+    <div class="print-hname" id="print-hname"></div>
+    <div class="print-hsub" id="print-hsub"></div>
+    <div class="print-hbrand">感動革命！クオリティマネジメント社 — 完全コンプリート生命哲学 鑑定所</div>
+  </div>
+
   <nav class="tab-nav">
     <button class="tab-btn on" data-tab="tab-meishiki">命　式</button>
     <button class="tab-btn" data-tab="tab-gogyo">五　行</button>
     <button class="tab-btn" data-tab="tab-kantei">鑑　定</button>
     <button class="tab-btn" data-tab="tab-aisho">相　性</button>
   </nav>
+  <button class="print-btn" id="print-btn">PDF・印 刷</button>
 
   <div class="tab-panel on" id="tab-meishiki">
     <p class="sec-label">命 式</p>
@@ -1268,6 +1307,9 @@ $("go").addEventListener("click",()=>{
   _rA=r; _nameA=nm;
   _rB=null;
   $("aisho-result").innerHTML="";
+  $("result").classList.remove("has-aisho");
+  $("print-hname").textContent=nm+" さんの命式鑑定書";
+  $("print-hsub").textContent=y+"年"+String(m).padStart(2,"0")+"月"+String(d).padStart(2,"0")+"日生 ・ "+$("sex").value+" ／ 出力日: "+new Date().toLocaleDateString("ja-JP");
   switchTab("tab-meishiki");
 });
 
@@ -1437,7 +1479,13 @@ function drawAisho(){
     +'<p class="kant-text">'+tcsText+'</p></div>';
   $("aisho-result").innerHTML='<div style="margin-top:22px">'+personCards+overallBlock+gokanBlock+nikkanBlock+multiPillarBlock+gogyoBlock+shugoBlock+tcsBlock+'</div>';
   $("aisho-result").style.display="block";
+  $("result").classList.add("has-aisho");
+  // 印刷ヘッダーに相手名を追記
+  $("print-hsub").textContent+=" ／ 相性: "+_nameB;
 }
+
+// ---- 印刷・PDF ----
+$("print-btn").addEventListener("click",()=>window.print());
 
 // ---- タブ切り替え ----
 function switchTab(id){
