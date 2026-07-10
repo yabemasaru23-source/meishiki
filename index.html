@@ -173,6 +173,21 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .gogyo-note{margin-top:20px;font-size:.8rem;color:var(--nibi);line-height:1.9;grid-column:1/-1}
 .gogyo-note b{color:var(--gofun);font-weight:500}
 
+/* ---- 鑑定コメント ---- */
+#kantei{margin-top:8px}
+.kant-block{background:var(--ink-panel);border:1px solid var(--ink-line);padding:20px 22px;margin-bottom:14px}
+.kant-title{font-size:.68rem;letter-spacing:.22em;color:var(--nibi);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.kant-title::after{content:"";flex:1;height:1px;background:var(--ink-line)}
+.kant-heading{font-family:var(--display);font-size:1.1rem;font-weight:600;letter-spacing:.1em;margin-bottom:8px}
+.kant-key{display:inline-block;font-size:.66rem;letter-spacing:.12em;padding:2px 9px;margin-bottom:10px;border:1px solid var(--ink-line);color:var(--nibi)}
+.kant-text{font-size:.87rem;line-height:1.9;color:var(--gofun)}
+.kant-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kant-card{background:var(--ink);border:1px solid var(--ink-line);padding:14px 16px}
+.kant-card-name{font-size:.66rem;letter-spacing:.16em;color:var(--nibi);margin-bottom:4px}
+.kant-card-star{font-family:var(--display);font-size:1rem;font-weight:600;margin-bottom:3px}
+.kant-card-key{font-size:.7rem;color:var(--nibi);margin-bottom:7px}
+.kant-card-text{font-size:.8rem;line-height:1.8}
+
 /* ---- footer ---- */
 footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);font-size:.7rem;color:#5c626b;line-height:2;text-align:center}
 
@@ -248,6 +263,9 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
     <div class="legend" id="legend"></div>
     <p class="gogyo-note" id="gogyoNote"></p>
   </div>
+
+  <p class="sec-label">鑑 定 コ メ ン ト</p>
+  <div id="kantei"></div>
 </main>
 
 <footer>
@@ -287,6 +305,53 @@ const ENERGY={長生:9,沐浴:7,冠帯:10,建禄:11,帝旺:12,衰:8,病:4,死:2,
 const CHOSEI={甲:"亥",乙:"午",丙:"寅",丁:"酉",戊:"寅",己:"酉",庚:"巳",辛:"子",壬:"申",癸:"卯"};
 const ORGAN={木:"肝臓・胆嚢・目・神経",火:"心臓・小腸・血脈・舌",土:"胃・脾臓・口",金:"肺・大腸・呼吸器・皮膚",水:"腎臓・膀胱・耳・骨"};
 const TASTE={木:"酸味／青",火:"苦味／赤",土:"甘味／黄",金:"辛味／白",水:"塩味／黒"};
+
+const NIKKAN_COMMENT={
+  甲:{img:"大樹",text:"まっすぐに天を目指す大樹のような気質。高い理想と強い意志を持ち、困難があっても折れにくい。リーダーとして周囲を引っ張る力がある一方、融通が利きにくい面も。"},
+  乙:{img:"草花",text:"しなやかに環境へ適応する草花の気質。柔軟な発想と粘り強さが持ち味で、どんな状況でも生き抜く底力がある。周囲との協調を大切にし、細やかな気配りができる。"},
+  丙:{img:"太陽",text:"すべてを照らす太陽のような気質。明るくオープンで、その場の空気を温める力がある。行動力と突破力に優れ、人を惹きつけるカリスマ性を持つ。"},
+  丁:{img:"灯火",text:"内側から静かに照らす灯火の気質。鋭い直感と洞察力を持ち、他者の心の機微を読む力がある。目立つより深さを求め、芸術・精神・探究の分野で力を発揮する。"},
+  戊:{img:"大山",text:"どっしりと構える大山のような気質。安定感と包容力があり、周囲の人を支える柱となる。一度決めたことは揺らがない意志の強さと、長期的な視野を持つ。"},
+  己:{img:"田畑",text:"万物を育む田畑のような気質。細やかな気配りと忍耐強さが持ち味。コツコツと積み上げる力があり、人や物事を丁寧に育んで実りをもたらす。"},
+  庚:{img:"刀剣",text:"鋭く研ぎ澄まされた刀剣の気質。意志が強く行動力があり、決断が早い。目標に向かって一直線に進む推進力を持つ一方、鋭さゆえに衝突も起きやすい。"},
+  辛:{img:"宝石",text:"磨き抜かれた宝石のような気質。高い美意識と繊細な感受性を持ち、品質へのこだわりが強い。細部まで気が行き届き、芸術・美・洗練の分野で才能を発揮する。"},
+  壬:{img:"大海",text:"すべてを飲み込む大海のような気質。懐が深く、スケールの大きな発想ができる。好奇心旺盛で多方面に活動し、その場の流れを巧みに読んで適応する力を持つ。"},
+  癸:{img:"雨露",text:"静かに浸透する雨露のような気質。鋭い感受性と洞察力を持ち、人の心の深部を読み取る。表面的には控えめに見えながら、内側に豊かな知性と精神性を秘めている。"}
+};
+const TSUHEN_COMMENT={
+  比肩:{key:"独立・自立",text:"自分の力を信じて切り拓く独立の星。意志が強く、自分のペースで行動することを好みます。周囲と対等に渡り合う力がある一方、頑固になりやすい一面も。"},
+  劫財:{key:"勝負・行動",text:"勢いよく突き進む行動の星。闘争心と積極性が旺盛で、勝負ごとに強い。周囲を巻き込んで動くパワーがある一方、衝動的な判断には注意が必要です。"},
+  食神:{key:"表現・楽しむ",text:"生きる喜びを外へ表現する星。楽天的で人懐っこく、食・芸術・コミュニケーションの才能を持ちます。自分を表現することで運が開けます。"},
+  傷官:{key:"才能・批評",text:"高い感受性と批評眼を持つ才能の星。既成の枠を超えるアイデアを生み出す力があります。権威や慣習に縛られず、独自の道を切り拓くときに輝く配置です。"},
+  偏財:{key:"交際・行動力",text:"広い人脈と行動力を持つ交際の星。金銭の縁はダイナミックで、大きく入り大きく出る流れになりやすい。社交性を活かして多方面で活躍できます。"},
+  正財:{key:"堅実・安定",text:"コツコツと積み上げる堅実の星。計画的に管理する力があり、金銭的な安定を築くのが得意です。誠実さと信頼感が、長期的な豊かさをもたらします。"},
+  偏官:{key:"規律・統率",text:"厳しさと規律で周囲を束ねる統率の星。責任感が強く、組織や集団を動かすリーダーシップを持ちます。自分にも他者にも高い基準を求める分、プレッシャーも大きい。"},
+  正官:{key:"品格・誠実",text:"誠実さと品格を重んじる権威の星。社会的なルールを守り、正道を歩むことで評価が上がる配置です。長期的に見て社会的な信頼と地位を積み上げます。"},
+  偏印:{key:"直感・探究",text:"閃きと好奇心が旺盛な探究の星。直感で物事の本質を見抜く力があり、幅広い分野に興味を持ちます。一つのことへの継続が課題になることも。"},
+  印綬:{key:"知性・格式",text:"知性と学びを愛する文化の星。深く学ぶほど力が湧き出る配置で、専門性を積み上げることで真価を発揮します。精神的な余裕と品格が、周囲からの信頼を生みます。"}
+};
+const UNSEI_COMMENT={
+  長生:{key:"始動",text:"潜在力が豊かで、物事をゼロから始める力を持つ位置。大きな可能性を秘めています。"},
+  沐浴:{key:"磨く",text:"才能の原石が磨かれる位置。感受性が豊かで、何かに熱中すると独自の輝きを放ちます。"},
+  冠帯:{key:"成長",text:"エネルギーが充実し、意欲的に行動できる位置。実績を積み上げるのに適した配置です。"},
+  建禄:{key:"独立",text:"自立して力を発揮できる成熟の位置。専門性や独自の実力で勝負するのが向いています。"},
+  帝旺:{key:"絶頂",text:"エネルギーが最大化する位置。大きな成果を生みやすい半面、頂点ゆえの孤独も伴います。"},
+  衰: {key:"経験",text:"経験値が豊かで安定した位置。急がず着実に、これまでの積み重ねを活かすフェーズです。"},
+  病: {key:"感受性",text:"繊細な感受性を持つ位置。人の気持ちへの共感力が高く、丁寧に心を使う仕事が向いています。"},
+  死: {key:"変容",text:"古い殻を脱ぎ捨てる変容の位置。一度手放すことで新しいステージが開く、転換の力を持ちます。"},
+  墓: {key:"蓄積",text:"深く物事を蓄積する位置。じっくり時間をかけるほど成果が出やすく、専門職との相性がよい配置です。"},
+  絶: {key:"転換",text:"ゼロから再出発する転換の位置。常識や慣習にとらわれず、まったく新しい発想で切り拓く力を持ちます。"},
+  胎: {key:"可能性",text:"可能性の種が宿る位置。何かが生まれる一歩手前のエネルギーを持ち、将来の大きな展開につながります。"},
+  養: {key:"育む",text:"人に守られ、また人を育てる位置。周囲との協調の中で力を発揮し、柔軟な対応力が持ち味です。"}
+};
+const TCS_COMMENT={
+  子丑:{season:"冬",text:"十二支の冬（子・丑）が空亡となる配置。静かに充電し内側を整える期間に、本来の力が蓄えられます。焦らず守りを固め土台を見直すことで運が開けます。"},
+  寅卯:{season:"春",text:"春（寅・卯）が空亡となる配置。外への急な拡張より、内側から着実に育てることで力が発揮されます。焦らず根を張ることが、長期的な飛躍につながります。"},
+  辰巳:{season:"晩春〜初夏",text:"辰・巳が空亡となる配置。変化の多い局面で力を発揮します。既存の枠組みにとらわれず、新しい流れに乗ることが開運のカギとなります。"},
+  午未:{season:"夏",text:"夏（午・未）が空亡となる配置。表立った華やかさより、内なる深みで勝負することで実力が発揮されます。精神的な豊かさが物質的な充実より先行する配置です。"},
+  申酉:{season:"秋",text:"秋（申・酉）が空亡となる配置。結果や効率を急がず、プロセスを大切にすることで本来の力が出ます。精度より柔軟さを意識すると流れが良くなります。"},
+  戌亥:{season:"秋から冬",text:"戌・亥が空亡となる配置。表面的な成果や評価よりも、見えないところでの積み上げに強みがあります。人知れず準備を重ねることで、やがて大きな実りが生まれます。"}
+};
 
 /* ================= 暦計算 ================= */
 const rad=Math.PI/180;
@@ -469,6 +534,59 @@ function drawGogyo(r){
   $("gogyoNote").innerHTML=parts.join(" ");
 }
 
+function drawKantei(r){
+  const nk=r.nikkan, nkc=NIKKAN_COMMENT[nk]||{};
+  const nkColor=COLOR[KAN_G[KAN.indexOf(nk)]];
+  const nkYinYang=KAN_Y[KAN.indexOf(nk)]?"陰":"陽";
+
+  let h=`<div class="kant-block">
+    <div class="kant-title">日干 — 本質の気質</div>
+    <div class="kant-heading" style="color:${nkColor}">${nk}（${nkc.img||""}）</div>
+    <span class="kant-key">${nkYinYang}の${KAN_G[KAN.indexOf(nk)]}</span>
+    <p class="kant-text">${nkc.text||""}</p>
+  </div>`;
+
+  const tCols=r.cols.filter(c=>c.tsuhen);
+  if(tCols.length){
+    h+=`<div class="kant-block">
+      <div class="kant-title">通変星 — 各柱の働き</div>
+      <div class="kant-grid">`;
+    for(const c of tCols){
+      const tc=TSUHEN_COMMENT[c.tsuhen]||{};
+      h+=`<div class="kant-card">
+        <div class="kant-card-name">${c.name}</div>
+        <div class="kant-card-star" style="color:${COLOR[c.gk]}">${c.tsuhen}</div>
+        <div class="kant-card-key">${tc.key||""}</div>
+        <div class="kant-card-text">${tc.text||""}</div>
+      </div>`;
+    }
+    h+=`</div></div>`;
+  }
+
+  h+=`<div class="kant-block">
+    <div class="kant-title">十二運星 — エネルギーの質</div>
+    <div class="kant-grid">`;
+  for(const c of r.cols){
+    const uc=UNSEI_COMMENT[c.unsei]||{};
+    h+=`<div class="kant-card">
+      <div class="kant-card-name">${c.name}</div>
+      <div class="kant-card-star">${c.unsei}</div>
+      <div class="kant-card-key">${uc.key||""} ／ エネルギー ${c.energy}</div>
+      <div class="kant-card-text">${uc.text||""}</div>
+    </div>`;
+  }
+  h+=`</div></div>`;
+
+  const tcc=TCS_COMMENT[r.tcsDay]||{};
+  h+=`<div class="kant-block">
+    <div class="kant-title">天中殺 — 充電の季節</div>
+    <div class="kant-heading">${r.tcsDay}天中殺（${tcc.season||""}）</div>
+    <p class="kant-text">${tcc.text||""}</p>
+  </div>`;
+
+  $("kantei").innerHTML=h;
+}
+
 $("go").addEventListener("click",()=>{
   const b=$("birth").value;
   if(!b){alert("生年月日を入力してください。");return;}
@@ -477,7 +595,7 @@ $("go").addEventListener("click",()=>{
   const nm=$("name").value.trim()||"あなた";
   $("who").textContent=`${nm} さんの命式`;
   $("whoSub").textContent=`${y}年${String(m).padStart(2,"0")}月${String(d).padStart(2,"0")}日 ・ ${$("sex").value} ・ ${r.setsu.name}（${r.setsu.dt.m}/${r.setsu.dt.d}）より ${r.setsu.days} 日目`;
-  drawChart(r); drawTcs(r); drawGogyo(r);
+  drawChart(r); drawTcs(r); drawGogyo(r); drawKantei(r);
   $("result").classList.add("on");
   $("result").scrollIntoView({behavior:"smooth",block:"start"});
   if(window.gtag) gtag("event","meishiki_calculated");
