@@ -827,6 +827,7 @@ function drawGogyo(r){
 }
 
 function drawKantei(r,sex,birthYear){
+  const curYear=new Date().getFullYear();
   const nk=r.nikkan;
   const nkc=NIKKAN_COMMENT[nk]||{};
   const nke=NIKKAN_EXTRA[nk]||{};
@@ -989,6 +990,39 @@ function drawKantei(r,sex,birthYear){
 
   // 10. 天中殺
   const tcc=TCS_COMMENT[r.tcsDay]||{};
+  // 次の天中殺年を検索（現在年以降で最初に来る2年間）
+  const tcs1=r.tcsDay[0], tcs2=r.tcsDay[1];
+  const nextTcsYrs=[];
+  for(let yr=curYear;yr<=curYear+14;yr++){
+    const ys=(yr-4+1200)%12;
+    if(SHI[ys]===tcs1||SHI[ys]===tcs2){
+      const yk=(yr-4+1000)%10;
+      nextTcsYrs.push({yr,gs:KAN[yk]+SHI[ys],branch:SHI[ys]});
+      if(nextTcsYrs.length>=4) break; // 次の1周期分（最大4年）取得
+    }
+  }
+  // 現在年が天中殺年かどうか
+  const curBranch=SHI[(curYear-4+1200)%12];
+  const inTcsNow=curBranch===tcs1||curBranch===tcs2;
+  // 次の天中殺期間（連続する2年を1セットとして抽出）
+  const nextBlock=[];
+  for(let i=0;i<nextTcsYrs.length;i++){
+    if(!inTcsNow&&nextTcsYrs[i].yr===curYear) continue; // 今年が天中殺でなければスキップ
+    if(nextBlock.length===0||nextTcsYrs[i].yr===nextBlock[nextBlock.length-1].yr+1){
+      nextBlock.push(nextTcsYrs[i]);
+    } else if(nextBlock.length>0) break;
+  }
+  // 今年が天中殺でない場合は今年以降の最初のブロックを取得
+  const futureBlock=[];
+  if(!inTcsNow){
+    for(let i=0;i<nextTcsYrs.length;i++){
+      if(futureBlock.length===0||nextTcsYrs[i].yr===futureBlock[futureBlock.length-1].yr+1){
+        futureBlock.push(nextTcsYrs[i]);
+      } else break;
+    }
+  }
+  const tcsBlock=inTcsNow?nextBlock:futureBlock;
+  const yearsUntil=tcsBlock.length>0&&!inTcsNow?tcsBlock[0].yr-curYear:0;
   h+=`<div class="kant-block">
     <div class="kant-title">天中殺 — 充電の季節</div>
     <div class="kant-heading">${r.tcsDay}天中殺（${tcc.season||""}）</div>
@@ -1001,6 +1035,16 @@ function drawKantei(r,sex,birthYear){
     <ul class="kant-list kant-caution">${TCS_CAUTION.map(c=>`<li>${c}</li>`).join("")}</ul>
     <p class="kant-sub-title">天中殺の月・日に向いていること</p>
     <ul class="kant-list kant-positive">${TCS_POSITIVE.map(c=>`<li>${c}</li>`).join("")}</ul>
+    <p class="kant-sub-title" style="margin-top:18px">${inTcsNow?"現在の天中殺年":"次の天中殺年"}</p>
+    ${tcsBlock.length>0
+      ?`<div class="kant-info-row" style="margin-bottom:10px">
+          ${tcsBlock.map(t=>`<span class="kant-badge" style="${inTcsNow?"border-color:var(--ka);color:var(--ka)":"border-color:var(--do);color:var(--do)"}">${t.yr}年　${t.gs}</span>`).join("")}
+        </div>
+        <p class="kant-text">${inTcsNow
+          ?`現在 <b>${tcsBlock[0].yr}年（${tcsBlock[0].gs}）</b> は天中殺期間中です。${tcsBlock.length>1?`<b>${tcsBlock[tcsBlock.length-1].yr}年（${tcsBlock[tcsBlock.length-1].gs}）</b>まで続きます。`:"今年で終わります。"}大きな新規行動より、内側を整える・既存の積み上げを仕上げる時期として活用してください。`
+          :`次の天中殺は <b>${tcsBlock[0].yr}年（${tcsBlock[0].gs}）</b> から始まります（あと <b>${yearsUntil}年</b>）。${tcsBlock.length>1?`<b>${tcsBlock[tcsBlock.length-1].yr}年（${tcsBlock[tcsBlock.length-1].gs}）</b>までの2年間が天中殺期間となります。`:""}それまでの間に新規の大きな意思決定・契約・スタートは集中させておきましょう。`}
+        </p>`
+      :`<p class="kant-text" style="color:var(--nibi)">計算範囲内で見つかりませんでした。</p>`}
   </div>`;
 
   // 11. 幼少期〜青年期の傾向（年柱から）
@@ -1016,7 +1060,6 @@ function drawKantei(r,sex,birthYear){
   }
 
   // 12. 大運（10年サイクル）
-  const curYear=new Date().getFullYear();
   const nenKanYin=KAN_Y[(r.setsuYear-4+1000)%10];
   let jun=null;
   if(sex==="男性") jun=!nenKanYin;
