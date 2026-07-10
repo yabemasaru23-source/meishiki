@@ -199,6 +199,14 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .kant-strength li::before{content:"◎";color:var(--moku)}
 .kant-shadow li::before{content:"△";color:var(--do)}
 
+/* ---- タブ ---- */
+.tab-nav{display:flex;border-bottom:2px solid var(--ink-line);margin-bottom:28px;gap:0}
+.tab-btn{flex:1!important;grid-column:unset!important;margin:0 0 -2px 0!important;background:none!important;border:none!important;border-bottom:2px solid transparent!important;color:var(--nibi)!important;font-family:var(--display)!important;font-size:.78rem!important;letter-spacing:.14em!important;text-indent:0!important;padding:12px 4px!important;font-weight:400!important;opacity:1!important;cursor:pointer;transition:color .15s,border-color .15s}
+.tab-btn:hover{color:var(--gofun)!important}
+.tab-btn.on{color:var(--gofun)!important;border-bottom-color:var(--gofun)!important;font-weight:700!important}
+.tab-panel{display:none}
+.tab-panel.on{display:block}
+#tab-aisho .aisho-section{border-top:none;padding-top:0;margin-top:0}
 /* ---- 相性鑑定 ---- */
 .aisho-trigger{display:block;width:100%;margin-top:36px;background:none!important;border:2px solid var(--do)!important;color:var(--do)!important;font-family:var(--display)!important;font-size:.88rem!important;letter-spacing:.28em!important;text-indent:.28em;padding:16px!important;font-weight:600!important;transition:all .2s!important;opacity:1!important}
 .aisho-trigger:hover{background:var(--do)!important;color:#fff!important}
@@ -325,49 +333,63 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
   <h2 class="who" id="who"></h2>
   <p class="who-sub" id="whoSub"></p>
 
-  <p class="sec-label">命 式</p>
-  <table class="chart">
-    <thead><tr id="head"></tr></thead>
-    <tbody id="body"></tbody>
-  </table>
+  <nav class="tab-nav">
+    <button class="tab-btn on" data-tab="tab-meishiki">命　式</button>
+    <button class="tab-btn" data-tab="tab-gogyo">五　行</button>
+    <button class="tab-btn" data-tab="tab-kantei">鑑　定</button>
+    <button class="tab-btn" data-tab="tab-aisho">相　性</button>
+  </nav>
 
-  <p class="sec-label">天 中 殺</p>
-  <div class="tcs">
-    <div class="tcs-card"><span class="k">日柱から</span><span class="v" id="tcsDay"></span></div>
-    <div class="tcs-card"><span class="k">年柱から</span><span class="v" id="tcsYear"></span></div>
-  </div>
-  <div id="chusatsu"></div>
-
-  <p class="sec-label">五 行 バ ラ ン ス</p>
-  <div class="gogyo-wrap">
-    <svg class="cycle" viewBox="0 0 300 290" role="img" aria-label="五行の相生・相剋図"></svg>
-    <div class="legend" id="legend"></div>
-    <p class="gogyo-note" id="gogyoNote"></p>
-  </div>
-
-  <p class="sec-label">鑑 定 コ メ ン ト</p>
-  <div id="kantei"></div>
-  <button class="aisho-trigger" id="aisho-open" style="display:none">＋ 相 性 鑑 定 を 追 加 す る</button>
-  <section class="aisho-section" id="aisho-section" style="display:none">
-    <p class="sec-label">相 性 鑑 定</p>
-    <p class="aisho-label">鑑定の種類</p>
-    <div class="aisho-types">
-      <button class="atype on" data-t="恋愛・婚活">恋愛・婚活</button>
-      <button class="atype" data-t="夫婦・パートナー">夫婦・パートナー</button>
-      <button class="atype" data-t="仕事・ビジネス">仕事・ビジネス</button>
-      <button class="atype" data-t="友人・知人">友人・知人</button>
-      <button class="atype" data-t="親子・家族">親子・家族</button>
+  <div class="tab-panel on" id="tab-meishiki">
+    <p class="sec-label">命 式</p>
+    <table class="chart">
+      <thead><tr id="head"></tr></thead>
+      <tbody id="body"></tbody>
+    </table>
+    <p class="sec-label">天 中 殺</p>
+    <div class="tcs">
+      <div class="tcs-card"><span class="k">日柱から</span><span class="v" id="tcsDay"></span></div>
+      <div class="tcs-card"><span class="k">年柱から</span><span class="v" id="tcsYear"></span></div>
     </div>
-    <p class="aisho-label">相手の情報</p>
-    <div class="aisho-fgrid">
-      <div class="field full"><label>お名前（相手）</label><input type="text" id="bName" placeholder="お名前"></div>
-      <div class="field"><label>生年月日</label><input type="date" id="bBirth" min="1900-01-01" max="2100-12-31"></div>
-      <div class="field"><label>性別</label><select id="bSex"><option value="女性">女性</option><option value="男性">男性</option><option value="回答しない">回答しない</option></select></div>
-      <div class="field full"><label>出生時刻（任意）</label><select id="bHour"><option value="">不明</option></select></div>
-      <button id="aisho-go">相 性 を 鑑 定 す る</button>
+    <div id="chusatsu"></div>
+  </div>
+
+  <div class="tab-panel" id="tab-gogyo">
+    <p class="sec-label">五 行 バ ラ ン ス</p>
+    <div class="gogyo-wrap">
+      <svg class="cycle" viewBox="0 0 300 290" role="img" aria-label="五行の相生・相剋図"></svg>
+      <div class="legend" id="legend"></div>
+      <p class="gogyo-note" id="gogyoNote"></p>
     </div>
-    <div id="aisho-result"></div>
-  </section>
+  </div>
+
+  <div class="tab-panel" id="tab-kantei">
+    <p class="sec-label">鑑 定 コ メ ン ト</p>
+    <div id="kantei"></div>
+  </div>
+
+  <div class="tab-panel" id="tab-aisho">
+    <section class="aisho-section" id="aisho-section">
+      <p class="sec-label">相 性 鑑 定</p>
+      <p class="aisho-label">鑑定の種類</p>
+      <div class="aisho-types">
+        <button class="atype on" data-t="恋愛・婚活">恋愛・婚活</button>
+        <button class="atype" data-t="夫婦・パートナー">夫婦・パートナー</button>
+        <button class="atype" data-t="仕事・ビジネス">仕事・ビジネス</button>
+        <button class="atype" data-t="友人・知人">友人・知人</button>
+        <button class="atype" data-t="親子・家族">親子・家族</button>
+      </div>
+      <p class="aisho-label">相手の情報</p>
+      <div class="aisho-fgrid">
+        <div class="field full"><label>お名前（相手）</label><input type="text" id="bName" placeholder="お名前"></div>
+        <div class="field"><label>生年月日</label><input type="date" id="bBirth" min="1900-01-01" max="2100-12-31"></div>
+        <div class="field"><label>性別</label><select id="bSex"><option value="女性">女性</option><option value="男性">男性</option><option value="回答しない">回答しない</option></select></div>
+        <div class="field full"><label>出生時刻（任意）</label><select id="bHour"><option value="">不明</option></select></div>
+        <button id="aisho-go">相 性 を 鑑 定 す る</button>
+      </div>
+      <div id="aisho-result"></div>
+    </section>
+  </div>
 </main>
 
 <footer>
@@ -1246,9 +1268,7 @@ $("go").addEventListener("click",()=>{
   _rA=r; _nameA=nm;
   _rB=null;
   $("aisho-result").innerHTML="";
-  $("aisho-result").style.display="none";
-  $("aisho-section").style.display="none";
-  $("aisho-open").style.display="block";
+  switchTab("tab-meishiki");
 });
 
 // ---- 相性鑑定 ----
@@ -1419,11 +1439,16 @@ function drawAisho(){
   $("aisho-result").style.display="block";
 }
 
-$("aisho-open").addEventListener("click",()=>{
-  const s=$("aisho-section");
-  const willOpen=s.style.display==="none";
-  s.style.display=willOpen?"block":"none";
-  if(willOpen) s.scrollIntoView({behavior:"smooth",block:"start"});
+// ---- タブ切り替え ----
+function switchTab(id){
+  document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("on"));
+  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("on"));
+  $(id).classList.add("on");
+  const btn=document.querySelector('[data-tab="'+id+'"]');
+  if(btn) btn.classList.add("on");
+}
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>switchTab(btn.dataset.tab));
 });
 
 document.querySelectorAll(".atype").forEach(btn=>{
