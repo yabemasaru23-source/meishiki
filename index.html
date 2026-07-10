@@ -1249,7 +1249,7 @@ function drawAisho(){
   const dayShiB=_rB.cols.find(c=>c.name==="日柱").shi;
   const isRokugou=RICHI_ROKUGOU[dayShiA]===dayShiB;
   const isChuu=RICHI_CHUU[dayShiA]===dayShiB;
-  const marks={◎:3,○:2,△:1};
+  const marks={"◎":3,"○":2,"△":1};
   let ms=(marks[nkAB.mark]||2)+(marks[nkBA.mark]||2);
   if(isRokugou) ms+=2; if(isChuu) ms-=2;
   const overMark=ms>=7?"◎":ms>=5?"○":"△";
