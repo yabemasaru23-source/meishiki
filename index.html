@@ -198,6 +198,44 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .kant-strength li::before{content:"◎";color:var(--moku)}
 .kant-shadow li::before{content:"△";color:var(--do)}
 
+/* ---- 大運 ---- */
+.daiun-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.daiun-item{flex:0 0 96px;background:var(--ink);border:1px solid var(--ink-line);padding:12px 8px;text-align:center;position:relative;transition:border-color .2s}
+.daiun-current{border-color:var(--do)!important}
+.daiun-current::before{content:"現在";position:absolute;top:-1px;right:-1px;font-size:.56rem;background:var(--do);color:var(--ink);padding:2px 5px;letter-spacing:.04em}
+.daiun-age{font-size:.62rem;color:var(--nibi);letter-spacing:.06em;margin-bottom:5px}
+.daiun-gs{font-family:var(--display);font-size:1.2rem;font-weight:600;margin-bottom:5px}
+.daiun-yr{font-size:.6rem;color:var(--nibi)}
+/* ---- 年運 ---- */
+.nenun-list{display:flex;flex-direction:column;gap:8px}
+.nenun-row{display:grid;grid-template-columns:82px 1fr;gap:10px;align-items:start;padding:10px 12px;background:var(--ink);border:1px solid var(--ink-line)}
+.nenun-row-cur{border-color:var(--do)}
+.nenun-row-past{opacity:.74}
+.nenun-lft{text-align:center}
+.nenun-yn{font-size:.64rem;color:var(--nibi);letter-spacing:.06em}
+.nenun-gs{font-family:var(--display);font-size:1rem;font-weight:600;margin:2px 0}
+.nenun-tsu{font-size:.66rem;color:var(--nibi)}
+.nenun-theme{font-size:.73rem;font-weight:600;letter-spacing:.06em;margin-bottom:3px}
+.nenun-txt{font-size:.81rem;line-height:1.85}
+.nbadge{font-size:.6rem;padding:1px 7px;border:1px solid var(--ink-line);margin-right:4px;vertical-align:middle;letter-spacing:.04em}
+.nbadge-tcs{border-color:var(--ka);color:var(--ka)}
+.nbadge-now{border-color:var(--do);color:var(--do)}
+.nbadge-past{color:var(--nibi)}
+.nbadge-fut{border-color:var(--moku);color:var(--moku)}
+/* ---- 履歴 ---- */
+.hist-wrap{padding:0 0 20px}
+.hist-label{font-size:.64rem;letter-spacing:.18em;color:var(--nibi);margin-bottom:8px}
+.hist-chips{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.hist-chip{display:inline-flex;align-items:center;gap:4px;background:var(--ink-panel);border:1px solid var(--ink-line);padding:5px 10px;cursor:pointer;font-size:.78rem;transition:border-color .15s}
+.hist-chip:hover{border-color:var(--nibi)}
+.hist-date{font-size:.64rem;color:var(--nibi)}
+.hist-del{background:none;border:none;color:var(--nibi);cursor:pointer;font-size:.85rem;padding:0 0 0 5px;line-height:1;grid-column:unset;margin:0;font-family:var(--body);font-weight:400;letter-spacing:0;text-indent:0}
+.hist-del:hover{color:var(--ka);opacity:1}
+.btn-save{background:none!important;border:1px solid var(--ink-line)!important;color:var(--nibi)!important;font-size:.76rem!important;letter-spacing:.22em;padding:10px!important;font-weight:400!important;font-family:var(--body)!important}
+.btn-save:hover{border-color:var(--nibi)!important;color:var(--gofun)!important;opacity:1!important}
+.hist-actions{display:flex;gap:8px;margin-top:8px}
+.hist-exp{background:none;border:1px solid var(--ink-line);color:var(--nibi);font-size:.68rem;padding:5px 10px;cursor:pointer;letter-spacing:.08em;font-family:var(--body);font-weight:400}
+.hist-exp:hover{border-color:var(--nibi);color:var(--gofun);opacity:1}
 /* ---- footer ---- */
 footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);font-size:.7rem;color:#5c626b;line-height:2;text-align:center}
 
@@ -220,6 +258,14 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
   <h1>命 式 算 出</h1>
   <p class="lede">生年月日から、あなたの四柱を立てる。</p>
 </header>
+
+<div id="hist-wrap" class="hist-wrap" style="display:none">
+  <p class="hist-label">保 存 済 み の 命 式</p>
+  <div class="hist-chips" id="hist-list"></div>
+  <div class="hist-actions">
+    <button class="hist-exp" onclick="histExport()">JSON で書き出す</button>
+  </div>
+</div>
 
 <section class="form">
   <div class="grid">
@@ -247,6 +293,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
       <p class="hint">時刻がわかると時柱（晩年・子供運）まで算出できます。不明の場合、年柱・月柱・日柱は変わりません。</p>
     </div>
     <button id="go">命 式 を 立 て る</button>
+    <button class="btn-save" id="save">こ の 命 式 を 保 存 す る</button>
   </div>
 </section>
 
@@ -577,6 +624,18 @@ const DECISION_STYLE={
   金:"論理と基準で決断します。「これは正しいか？原則に合っているか？」で判断します。曖昧さを嫌い、白黒を明確にしてから動きます。決断は早く明快ですが、妥協や柔軟対応が苦手になりやすいです。",
   水:"流れと洞察で決断します。「今の流れに乗るべきか？」を直感で判断します。柔軟に状況を読んで適応するのが得意ですが、情報過多になると決めきれないことも。感度の高い直感を信頼することが鍵です。"
 };
+const NENUN_TSUHEN={
+  比肩:{theme:"自立・再出発",past:"自分のペースで動くことが多かった年。独自路線が表れやすく、他者とは少し距離を置いた行動が多かったかもしれません。",cur:"自分の軸で動くことが吉。独立・新規スタートに向いており、比較より自己基準を大切にすると力が発揮できます。",fut:"自己主張が重要になる年が訪れます。独自のやり方でスタートを切る準備を。"},
+  劫財:{theme:"勝負・競争",past:"ライバルや仲間との刺激が多かった年。勝負事で感情が動いた場面があり、エネルギーの高い時期だったはずです。",cur:"切磋琢磨の機会が多い年。勝負への意欲が高まりますが、感情的な判断と金銭リスクには注意が必要です。",fut:"競争や切磋琢磨が活発になる予感。準備と冷静さをもって臨みましょう。"},
+  食神:{theme:"楽しみ・才能開花",past:"好きなことや創造活動が充実した年。楽しみと発見が多く、自然体で動いた時期だったでしょう。",cur:"才能や趣味が開花しやすい年。「楽しい」と感じることに素直に動くと好縁が生まれます。食・芸術・子供にまつわる縁も活発になる年です。",fut:"創造性が高まる予感。ものづくりや表現活動に力を入れると実りが多い年となるでしょう。"},
+  傷官:{theme:"才能発揮・変革",past:"枠を超えた行動や専門性の発揮があった年。既存ルールへの反発が動機になったこともあったかもしれません。才能が外に出やすい時期でした。",cur:"独自の発想が光る年。芸術・専門技術・改革に向いていますが、プライドと柔軟さのバランスを意識して。",fut:"改革や専門性を磨く時期が訪れます。協調も大切にしながら動きましょう。"},
+  偏財:{theme:"人脈・展開",past:"人との出会いや臨時収入・副業など広がりのあった年。行動量が多い時期で、縁が動いたはずです。",cur:"人脈が広がりビジネス面での展開が期待できる年。社交的に動くほど好機が生まれます。衝動的な出費には注意を。",fut:"縁が広がる予感。積極的な行動が新しいステージへの扉を開く年となるでしょう。"},
+  正財:{theme:"堅実・積み上げ",past:"地道な積み重ねが形になった年、または基盤を固めた時期です。堅実に動いたことが信頼につながったはずです。",cur:"コツコツとした努力が実を結びやすい年。財産・信頼を着実に築く時期です。冒険より継続が吉。",fut:"堅実な判断が吉となる年が来ます。急がず丁寧に積み上げる意識をもって。"},
+  偏官:{theme:"挑戦・変化",past:"環境の変化やプレッシャーが大きかった年。それが成長の糧となり、タフさが磨かれた時期です。",cur:"新しいポジションへの挑戦機会が訪れる年。負荷は大きいですが成長が加速します。健康管理も意識して。",fut:"変化の波が来ます。健康を整えながら積極的に乗り越える準備をしておきましょう。"},
+  正官:{theme:"責任・評価",past:"社会的な評価や信頼が高まった、または責任ある立場に置かれた年です。誠実に向き合ったことが評価につながったはずです。",cur:"着実に取り組むと地位や信頼につながりやすい年。ルールを大切にし、責任を全うする姿勢が吉です。",fut:"評価や信頼が積み重なる年が来ます。誠実な姿勢を継続することで道が開けるでしょう。"},
+  偏印:{theme:"学び・直観",past:"学習・情報収集・研究に充実感があった年。直感が冴えた場面も多く、内省が深まった時期です。",cur:"情報収集・学習・直感が冴える年。専門的な学びや内省に充てると充実感を得やすいです。継続力が課題になる場面も。",fut:"知識と洞察が深まる時期です。静かに実力を蓄える準備をしておきましょう。"},
+  印綬:{theme:"理解・安定",past:"精神的な安定や深い洞察が得られた年。サポートや学びを受けた縁があり、土台が整った時期です。",cur:"精神的な安定と実力蓄積の年。焦らず自分のペースで実力を磨くことが吉。学問・資格・指導を受ける縁にも恵まれます。",fut:"回復・充電・学びの時期が訪れます。土台を固める意識をもって臨みましょう。"}
+};
 
 /* ================= 暦計算 ================= */
 const rad=Math.PI/180;
@@ -667,9 +726,17 @@ function meishiki(y,m,d,hour){
   const kd=kubou(dk,ds), ky=kubou(yk,ys);
   const count={木:0,火:0,土:0,金:0,水:0};
   cols.forEach(c=>{count[c.gk]++;count[c.gs]++;});
+  const bjd=jdn(y,m,d);
+  let nextSjd=Infinity;
+  for(const yr of [y,y+1]) for(const s of SETSU){
+    const dt=jdToDate(setsuJD(yr,s.lon)),sjd=jdn(dt.y,dt.m,dt.d);
+    if(sjd>bjd&&sjd<nextSjd) nextSjd=sjd;
+  }
+  const nextSetsuDays=nextSjd===Infinity?30:nextSjd-bjd;
   return{setsu:st,setsuYear:sy,cols,nikkan:nk,count,
     tcsDay:kd.join(""),tcsYear:ky.join(""),
-    seijitsu:ky.includes(SHI[ds]), seigetsu:ky.includes(st.shi)};
+    seijitsu:ky.includes(SHI[ds]), seigetsu:ky.includes(st.shi),
+    nextSetsuDays, yk, dk, ds};
 }
 
 /* ================= 描画 ================= */
@@ -759,7 +826,7 @@ function drawGogyo(r){
   $("gogyoNote").innerHTML=parts.join(" ");
 }
 
-function drawKantei(r){
+function drawKantei(r,sex,birthYear){
   const nk=r.nikkan;
   const nkc=NIKKAN_COMMENT[nk]||{};
   const nke=NIKKAN_EXTRA[nk]||{};
@@ -948,6 +1015,79 @@ function drawKantei(r){
     </div>`;
   }
 
+  // 12. 大運（10年サイクル）
+  const curYear=new Date().getFullYear();
+  const nenKanYin=KAN_Y[(r.setsuYear-4+1000)%10];
+  let jun=null;
+  if(sex==="男性") jun=!nenKanYin;
+  else if(sex==="女性") jun=nenKanYin;
+  const monNo=r.cols[1].no;
+  const duDays=jun===true?r.nextSetsuDays:(jun===false?r.setsu.days:null);
+  const startAge=duDays!==null?Math.max(1,Math.round(duDays/3)):null;
+  const daiuns=Array.from({length:8},(_,i)=>{
+    const offset=jun===false?-(i+1):(i+1);
+    const idx=((monNo-1+offset)%60+600)%60;
+    const gs=KAN[idx%10]+SHI[idx%12];
+    const gk=KAN_G[idx%10];
+    const fromAge=startAge!==null?startAge+i*10:null;
+    const fromYear=fromAge!==null?birthYear+fromAge:null;
+    const toYear=fromYear!==null?fromYear+9:null;
+    const isCurrent=fromYear!==null&&curYear>=fromYear&&(toYear===null||curYear<=toYear);
+    return{gs,gk,fromAge,fromYear,toYear,isCurrent};
+  });
+  h+=`<div class="kant-block">
+    <div class="kant-title">大運 — 10年サイクル</div>
+    ${jun!==null
+      ?`<p class="kant-text">${jun?"順行":"逆行"}（${nenKanYin?"陰":"陽"}年・${sex}）。
+        ${startAge!==null?`<b>${startAge}歳</b>から第一大運が始まります。`:""}
+        10年ごとに運気の質・テーマが変化します。</p>`
+      :`<p class="kant-text" style="color:var(--nibi)">性別を選択すると順行・逆行の方向と大運開始年齢が表示されます。</p>`}
+    <div class="daiun-row">
+      ${daiuns.map(d=>`<div class="daiun-item${d.isCurrent?" daiun-current":""}">
+        <div class="daiun-age">${d.fromAge!==null?d.fromAge+"歳〜":"—"}</div>
+        <div class="daiun-gs" style="color:${COLOR[d.gk]||""}">${d.gs}</div>
+        <div class="daiun-yr">${d.fromYear!==null?d.fromYear+"〜":"—"}</div>
+      </div>`).join("")}
+    </div>
+  </div>`;
+
+  // 13. 年運（直近2年・今年・来年・再来年）
+  const showYears=[curYear-2,curYear-1,curYear,curYear+1,curYear+2];
+  const dayShiChar=r.cols.find(c=>c.name==="日柱").shi;
+  h+=`<div class="kant-block">
+    <div class="kant-title">年運 — 直近の流れと展望</div>
+    <div class="nenun-list">`;
+  for(const yr of showYears){
+    const yk_y=(yr-4+1000)%10, ys_y=(yr-4+1200)%12;
+    const gs_y=KAN[yk_y]+SHI[ys_y];
+    const gk_y=KAN_G[yk_y];
+    const ts_y=tsuhen(r.nikkan,KAN[yk_y]);
+    const us_y=unsei(r.nikkan,SHI[ys_y]);
+    const inTcs=r.tcsDay.includes(SHI[ys_y]);
+    const nc=NENUN_TSUHEN[ts_y]||{theme:"",past:"",cur:"",fut:""};
+    const isPast=yr<curYear, isCur=yr===curYear;
+    const txt=isCur?nc.cur:isPast?nc.past:nc.fut;
+    const badgeTcs=inTcs?`<span class="nbadge nbadge-tcs">天中殺</span>`:"";
+    const badgeTime=isCur?`<span class="nbadge nbadge-now">今年</span>`:
+      isPast?`<span class="nbadge nbadge-past">${yr===curYear-1?"昨年":"一昨年"}</span>`:
+      `<span class="nbadge nbadge-fut">${yr===curYear+1?"来年":"再来年"}</span>`;
+    const uc=UNSEI_COMMENT[us_y]||{};
+    h+=`<div class="nenun-row${isCur?" nenun-row-cur":""}${isPast?" nenun-row-past":""}">
+      <div class="nenun-lft">
+        <div class="nenun-yn">${badgeTime}</div>
+        <div class="nenun-gs" style="color:${COLOR[gk_y]}">${gs_y}</div>
+        <div class="nenun-tsu">${ts_y} / ${us_y}</div>
+        ${badgeTcs}
+      </div>
+      <div>
+        <div class="nenun-theme">${nc.theme||""}</div>
+        <div class="nenun-txt">${txt}</div>
+        ${uc.key?`<p style="font-size:.74rem;color:var(--nibi);margin-top:6px">十二運星: ${us_y}（${uc.key}）</p>`:""}
+      </div>
+    </div>`;
+  }
+  h+=`</div></div>`;
+
   $("kantei").innerHTML=h;
 }
 
@@ -959,11 +1099,64 @@ $("go").addEventListener("click",()=>{
   const nm=$("name").value.trim()||"あなた";
   $("who").textContent=`${nm} さんの命式`;
   $("whoSub").textContent=`${y}年${String(m).padStart(2,"0")}月${String(d).padStart(2,"0")}日 ・ ${$("sex").value} ・ ${r.setsu.name}（${r.setsu.dt.m}/${r.setsu.dt.d}）より ${r.setsu.days} 日目`;
-  drawChart(r); drawTcs(r); drawGogyo(r); drawKantei(r);
+  drawChart(r); drawTcs(r); drawGogyo(r); drawKantei(r,$("sex").value,y);
   $("result").classList.add("on");
   $("result").scrollIntoView({behavior:"smooth",block:"start"});
   if(window.gtag) gtag("event","meishiki_calculated");
 });
+
+// ---- 履歴（localStorage）----
+const HIST_KEY="meishiki_profiles";
+function histLoad(){
+  const profiles=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");
+  const wrap=$("hist-wrap"), list=$("hist-list");
+  if(!wrap||!list) return;
+  if(!profiles.length){wrap.style.display="none";return;}
+  wrap.style.display="block";
+  list.innerHTML=profiles.map((p,i)=>
+    `<span class="hist-chip" onclick="histSelect(${i})">
+      <span>${p.name||"名前なし"}</span>
+      <span class="hist-date">${p.birth}</span>
+      <button class="hist-del" onclick="event.stopPropagation();histDel(${i})">×</button>
+    </span>`
+  ).join("");
+}
+function histSave(){
+  const birth=$("birth").value;
+  if(!birth){alert("生年月日を入力してください。");return;}
+  const entry={name:$("name").value.trim()||"名前なし",birth,hour:$("hour").value,sex:$("sex").value,saved:new Date().toISOString().slice(0,10)};
+  const profiles=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");
+  const idx=profiles.findIndex(p=>p.birth===birth&&p.name===entry.name);
+  if(idx>=0) profiles[idx]=entry; else profiles.unshift(entry);
+  if(profiles.length>30) profiles.pop();
+  localStorage.setItem(HIST_KEY,JSON.stringify(profiles));
+  histLoad();
+}
+function histSelect(i){
+  const profiles=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");
+  const p=profiles[i]; if(!p) return;
+  $("name").value=p.name;
+  $("birth").value=p.birth;
+  $("hour").value=p.hour||"";
+  $("sex").value=p.sex||"男性";
+}
+function histDel(i){
+  const profiles=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");
+  profiles.splice(i,1);
+  localStorage.setItem(HIST_KEY,JSON.stringify(profiles));
+  histLoad();
+}
+function histExport(){
+  const profiles=JSON.parse(localStorage.getItem(HIST_KEY)||"[]");
+  if(!profiles.length){alert("保存済みの命式がありません。");return;}
+  const blob=new Blob([JSON.stringify({profiles},null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="meishiki_profiles.json";
+  a.click();
+}
+$("save").addEventListener("click",histSave);
+histLoad();
 </script>
 </body>
 </html>
