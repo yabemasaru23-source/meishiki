@@ -201,8 +201,9 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 
 /* ---- 印刷・PDF ---- */
 .print-header{display:none}
-.print-btn{grid-column:unset!important;margin:16px 0 4px!important;background:var(--do)!important;border:none!important;color:var(--ink)!important;font-family:var(--body)!important;font-size:.88rem!important;letter-spacing:.18em!important;text-indent:0;padding:18px!important;font-weight:700!important;opacity:1!important;cursor:pointer;transition:filter .18s;width:100%;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
-.print-btn:hover{filter:brightness(1.08)!important}
+.print-btn{grid-column:unset!important;margin:16px 0 10px!important;background:linear-gradient(180deg,#c98d28,#a87018)!important;border:1px solid #8a5c12!important;color:#fff!important;font-family:var(--body)!important;font-size:.88rem!important;letter-spacing:.18em!important;text-indent:0;padding:17px!important;font-weight:700!important;opacity:1!important;cursor:pointer;transition:transform .1s,box-shadow .1s;width:100%;border-radius:8px;box-shadow:0 5px 0 #7a5210,0 7px 10px rgba(0,0,0,.2);text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.print-btn:hover{transform:translateY(2px);box-shadow:0 3px 0 #7a5210,0 4px 6px rgba(0,0,0,.2)!important}
+.print-btn:active{transform:translateY(5px);box-shadow:inset 0 2px 5px rgba(0,0,0,.3)!important}
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   header,.form,#hist-wrap,.tab-nav,.print-btn,footer,.btn-save,.aisho-types,.aisho-fgrid,.aisho-label,#aisho-go{display:none!important}
@@ -232,10 +233,10 @@ svg.cycle{width:100%;height:auto;overflow:visible}
   p.who-sub{font-size:9pt}
 }
 /* ---- タブ ---- */
-.tab-nav{display:flex;gap:6px;padding:0;background:none;flex-wrap:wrap;margin-bottom:20px}
-.tab-btn{flex:1!important;grid-column:unset!important;margin:0!important;background:var(--gofun)!important;border:1.5px solid var(--nibi)!important;border-radius:6px!important;color:var(--ink)!important;font-family:var(--display)!important;font-size:.8rem!important;letter-spacing:.06em!important;text-indent:0!important;padding:13px 6px!important;font-weight:600!important;opacity:1!important;cursor:pointer;transition:all .18s;min-width:56px;box-shadow:0 2px 4px rgba(0,0,0,.12)}
-.tab-btn:not(.on):hover{background:var(--ink-panel)!important;box-shadow:0 3px 8px rgba(0,0,0,.16)!important}
-.tab-btn.on{background:var(--do)!important;border-color:var(--do)!important;color:var(--ink)!important;font-weight:800!important;box-shadow:0 3px 10px rgba(0,0,0,.22)!important}
+.tab-nav{display:flex;gap:8px;padding:0;background:none;flex-wrap:wrap;margin-bottom:24px}
+.tab-btn{flex:1!important;grid-column:unset!important;margin:0!important;background:linear-gradient(180deg,#fffdf8,#ece4d3)!important;border:1px solid #bfb397!important;border-radius:8px!important;color:var(--gofun)!important;font-family:var(--display)!important;font-size:.8rem!important;letter-spacing:.06em!important;text-indent:0!important;padding:13px 6px!important;font-weight:700!important;opacity:1!important;cursor:pointer;transition:transform .1s,box-shadow .1s;min-width:56px;box-shadow:0 4px 0 #b3a789,0 6px 8px rgba(0,0,0,.15)}
+.tab-btn:not(.on):hover{transform:translateY(2px);box-shadow:0 2px 0 #b3a789,0 3px 5px rgba(0,0,0,.15)!important}
+.tab-btn.on{background:linear-gradient(180deg,#c98d28,#a87018)!important;border-color:#8a5c12!important;color:#fff!important;font-weight:800!important;transform:translateY(4px);box-shadow:inset 0 2px 5px rgba(0,0,0,.3)!important;text-shadow:0 1px 2px rgba(0,0,0,.3)}
 .tab-panel{display:none}
 .tab-panel.on{display:block}
 #tab-aisho .aisho-section{border-top:none;padding-top:0;margin-top:0}
