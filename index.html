@@ -201,8 +201,8 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 
 /* ---- 印刷・PDF ---- */
 .print-header{display:none}
-.print-btn{grid-column:unset!important;margin:10px 0 0!important;background:var(--ink)!important;border:none!important;color:var(--gofun)!important;font-family:var(--body)!important;font-size:.8rem!important;letter-spacing:.22em!important;text-indent:.22em;padding:14px!important;font-weight:700!important;opacity:1!important;cursor:pointer;transition:opacity .18s;width:100%;border-radius:3px}
-.print-btn:hover{opacity:.75!important}
+.print-btn{grid-column:unset!important;margin:16px 0 4px!important;background:var(--do)!important;border:none!important;color:var(--ink)!important;font-family:var(--body)!important;font-size:.88rem!important;letter-spacing:.18em!important;text-indent:0;padding:18px!important;font-weight:700!important;opacity:1!important;cursor:pointer;transition:filter .18s;width:100%;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.print-btn:hover{filter:brightness(1.08)!important}
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   header,.form,#hist-wrap,.tab-nav,.print-btn,footer,.btn-save,.aisho-types,.aisho-fgrid,.aisho-label,#aisho-go{display:none!important}
@@ -407,7 +407,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
     <button class="tab-btn" data-tab="tab-aisho">相　性</button>
     <button class="tab-btn" data-tab="tab-seimei">姓　名</button>
   </nav>
-  <button class="print-btn" id="print-btn">PDF・印 刷</button>
+  <button class="print-btn" id="print-btn">🖨　PDF・印刷</button>
 
   <div class="tab-panel on" id="tab-meishiki">
     <p class="sec-label">命 式</p>
