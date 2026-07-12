@@ -271,6 +271,33 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .mark-good{color:var(--do)}
 .mark-ok{color:var(--moku)}
 .mark-care{color:var(--nibi)}
+/* ---- 禅タロット・今日の運勢 ---- */
+.zen-date{text-align:center;font-size:.82rem;color:var(--nibi);letter-spacing:.1em;margin-bottom:16px}
+.zen-card{max-width:300px;margin:0 auto 8px;background:linear-gradient(160deg,#2b2620,#443b30);border:1px solid #6b5c46;border-radius:14px;padding:26px 22px;text-align:center;color:#f3ead9;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.zen-card-symbol{font-size:3.6rem;line-height:1;margin-bottom:12px}
+.zen-card-no{font-size:.66rem;letter-spacing:.3em;color:#c8a86a;margin-bottom:6px}
+.zen-card-name{font-family:var(--display);font-size:1.7rem;font-weight:700;letter-spacing:.08em;margin-bottom:2px}
+.zen-card-yomi{font-size:.72rem;color:#bda98a;letter-spacing:.14em;margin-bottom:14px}
+.zen-card-essence{font-size:.9rem;font-weight:600;color:#e8c98a;margin-bottom:12px;letter-spacing:.04em}
+.zen-card-guide{font-size:.82rem;line-height:1.9;color:#ded2bd;text-align:left}
+.zen-redraw{display:block;width:100%;max-width:300px;margin:6px auto 30px!important;background:var(--ink-panel)!important;border:1.5px solid var(--nibi)!important;border-radius:8px!important;color:var(--gofun)!important;font-family:var(--body)!important;font-size:.8rem!important;letter-spacing:.14em!important;padding:12px!important;font-weight:600!important;opacity:1!important;cursor:pointer;transition:transform .1s,box-shadow .1s;box-shadow:0 3px 0 #b3a789,0 5px 6px rgba(0,0,0,.14);text-indent:0}
+.zen-redraw:hover{transform:translateY(2px);box-shadow:0 1px 0 #b3a789,0 2px 4px rgba(0,0,0,.14)!important}
+.zen-fortune-guard{background:var(--ink-panel);border:1px dashed var(--ink-line);border-radius:6px;padding:24px 16px;text-align:center;color:var(--nibi);font-size:.84rem;line-height:1.9}
+.zen-score-wrap{text-align:center;margin:6px 0 14px}
+.zen-score-num{font-family:var(--display);font-size:3rem;font-weight:900}
+.zen-score-unit{font-size:.9rem;color:var(--nibi);margin-left:4px}
+.zen-star{font-size:1.2rem;letter-spacing:.18em;margin-top:2px}
+.zen-bar{height:10px;background:var(--ink-line);border-radius:5px;overflow:hidden;max-width:320px;margin:8px auto 0}
+.zen-bar-fill{height:100%;background:linear-gradient(90deg,#c98d28,#a87018);border-radius:5px}
+.zen-lucky{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.zen-lucky-card{background:var(--ink-panel);border:1px solid var(--ink-line);border-radius:6px;padding:12px 10px;text-align:center}
+.zen-lucky-lbl{font-size:.66rem;letter-spacing:.14em;color:var(--nibi);margin-bottom:5px}
+.zen-lucky-val{font-family:var(--display);font-size:1.15rem;font-weight:700}
+.zen-lucky-swatch{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:middle;margin-right:5px;border:1px solid rgba(0,0,0,.15)}
+.zen-adv-item{display:flex;gap:8px;margin-bottom:9px;font-size:.82rem;line-height:1.8}
+.zen-adv-item::before{content:"";flex:0 0 3px;border-radius:2px}
+.zen-adv-do::before{background:var(--moku)}
+.zen-adv-care::before{background:var(--ka)}
 
 /* ---- 大運 ---- */
 .daiun-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
@@ -417,6 +444,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
     <button class="tab-btn" data-tab="tab-kantei">鑑　定</button>
     <button class="tab-btn" data-tab="tab-aisho">相　性</button>
     <button class="tab-btn" data-tab="tab-seimei">姓　名</button>
+    <button class="tab-btn" data-tab="tab-zen">禅・今日</button>
   </nav>
   <button class="print-btn" id="print-btn">🖨　PDF・印刷</button>
 
@@ -479,6 +507,15 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
       <button id="seimei-go">姓 名 を 鑑 定 す る</button>
     </div>
     <div id="seimei-result"></div>
+  </div>
+
+  <div class="tab-panel" id="tab-zen">
+    <p class="sec-label">今 日 の 一 枚（禅カード）</p>
+    <p class="zen-date" id="zen-date"></p>
+    <div id="zen-card-wrap"></div>
+    <button class="zen-redraw" id="zen-redraw">別 の 一 枚 を 引 く</button>
+    <p class="sec-label">今 日 の 運 勢</p>
+    <div id="zen-fortune"></div>
   </div>
 </main>
 
@@ -1487,6 +1524,7 @@ $("go").addEventListener("click",()=>{
   $("result").scrollIntoView({behavior:"smooth",block:"start"});
   if(window.gtag) gtag("event","meishiki_calculated");
   _rA=r; _nameA=nm;
+  renderZen();
   _rB=null;
   $("aisho-result").innerHTML="";
   $("result").classList.remove("has-aisho");
@@ -1866,6 +1904,131 @@ function drawSeimei(){
   $("seimei-result").innerHTML=html;
 }
 $("seimei-go").addEventListener("click",drawSeimei);
+
+/* ================= 禅カード・今日の運勢 ================= */
+const ZEN_CARDS=[
+{s:"⭕",n:"円相",y:"えんそう",e:"すべては今ここに満ちている",g:"完璧を探す旅をいったん止めて、いまの自分をまるごと認めてよい日。足りないものより、すでに在るものに目を向けると心が軽くなります。"},
+{s:"👣",n:"一歩",y:"いっぽ",e:"千里の道も一歩から",g:"大きな結果を焦らず、今日できる小さな一歩だけに集中して。始めさえすれば、道はあとから続いていきます。"},
+{s:"🤫",n:"沈黙",y:"ちんもく",e:"語らぬことば",g:"説明も反論も、今日は一度飲み込んでみて。沈黙が最も雄弁に、あなたの真実を伝えてくれる日です。"},
+{s:"🌊",n:"流水",y:"りゅうすい",e:"手放せば流れる",g:"しがみついている執着を、川の水のように手放す時。抵抗をやめると、物事が自然に動き出します。"},
+{s:"🌕",n:"満月",y:"まんげつ",e:"実りと成就",g:"積み重ねが形になって満ちる日。受け取ることを、どうか自分に許してあげてください。"},
+{s:"🌱",n:"芽吹き",y:"めぶき",e:"見えないところで育つ",g:"まだ小さな兆しでも、確かに芽は出ています。焦らず水をやり続けることが、今日の正解です。"},
+{s:"⛈",n:"嵐",y:"あらし",e:"通り過ぎる試練",g:"揺さぶられても、嵐は必ず過ぎ去ります。今日は守りを固め、根を深く張ることに専念して。"},
+{s:"🕯",n:"灯火",y:"ともしび",e:"内なる導き",g:"外の意見より、自分の胸にある小さな灯を信じて。答えは、もうあなたの内側にあります。"},
+{s:"🪞",n:"鏡",y:"かがみ",e:"ありのままを映す",g:"目の前の相手や出来事は、あなた自身の心を映す鏡。苛立ちの奥に、本当の願いが見えてきます。"},
+{s:"🌰",n:"種",y:"たね",e:"見えない準備",g:"今日は収穫の日ではなく、仕込みの日。結果を求めず、静かに種をまくことに徹して。"},
+{s:"🌉",n:"橋",y:"はし",e:"つながり・縁",g:"人と人をつなぐ役目が回ってくる日。あなたの何気ない一言が、誰かの橋になります。"},
+{s:"⛰",n:"山",y:"やま",e:"揺るがぬ意志",g:"まわりが騒がしくても、山のように動じずに。信念を静かに貫くことが、今日いちばんの力になります。"},
+{s:"🍃",n:"風",y:"かぜ",e:"変化と自由",g:"決まりきった道を離れ、軽やかに方向を変えてよい日。こだわりを風に乗せて手放してみて。"},
+{s:"🪷",n:"蓮",y:"はす",e:"泥中に咲く",g:"苦しい状況こそ、美しい花の養分になります。今の泥を恥じず、そこから咲く準備を始めて。"},
+{s:"🛤",n:"岐路",y:"きろ",e:"選択の時",g:"どちらかを選ぶ勇気が問われる日。迷ったら「怖い方」ではなく「心が動く方」を選んで。"},
+{s:"😌",n:"休息",y:"きゅうそく",e:"立ち止まる智慧",g:"がんばることより、止まることが正解の日。心と体を休めることを、どうか後ろめたく思わないで。"},
+{s:"🔥",n:"火",y:"ひ",e:"情熱と浄化",g:"内に燃えるものを行動に変える日。古いものを燃やし尽くし、新しい熱を解き放って。"},
+{s:"🌾",n:"実り",y:"みのり",e:"収穫と報い",g:"これまでの努力が認められる日。受け取る手を惜しまず、まわりと分かち合うとさらに増えます。"},
+{s:"🌫",n:"霧",y:"きり",e:"迷いの中の一歩",g:"先が見えなくても、足元は見えています。全体を見通そうとせず、次の一歩だけを踏み出して。"},
+{s:"🌅",n:"目覚め",y:"めざめ",e:"気づきと悟り",g:"これまで見えなかった真実に、ふと気づく日。心に浮かぶ小さな違和感を、大切にしてください。"},
+{s:"🕊",n:"手放し",y:"てばなし",e:"執着からの自由",g:"握りしめていたものを、そっと手を開いて放す時。失うのではなく、身も心も軽くなります。"},
+{s:"🤲",n:"慈悲",y:"じひ",e:"与える喜び",g:"見返りを求めず誰かに手を差し伸べると、巡り巡って自分に返る日。小さな親切を、まず一つ。"},
+{s:"🏠",n:"帰家",y:"きか",e:"原点回帰",g:"迷ったら、初心・基本・我が家に戻って。原点にこそ、次へ進む答えが眠っています。"},
+{s:"🌌",n:"静寂",y:"せいじゃく",e:"心を鎮める",g:"ざわめきを離れ、静けさに身を置く日。何もしない時間が、あなたの心をそっと整えてくれます。"}
+];
+const TSU_DAY={
+"比肩":{th:"自立・マイペース",sc:62,do:"自分の判断を信じて動くと吉。人に合わせすぎず、自分のペースを守って。",care:"我を通しすぎると衝突のもと。時には譲る余裕も持って。"},
+"劫財":{th:"仲間・協力",sc:56,do:"人との協力・チームでの動きが力になる日。仲間を頼って。",care:"金銭の貸し借りや衝動買いは控えめに。"},
+"食神":{th:"楽しみ・表現",sc:78,do:"好きなこと・美味しいもの・遊び心が運を開く日。心が喜ぶ方へ。",care:"のんびりしすぎ・食べ過ぎには少しだけ注意。"},
+"傷官":{th:"感性・創作",sc:58,do:"アイデアや創作の感性が冴える日。表現の場で輝けます。",care:"鋭い一言が角を立てやすい日。言葉はやわらかく。"},
+"偏財":{th:"金運・人脈",sc:76,do:"人と会う・出かける・お金を回すと good な日。フットワーク軽く。",care:"八方美人や浪費には気をつけて。"},
+"正財":{th:"実利・信用",sc:74,do:"コツコツ続ける・約束を守る堅実な選択が実を結ぶ日。",care:"倹約しすぎてチャンスを見送らないように。"},
+"偏官":{th:"挑戦・行動",sc:60,do:"思い切った挑戦や決断に追い風。度胸が運を呼びます。",care:"無理・無茶・イライラに注意。休息も忘れずに。"},
+"正官":{th:"信頼・けじめ",sc:72,do:"きちんとする・目上への礼・公的な手続きに向く日。",care:"完璧主義で自分を縛りすぎないこと。"},
+"偏印":{th:"学び・ひらめき",sc:64,do:"情報収集・勉強・ひとり時間が実る日。直感を大切に。",care:"気分に波が出やすい日。予定を詰め込みすぎないで。"},
+"印綬":{th:"受け取る・休息",sc:70,do:"学び・助けを受け取り、心身を整える日。無理せず充電を。",care:"受け身になりすぎないよう、感謝は言葉にして。"}
+};
+const ELEM_INFO={
+"木":{color:"緑",hex:"#2d7a4a",dir:"東",tip:"緑や観葉植物を身近に。朝の散歩や木製のものが気の巡りを助けます。"},
+"火":{color:"赤",hex:"#c03430",dir:"南",tip:"赤い小物や明るい光を取り入れて。情熱的に動くほど運が乗ります。"},
+"土":{color:"黄・ベージュ",hex:"#a87018",dir:"南西",tip:"黄土色や陶器のものを身近に。地に足をつけた行動が吉です。"},
+"金":{color:"白・金",hex:"#9a9ea6",dir:"西",tip:"白や金属の小物を。身の回りを整えると金運が上向きます。"},
+"水":{color:"黒・紺",hex:"#2854a0",dir:"北",tip:"紺や黒を取り入れて。水分をよく摂り、静かな時間を持つと運が整います。"}
+};
+function zhash(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+let _zenIdx=0;
+function renderZenCard(idx){
+  _zenIdx=idx;
+  const c=ZEN_CARDS[idx];
+  $("zen-card-wrap").innerHTML=
+    '<div class="zen-card">'
+    +'<div class="zen-card-symbol">'+c.s+'</div>'
+    +'<div class="zen-card-no">NO. '+String(idx+1).padStart(2,"0")+' / '+ZEN_CARDS.length+'</div>'
+    +'<div class="zen-card-name">'+c.n+'</div>'
+    +'<div class="zen-card-yomi">'+c.y+'</div>'
+    +'<div class="zen-card-essence">「'+c.e+'」</div>'
+    +'<div class="zen-card-guide">'+c.g+'</div>'
+    +'</div>';
+}
+function drawFortune(y,m,d){
+  const el=$("zen-fortune");
+  if(!_rA){el.innerHTML='<div class="zen-fortune-guard">上の「命式」タブで生年月日を鑑定すると、<br>あなた専用の“今日の運勢”がここに表示されます。</div>';return;}
+  const [tk,ts]=dayPil(y,m,d);
+  const todayKan=KAN[tk],todayShi=SHI[ts];
+  const tsu=tsuhen(_rA.nikkan,todayKan);
+  const info=TSU_DAY[tsu]||TSU_DAY["比肩"];
+  let score=info.sc;
+  const dos=[info.do],cares=info.care?[info.care]:[];
+  if(_rA.tcsDay.includes(todayShi)){score-=12;cares.push("今日はあなたの天中殺の日（"+todayShi+"）。新しい大きな決断・契約・スタートは避け、現状維持と充電に努めるのが賢明です。");}
+  const GG=["木","火","土","金","水"];
+  const todayEls=[...new Set([KAN_G[tk],SHI_G[ts]])];
+  const lack=GG.filter(g=>(_rA.count[g]||0)===0);
+  const excess=GG.filter(g=>(_rA.count[g]||0)>=3);
+  const supplied=todayEls.filter(g=>lack.includes(g));
+  if(supplied.length){score+=8;dos.push("今日の巡り（"+supplied.join("・")+"）は、あなたの命式に足りない五行を補ってくれます。この気を意識すると流れが良くなる日です。");}
+  const overloaded=todayEls.filter(g=>excess.includes(g));
+  if(overloaded.length){score-=5;cares.push("今日は「"+overloaded.join("・")+"」の気が強め。あなたはもともとこの五行が多いので、その方向に偏りすぎない工夫を。");}
+  score=Math.max(22,Math.min(96,score));
+  const stars=score>=80?"★★★★★":score>=68?"★★★★☆":score>=54?"★★★☆☆":score>=40?"★★☆☆☆":"★☆☆☆☆";
+  let luckyEl=GG[0],minC=99;
+  GG.forEach(g=>{const c=_rA.count[g]||0;if(c<minC){minC=c;luckyEl=g;}});
+  const ei=ELEM_INFO[luckyEl];
+  const luckyNo=(ganshiNo(tk,ts)%9)+1;
+  let h='<div class="kant-block">'
+    +'<div class="kant-title">今日のあなたの運勢 — '+info.th+'</div>'
+    +'<div class="zen-score-wrap"><span class="zen-score-num">'+score+'</span><span class="zen-score-unit">点</span>'
+    +'<div class="zen-star" style="color:var(--do)">'+stars+'</div></div>'
+    +'<div class="zen-bar"><div class="zen-bar-fill" style="width:'+score+'%"></div></div>'
+    +'<p class="kant-text" style="text-align:center;margin-top:10px">今日の日干支は <b>'+todayKan+todayShi+'</b>。あなたの日干「<b>'+_rA.nikkan+'</b>」から見ると <b>'+tsu+'</b> の巡りで、<b>'+info.th+'</b>がテーマの一日です。</p>'
+    +'</div>';
+  h+='<div class="kant-block"><div class="kant-title">今日のラッキー</div>'
+    +'<div class="zen-lucky">'
+    +'<div class="zen-lucky-card"><div class="zen-lucky-lbl">ラッキーカラー</div><div class="zen-lucky-val"><span class="zen-lucky-swatch" style="background:'+ei.hex+'"></span>'+ei.color+'</div></div>'
+    +'<div class="zen-lucky-card"><div class="zen-lucky-lbl">ラッキー方位</div><div class="zen-lucky-val">'+ei.dir+'</div></div>'
+    +'<div class="zen-lucky-card"><div class="zen-lucky-lbl">ラッキーナンバー</div><div class="zen-lucky-val">'+luckyNo+'</div></div>'
+    +'<div class="zen-lucky-card"><div class="zen-lucky-lbl">補いたい五行</div><div class="zen-lucky-val" style="color:'+COLOR[luckyEl]+'">'+luckyEl+'</div></div>'
+    +'</div>'
+    +'<p class="kant-text" style="font-size:.78rem;margin-top:10px">'+ei.tip+'</p>'
+    +'</div>';
+  h+='<div class="kant-block"><div class="kant-title">今日の過ごし方</div>'
+    +'<p class="kant-sub-title" style="color:var(--moku)">追い風になること</p>'
+    +dos.map(t=>'<div class="zen-adv-item zen-adv-do">'+t+'</div>').join("")
+    +'<p class="kant-sub-title" style="color:var(--ka);margin-top:14px">気をつけること</p>'
+    +cares.map(t=>'<div class="zen-adv-item zen-adv-care">'+t+'</div>').join("")
+    +'</div>';
+  el.innerHTML=h;
+}
+function renderZen(){
+  const now=new Date();
+  const y=now.getFullYear(),m=now.getMonth()+1,d=now.getDate();
+  const wd=["日","月","火","水","木","金","土"][now.getDay()];
+  $("zen-date").textContent=y+"年"+m+"月"+d+"日（"+wd+"）の一枚";
+  let seedStr=y+"-"+m+"-"+d;
+  if(_rA) seedStr+="|"+_rA.nikkan+_rA.tcsDay;
+  renderZenCard(zhash(seedStr)%ZEN_CARDS.length);
+  drawFortune(y,m,d);
+}
+$("zen-redraw").addEventListener("click",()=>{
+  let i;do{i=Math.floor(Math.random()*ZEN_CARDS.length);}while(i===_zenIdx&&ZEN_CARDS.length>1);
+  renderZenCard(i);
+});
+renderZen();
 
 $("save").addEventListener("click",histSave);
 histLoad();
