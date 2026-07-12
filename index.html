@@ -280,8 +280,6 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .zen-card-yomi{font-size:.72rem;color:#bda98a;letter-spacing:.14em;margin-bottom:14px}
 .zen-card-essence{font-size:.9rem;font-weight:600;color:#e8c98a;margin-bottom:12px;letter-spacing:.04em}
 .zen-card-guide{font-size:.82rem;line-height:1.9;color:#ded2bd;text-align:left}
-.zen-redraw{display:block;width:100%;max-width:300px;margin:6px auto 30px!important;background:var(--ink-panel)!important;border:1.5px solid var(--nibi)!important;border-radius:8px!important;color:var(--gofun)!important;font-family:var(--body)!important;font-size:.8rem!important;letter-spacing:.14em!important;padding:12px!important;font-weight:600!important;opacity:1!important;cursor:pointer;transition:transform .1s,box-shadow .1s;box-shadow:0 3px 0 #b3a789,0 5px 6px rgba(0,0,0,.14);text-indent:0}
-.zen-redraw:hover{transform:translateY(2px);box-shadow:0 1px 0 #b3a789,0 2px 4px rgba(0,0,0,.14)!important}
 .zen-fortune-guard{background:var(--ink-panel);border:1px dashed var(--ink-line);border-radius:6px;padding:24px 16px;text-align:center;color:var(--nibi);font-size:.84rem;line-height:1.9}
 .zen-score-wrap{text-align:center;margin:6px 0 14px}
 .zen-score-num{font-family:var(--display);font-size:3rem;font-weight:900}
@@ -513,7 +511,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
     <p class="sec-label">今 日 の 一 枚（禅カード）</p>
     <p class="zen-date" id="zen-date"></p>
     <div id="zen-card-wrap"></div>
-    <button class="zen-redraw" id="zen-redraw">別 の 一 枚 を 引 く</button>
+    <p class="zen-date" style="margin:14px 0 0">このカードは今日一日、あなたを導く一枚です。<br>明日になると自動で新しい一枚に変わります。</p>
     <p class="sec-label">今 日 の 運 勢</p>
     <div id="zen-fortune"></div>
   </div>
@@ -1952,9 +1950,7 @@ const ELEM_INFO={
 "水":{color:"黒・紺",hex:"#2854a0",dir:"北",tip:"紺や黒を取り入れて。水分をよく摂り、静かな時間を持つと運が整います。"}
 };
 function zhash(str){let h=2166136261;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
-let _zenIdx=0;
 function renderZenCard(idx){
-  _zenIdx=idx;
   const c=ZEN_CARDS[idx];
   $("zen-card-wrap").innerHTML=
     '<div class="zen-card">'
@@ -2024,10 +2020,6 @@ function renderZen(){
   renderZenCard(zhash(seedStr)%ZEN_CARDS.length);
   drawFortune(y,m,d);
 }
-$("zen-redraw").addEventListener("click",()=>{
-  let i;do{i=Math.floor(Math.random()*ZEN_CARDS.length);}while(i===_zenIdx&&ZEN_CARDS.length>1);
-  renderZenCard(i);
-});
 renderZen();
 
 $("save").addEventListener("click",histSave);
