@@ -297,9 +297,18 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .zen-adv-do::before{background:var(--moku)}
 .zen-adv-care::before{background:var(--ka)}
 /* ---- 営業戦術 ---- */
-.eig-hero{background:linear-gradient(160deg,#20302a,#2c463a);border:1px solid #40604e;border-radius:12px;padding:20px 18px;text-align:center;color:#e9f2ec;margin-bottom:14px}
-.eig-hero-img{font-family:var(--display);font-size:1.35rem;font-weight:700;letter-spacing:.06em}
-.eig-hero-sub{font-size:.82rem;color:#bcd0c4;margin-top:8px;line-height:1.8}
+.eig-hero{background:linear-gradient(160deg,#20302a,#2c463a);border:1px solid #40604e;border-radius:14px;padding:26px 20px;text-align:center;color:#e9f2ec;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.eig-hero-icon{font-size:3.6rem;line-height:1;margin-bottom:10px}
+.eig-hero-cat{display:inline-block;font-size:.68rem;letter-spacing:.22em;color:#0f1a14;background:#e8c98a;border-radius:20px;padding:4px 14px;margin-bottom:10px;font-weight:700}
+.eig-hero-img{font-family:var(--display);font-size:1.5rem;font-weight:700;letter-spacing:.08em}
+.eig-hero-key{font-size:.74rem;color:#c8a86a;letter-spacing:.14em;margin:2px 0 10px}
+.eig-hero-sub{font-size:.82rem;color:#bcd0c4;margin-top:6px;line-height:1.85}
+.eig-cat-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.eigcat{grid-column:unset!important;margin:0!important;background:none!important;border:1px solid var(--ink-line)!important;color:var(--nibi)!important;font-family:var(--body)!important;font-size:.78rem!important;letter-spacing:.06em!important;text-indent:0!important;padding:8px 15px!important;font-weight:600!important;transition:all .15s!important;cursor:pointer;opacity:1!important}
+.eigcat.on,.eigcat:hover{background:var(--sui)!important;border-color:var(--sui)!important;color:#fff!important;opacity:1!important}
+.eig-prod{background:var(--ink-panel);border:1px solid var(--sui);border-left:4px solid var(--sui);border-radius:6px;padding:16px}
+.eig-prod-cat{font-size:.72rem;letter-spacing:.1em;color:var(--sui);font-weight:700;margin-bottom:8px}
+.eig-prod-text{font-size:.86rem;line-height:1.95}
 .eig-strength{background:var(--ink-panel);border:1px solid var(--ink-line);border-left:4px solid var(--do);border-radius:4px;padding:12px 14px;font-size:.82rem;line-height:1.85;margin-bottom:14px}
 .eig-note{font-size:.72rem;color:var(--nibi);line-height:1.8;margin-top:14px;border-top:1px solid var(--ink-line);padding-top:12px}
 
@@ -2108,6 +2117,27 @@ const EIGYO={
  closing:"情報を十分に与え、本人に検証・納得させます。ロジック9。急かさず「ご判断はお任せします」と委ねた方が、静かに“買う”と決めます。",
  reverse:"疑い深く、売り込みを警戒します。あえて自社のデメリットや弱点を先に開示し「売る気はありません」という姿勢を見せると、警戒が解け“この人は信用できる”と心を許します。"}
 };
+const EIG_VISUAL={
+"甲":{ic:"🌳",cat:"まっすぐ大樹の統率者",key:"リーダー・面子・決断力"},
+"乙":{ic:"🌿",cat:"しなやか気配りの調停者",key:"協調・安心・人間関係"},
+"丙":{ic:"☀️",cat:"輝く太陽のエンターテイナー",key:"情熱・注目・ノリと勢い"},
+"丁":{ic:"🕯️",cat:"灯火の職人肌スペシャリスト",key:"こだわり・本質・聞き上手"},
+"戊":{ic:"⛰️",cat:"どっしり山岳の重鎮",key:"安定・実績・信頼"},
+"己":{ic:"🌾",cat:"実りの世話焼きサポーター",key:"実務・面倒見・コスパ"},
+"庚":{ic:"⚔️",cat:"切れ味・鋼の即断ファイター",key:"スピード・結果・勝負"},
+"辛":{ic:"💎",cat:"煌めく宝石の審美家",key:"美意識・希少・プライド"},
+"壬":{ic:"🌊",cat:"自由な大海のビジョナリー",key:"自由・発想・スケール"},
+"癸":{ic:"💧",cat:"静かな雨露の智将",key:"分析・慎重・納得"}
+};
+const EIG_CATS=["不動産","保険","高額塾・スクール","車・高額品"];
+const EIG_PRODUCT={
+"不動産":{"甲":"一等地・希少物件で“格”を刺激。「この立地を持てる方は限られます」と伝えると、所有欲とプライドに火がつきます。","乙":"担当者との信頼が決め手。内見に何度も付き添い「一緒にじっくり探しましょう」と寄り添うほど安心して任せます。","丙":"眺望・デザイナーズ・ステータスを体感で。「ここに住んだら映えますよ」と暮らしの高揚感を見せると即決に傾きます。","丁":"素材・造り・作り手の思想を丁寧に語る。「この家は、分かる方のための家です」とこだわりを共有すると心を開きます。","戊":"資産価値の裏付けと長期の安心。「10年後も値崩れしにくい土地です」と堅い根拠を積むほど安心します。","己":"動線・維持費・住み心地の実務。「毎日の家事がこれだけ楽になります」と具体的な暮らしで示すと納得します。","庚":"今動く理由を明快に。「この条件は、今日決断された方だけが取れます」とスピードで背中を押すと動きます。","辛":"内装の美しさと特別感。「あなたの美意識に応える一邸です」と上質さを見せると、価格より“格”で決めます。","壬":"暮らしの広がりを描く。「ここを拠点に、世界が広がりますよ」と自由と可能性を語ると惹かれます。","癸":"相場データ・周辺開発計画で裏付け。「数字と資料でご説明します」と検証材料を十分渡すと安心して進みます。"},
+"保険":{"甲":"“しっかり備えられる方”という格を立てる。「守れる方だからこそ、きちんと」と誇りに訴えます。","乙":"家族・大切な人を守る物語で。「ご家族のために、一緒に考えていきましょう」と寄り添うと頷きます。","丙":"重い不安話はNG。今の生活を明るく守る安心を軽やかに。「気軽に安心を足しておきましょう」が効きます。","丁":"一人ひとりに合わせた設計のこだわりを丁寧に。じっくり相談に乗るほど「この人なら」と信頼します。","戊":"大手・実績・支払い率など堅い裏付けで「変わらない安心」を。焦らせないほど固まります。","己":"保障の無駄をなくす実務設計。「払い過ぎを無くして、必要な分だけに」と合理性で納得させます。","庚":"必要な保障を最短で。「これだけあれば十分です、決めましょう」と即断に持ち込みます。","辛":"上質でスマートなプラン。「洗練された方に選ばれています」と特別感を添えます。","壬":"自由に見直せる柔軟性を。「ライフの変化に合わせて、いつでも変えられます」と縛らない設計が響きます。","癸":"保障と保険料の根拠をデータで。「第三者の評価と数字はこうです」と検証させると静かに決めます。"},
+"高額塾・スクール":{"甲":"トップになるための場と位置づける。「本気で一番を目指す方だけが集まります」と挑戦心を刺激します。","乙":"仲間・伴走・コミュニティの温かさ。「一緒に成長していける場です」と安心を見せると惹かれます。","丙":"成功者との出会い・華やかさ・注目。「ここで人生が変わります」と高揚感を前面に出します。","丁":"深く学べる本質的カリキュラム。「分かる方のための、本物の内容です」とこだわりを語ります。","戊":"卒業生の実績・再現性で安心。「〇人が結果を出しています」と裏付けを積むと動きます。","己":"今日から使える実務スキル。「すぐ現場で役立ちます」と具体的な効用で示します。","庚":"最短で結果を出す仕組み。「最速で成果が出ます、いつ始めますか」とスピードで迫ります。","辛":"質の高い講師と洗練された環境。「一流に触れられる場です」と格を見せます。","壬":"可能性を広げる自由な学び。「あなたの発想が、そのまま形になります」と広がりを描きます。","癸":"カリキュラムの論理と成果データで納得。「根拠と実績をご覧ください」と検証させます。"},
+"車・高額品":{"甲":"フラッグシップ・限定・最上級で格を。「トップグレードがふさわしい方です」と誇りに訴えます。","乙":"家族の笑顔・安心の乗り心地。「ご家族みんなが喜びますよ」と関係性で語ります。","丙":"デザイン・走り・注目度を試乗で体感。「乗ると、気分が上がりますよ」と高揚感を届けます。","丁":"造りの妙・こだわりの機構を語る。「分かる方のための一台です」と本質を共有します。","戊":"リセール・耐久・信頼のブランド。「長く乗れて、損しません」と堅い安心を示します。","己":"燃費・維持費・実用装備の実利。「家計にやさしい一台です」と実務メリットで納得させます。","庚":"即納・今の特典で背中を押す。「今日決めれば、一番お得です」とスピードで迫ります。","辛":"内外装の美と特別仕様。「美しい、あなたにふさわしい一台です」と審美眼に訴えます。","壬":"行動範囲が広がる自由。「どこへでも行ける自由が手に入ります」と可能性を描きます。","癸":"性能データ・安全評価で裏付け。「数値と評価でご確認ください」と検証させます。"}
+};
+let _eigCat="不動産";
+window.setEigCat=function(c){_eigCat=c;renderEigyo();};
 const EIG_NEED={
 "木":"「成長・変化」への渇き。現状を変えたい気持ちに火をつけると響きます。",
 "火":"「注目・承認」への渇き。“あなたを認めています”と伝えると心が動きます。",
@@ -2129,7 +2159,11 @@ function renderEigyo(){
   }[str];
   const GG=["木","火","土","金","水"];
   const lack=GG.filter(g=>(_rA.count[g]||0)===0).map(g=>EIG_NEED[g]);
-  let h='<div class="eig-hero"><div class="eig-hero-img">'+nk+'（'+pol+'の'+ownG+'）— '+p.img+'</div>'
+  const v=EIG_VISUAL[nk];
+  let h='<div class="eig-hero"><div class="eig-hero-icon">'+v.ic+'</div>'
+    +'<div class="eig-hero-cat">'+v.cat+'</div>'
+    +'<div class="eig-hero-img">'+nk+'（'+pol+'の'+ownG+'）'+p.img+'</div>'
+    +'<div class="eig-hero-key">'+v.key+'</div>'
     +'<div class="eig-hero-sub">'+p.ess+'</div></div>'
     +'<div class="eig-strength">'+strNote+'</div>';
   h+='<div class="kant-block"><div class="kant-title">1. 脳内処理の傾向 — '+p.brain.type+'</div><p class="kant-text">'+p.brain.text+'</p></div>';
@@ -2144,6 +2178,13 @@ function renderEigyo(){
   h+='<div class="kant-block" style="border-color:var(--do)"><div class="kant-title" style="color:var(--do)">5. 逆転発想 — あえて引く</div>'
     +'<p class="kant-text">'+p.reverse+'</p>'
     +(lack.length?'<p class="kant-sub-title" style="margin-top:14px">隠れた欲求（ここを突く）</p>'+lack.map(t=>'<div class="zen-adv-item zen-adv-do">'+t+'</div>').join(""):"")
+    +'</div>';
+  h+='<div class="kant-block"><div class="kant-title">商材別・実戦クロージング例</div>'
+    +'<div class="eig-cat-row">'
+    +EIG_CATS.map(c=>'<button class="eigcat'+(c===_eigCat?" on":"")+'" onclick="setEigCat(\''+c+'\')">'+c+'</button>').join("")
+    +'</div>'
+    +'<div class="eig-prod"><div class="eig-prod-cat">'+_eigCat+' × '+v.cat+'</div>'
+    +'<div class="eig-prod-text">'+(EIG_PRODUCT[_eigCat]&&EIG_PRODUCT[_eigCat][nk]||"")+'</div></div>'
     +'</div>';
   h+='<p class="eig-note">※ この戦術は日干（'+nk+'）＝その方の本質に、身強／身弱と不足五行を掛け合わせて算出しています。あくまで傾向であり、目の前の相手の反応を最優先してください。</p>';
   el.innerHTML=h;
