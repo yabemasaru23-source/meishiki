@@ -309,6 +309,13 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .eig-prod{background:var(--ink-panel);border:1px solid var(--sui);border-left:4px solid var(--sui);border-radius:6px;padding:16px}
 .eig-prod-cat{font-size:.72rem;letter-spacing:.1em;color:var(--sui);font-weight:700;margin-bottom:8px}
 .eig-prod-text{font-size:.86rem;line-height:1.95}
+/* ---- 感動工房 ---- */
+.kando-hero{background:linear-gradient(160deg,#3a2330,#5a2f42);border:1px solid #7a4159;border-radius:14px;padding:26px 20px;text-align:center;color:#f7e9ef;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.kando-hero-icon{font-size:3.4rem;line-height:1;margin-bottom:10px}
+.kando-hero-ttl{font-family:var(--display);font-size:1.3rem;font-weight:700;letter-spacing:.06em}
+.kando-hero-sub{font-size:.82rem;color:#e2c2d0;margin-top:8px;line-height:1.85}
+.kando-tsubo{background:var(--ink-panel);border:1px solid var(--ink-line);border-left:4px solid #b03060;border-radius:4px;padding:14px 16px;font-size:.86rem;line-height:1.9;margin-bottom:14px}
+.kando-tsubo b{color:#b03060}
 .eig-strength{background:var(--ink-panel);border:1px solid var(--ink-line);border-left:4px solid var(--do);border-radius:4px;padding:12px 14px;font-size:.82rem;line-height:1.85;margin-bottom:14px}
 .eig-note{font-size:.72rem;color:var(--nibi);line-height:1.8;margin-top:14px;border-top:1px solid var(--ink-line);padding-top:12px}
 
@@ -459,6 +466,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
     <button class="tab-btn" data-tab="tab-seimei">姓　名</button>
     <button class="tab-btn" data-tab="tab-zen">禅・今日</button>
     <button class="tab-btn" data-tab="tab-eigyo">営　業</button>
+    <button class="tab-btn" data-tab="tab-kando">感　動</button>
   </nav>
   <button class="print-btn" id="print-btn">🖨　PDF・印刷</button>
 
@@ -535,6 +543,11 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
   <div class="tab-panel" id="tab-eigyo">
     <p class="sec-label">こ の 方 へ の 営 業 戦 術</p>
     <div id="eigyo-result"></div>
+  </div>
+
+  <div class="tab-panel" id="tab-kando">
+    <p class="sec-label">感 動 工 房 — こ の 人 の 心 を 動 か す 方 法</p>
+    <div id="kando-result"></div>
   </div>
 </main>
 
@@ -1545,6 +1558,7 @@ $("go").addEventListener("click",()=>{
   _rA=r; _nameA=nm;
   renderZen();
   renderEigyo();
+  renderKando();
   _rB=null;
   $("aisho-result").innerHTML="";
   $("result").classList.remove("has-aisho");
@@ -2190,6 +2204,59 @@ function renderEigyo(){
   el.innerHTML=h;
 }
 renderEigyo();
+
+/* ================= 感動工房（この人の心を動かす方法） ================= */
+const KANDO={
+"甲":{tsubo:"「立てられること・一番だと認められること」。功績や存在をきちんと称えられた瞬間に、胸が熱くなります。",
+ ways:["人前で功績を称える。「〇〇さんのおかげです」と第一功労者にする","大事な場面で頼りにして相談する（頼られること自体が最高の喜び）","昇進・記念日・節目を、しっかり主役として祝う","「あなたにしかできない」と存在を認める言葉を贈る"],
+ ng:["人前で恥をかかせる・面子をつぶす","功績を横取りする、当然のようにスルーする"]},
+"乙":{tsubo:"「気にかけてもらえること・さりげない気遣い」。大きな贈り物より、小さな心配りに深く感動します。",
+ ways:["「あなたのこと、気にかけてたよ」の一言を添える","体調や近況を覚えていて、そっと声をかける","手書きのメッセージやカードを渡す","輪の中に自然に入れてあげる、居場所をつくる"],
+ ng:["急かす・雑に扱う","大勢の前で無理に目立たせる"]},
+"丙":{tsubo:"「注目され、盛り上げてもらうこと」。サプライズや華やかな演出に、子どものように大喜びします。",
+ ways:["サプライズパーティーや意外性のある演出","人前・SNSで明るく褒めて主役にする","楽しいイベントや場に誘う","「さすが！」とテンション高くリアクションする"],
+ ng:["地味に扱う・リアクション薄くスルー","場を盛り下げる、冷めた対応をする"]},
+"丁":{tsubo:"「自分の想いや努力を、深く理解してもらえること」。分かってもらえたと感じた瞬間に、静かに涙します。",
+ ways:["努力の“過程”を具体的に認める。「あそこ、大変だったよね」","結論を急がず、じっくり話を聴く","相手のこだわりを覚えていて、さりげなく触れる","1対1で、丁寧に想いを込めて感謝を伝える"],
+ ng:["大量・雑にまとめて扱う","表面的なお世辞・上っ面の褒め言葉"]},
+"戊":{tsubo:"「長く変わらず頼りにされること・信頼の継続」。派手さより、誠実の積み重ねに感動します。",
+ ways:["毎日の「ありがとう」を、変わらず続ける","小さな約束を必ず守る（信頼の貯金）","長年の労を、節目でしっかりねぎらう","「あなたがいるから安心」とどっしり頼る"],
+ ng:["気まぐれな態度・約束を破る","突然の変化ややり方の急変更を強いる"]},
+"己":{tsubo:"「陰の努力・尽くしたことに気づいて感謝されること」。見えないところの働きを見てもらえると、心から報われます。",
+ ways:["「いつも陰で支えてくれてありがとう」と働きを言葉にする","相手が大変なとき、こちらから手伝いを申し出る","実用的な・役に立つ気遣いをする","相手の負担を、そっと軽くする行動を取る"],
+ ng:["やって当然という顔をする","してもらった気遣いへの感謝を忘れる"]},
+"庚":{tsubo:"「実力・結果を、正当にハッキリ評価されること」。回りくどい情より、ズバッと認められると響きます。",
+ ways:["結果を「すごい、さすが」と明快に称える","勝負どころで頼れる存在として任せる","即レス・即行動で、本気度で応える","短くても、まっすぐ本気の感謝を伝える"],
+ ng:["だらだらした社交辞令でごまかす","評価をぼかす・後回しにする"]},
+"辛":{tsubo:"「センス・特別さを認められること」。上質で丁寧な扱いそのものに感動します。",
+ ways:["センスや美意識を具体的に褒める","上質なギフト・特別な場を用意する","「あなただけに」の特別扱いをする","美しい・洗練された演出で気持ちを表す"],
+ ng:["安っぽい扱い・雑なものを贈る","「その他大勢」の一人として扱う"]},
+"壬":{tsubo:"「自由と発想を、面白がって受け止めてもらえること」。型にはめず一緒に楽しんでくれると嬉しくなります。",
+ ways:["面白いアイデアに「いいね！」と全力で乗る","意外性のあるサプライズで驚かせる","自由な時間・体験そのものをプレゼントする","細かく縛らず、信じて任せる"],
+ ng:["細かく管理・束縛する","発想やアイデアを頭ごなしに否定する"]},
+"癸":{tsubo:"「深い部分を理解され、静かに認められること」。大げさな演出より、“分かってくれる”安心に感動します。",
+ ways:["よく見ていることを、具体的な事実で伝える","静かで丁寧な言葉で感謝する","知性や洞察の鋭さを認める","さりげない、押しつけない気遣いをする"],
+ ng:["大げさな演出・感動の押しつけ","浅い理解で「あなたはこう」と決めつける"]}
+};
+function renderKando(){
+  const el=$("kando-result");
+  if(!_rA){el.innerHTML='<div class="zen-fortune-guard">上の「命式」タブで生年月日を鑑定すると、<br>その方を感動させる方法がここに表示されます。</div>';return;}
+  const nk=_rA.nikkan,idx=KAN.indexOf(nk),v=EIG_VISUAL[nk],k=KANDO[nk];
+  const ownG=KAN_G[idx],pol=KAN_Y[idx]?"陰":"陽";
+  let h='<div class="kando-hero"><div class="kando-hero-icon">'+v.ic+'</div>'
+    +'<div class="kando-hero-ttl">'+v.cat+'</div>'
+    +'<div class="kando-hero-sub">'+nk+'（'+pol+'の'+ownG+'）の心を動かす、QM流「感動構築」</div></div>';
+  h+='<div class="kando-tsubo"><b>感動のツボ</b><br>'+k.tsubo+'</div>';
+  h+='<div class="kant-block"><div class="kant-title">こんな風に喜ばせる（感動の一手）</div>'
+    +k.ways.map(t=>'<div class="zen-adv-item zen-adv-do">'+t+'</div>').join("")
+    +'</div>';
+  h+='<div class="kant-block"><div class="kant-title">やってはいけないこと（感動が冷める）</div>'
+    +k.ng.map(t=>'<div class="zen-adv-item zen-adv-care">'+t+'</div>').join("")
+    +'</div>';
+  h+='<p class="eig-note">感動は「相手のツボ」を外さないことから生まれます。日干（'+nk+'）を手がかりに、まずは今日ひとつ、小さな“ありがとう”から始めてみてください。 — 感動革命！クオリティマネジメント社</p>';
+  el.innerHTML=h;
+}
+renderKando();
 
 $("save").addEventListener("click",histSave);
 histLoad();
