@@ -233,7 +233,9 @@ svg.cycle{width:100%;height:auto;overflow:visible}
   p.who-sub{font-size:9pt}
 }
 /* ---- タブ ---- */
-.tab-nav{display:flex;gap:8px;padding:0;background:none;flex-wrap:wrap;margin-bottom:24px}
+.tab-nav{display:flex;flex-direction:column;gap:16px;padding:0;background:none;margin-bottom:24px}
+.tab-group{display:flex;flex-wrap:wrap;gap:8px}
+.tab-group-label{flex:0 0 100%;font-size:.64rem;letter-spacing:.22em;color:var(--nibi);font-weight:700;margin-bottom:-4px}
 .tab-btn{flex:1!important;grid-column:unset!important;margin:0!important;background:linear-gradient(180deg,#fffdf8,#ece4d3)!important;border:1px solid #bfb397!important;border-radius:8px!important;color:var(--gofun)!important;font-family:var(--display)!important;font-size:.8rem!important;letter-spacing:.06em!important;text-indent:0!important;padding:13px 6px!important;font-weight:700!important;opacity:1!important;cursor:pointer;transition:transform .1s,box-shadow .1s;min-width:56px;box-shadow:0 4px 0 #b3a789,0 6px 8px rgba(0,0,0,.15)}
 .tab-btn:not(.on):hover{transform:translateY(2px);box-shadow:0 2px 0 #b3a789,0 3px 5px rgba(0,0,0,.15)!important}
 .tab-btn.on{background:linear-gradient(180deg,#c98d28,#a87018)!important;border-color:#8a5c12!important;color:#fff!important;font-weight:800!important;transform:translateY(4px);box-shadow:inset 0 2px 5px rgba(0,0,0,.3)!important;text-shadow:0 1px 2px rgba(0,0,0,.3)}
@@ -470,15 +472,21 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
   </div>
 
   <nav class="tab-nav">
-    <button class="tab-btn on" data-tab="tab-meishiki">命　式</button>
-    <button class="tab-btn" data-tab="tab-gogyo">五　行</button>
-    <button class="tab-btn" data-tab="tab-kantei">鑑　定</button>
-    <button class="tab-btn" data-tab="tab-aisho">相　性</button>
-    <button class="tab-btn" data-tab="tab-seimei">姓　名</button>
-    <button class="tab-btn" data-tab="tab-zen">禅・今日</button>
-    <button class="tab-btn" data-tab="tab-eigyo">営　業</button>
-    <button class="tab-btn" data-tab="tab-kando">感　動</button>
-    <button class="tab-btn" data-tab="tab-matome">総　合</button>
+    <div class="tab-group">
+      <span class="tab-group-label">鑑 定 系 — 命式を読み解く</span>
+      <button class="tab-btn on" data-tab="tab-meishiki">命　式</button>
+      <button class="tab-btn" data-tab="tab-gogyo">五　行</button>
+      <button class="tab-btn" data-tab="tab-kantei">鑑　定</button>
+      <button class="tab-btn" data-tab="tab-aisho">相　性</button>
+      <button class="tab-btn" data-tab="tab-seimei">姓　名</button>
+      <button class="tab-btn" data-tab="tab-zen">禅・今日</button>
+    </div>
+    <div class="tab-group">
+      <span class="tab-group-label">実 践 系 — 仕事と人間関係に活かす</span>
+      <button class="tab-btn" data-tab="tab-eigyo">営　業</button>
+      <button class="tab-btn" data-tab="tab-kando">感　動</button>
+      <button class="tab-btn" data-tab="tab-matome">総　合</button>
+    </div>
   </nav>
   <button class="print-btn" id="print-btn">🖨　PDF・印刷</button>
 
@@ -2284,6 +2292,13 @@ const MAT_TALENT={
 "金":"決断力・実行力・けじめ・美意識",
 "水":"知性・柔軟性・分析力・対話力"
 };
+const MAT_GOGYO={
+"木":{kw:"成長・行動・優しさ",strong:"「木」が強く、成長意欲と行動力が旺盛。企画・チャレンジ・面倒見が得意な“伸びる人”です。反面、頑固さ・視野の狭まり・伸ばしすぎ（拡大しすぎ）に注意。金（決断・けじめ）で剪定するとバランスが整います。",none:"「木」が無く、自分から一歩を踏み出す・自己主張することが苦手な面があります。計画性はあっても腰が重くなりがち。行動的な人や新しい環境から刺激をもらうと、ぐっと動けるようになります。"},
+"火":{kw:"情熱・表現・華",strong:"「火」が強く、情熱的で表現力・発信力に富み、その場を明るくする華があります。反面、感情の起伏・飽きっぽさ・燃え尽きに注意。水（冷静さ）を意識すると長続きします。",none:"「火」が無く、感情表現が控えめでクールに見られがち。内に熱を秘めていても相手に伝わりにくいタイプです。意識して言葉や表情で“発信”すると、人望と機会が一気に開けます。"},
+"土":{kw:"安定・信頼・粘り",strong:"「土」が強く、どっしり安定し、信頼を集め、面倒見が良い“土台”の人。反面、腰が重い・保守的・抱え込みに注意。木（挑戦）を少し取り入れると停滞を防げます。",none:"「土」が無く、腰が落ち着きにくく飽きが早い面があります。フットワークは軽い長所の裏返し。継続と地固め（習慣化・記録）を意識すると、成果が積み上がります。"},
+"金":{kw:"決断・実行・けじめ",strong:"「金」が強く、決断力・実行力・けじめ・美意識に優れた“切れる”人。反面、厳しすぎ・白黒つけすぎ・融通のなさに注意。土（受容）で丸みを持たせると人がついてきます。",none:"「金」が無く、決断や区切りをつけるのが苦手で迷いやすい面があります。優しい反面、押し切られやすい。締切やルールを“外から”設定すると、スパッと動けます。"},
+"水":{kw:"知性・柔軟・対話",strong:"「水」が強く、知的で柔軟、情報通で対話上手な“流れる”人。反面、考えすぎ・流されやすい・冷めた印象に注意。土（芯）を持つと地に足がつきます。",none:"「水」が無く、情報収集や臨機応変な対応が苦手なことがあります。一本気な長所の裏返しで視野が狭まりがち。学び・相談・雑談で“他人の視点”を入れると鬼に金棒です。"}
+};
 const MAT_ISSUE={
 "木":"新しい一歩を踏み出す・成長への挑戦",
 "火":"自己表現・情熱を外に発信すること",
@@ -2332,6 +2347,19 @@ function renderMatome(){
     +'<p class="kant-sub-title" style="margin-top:12px;color:var(--nibi)">補うと伸びる課題（最も弱い五行：'+minG+'）</p>'
     +'<div class="zen-adv-item zen-adv-care">'+MAT_ISSUE[minG]+'。ここを意識して補うと、才能がさらに活きます。</div>'
     +'<p class="kant-text" style="font-size:.78rem;margin-top:10px;color:var(--nibi)">日干「'+nk+'」＝'+v.key+'。詳しくは「命式」「五行」タブへ。</p>'
+    +'</div>';
+  // 五行バランスの解説
+  const lvl=n=>n>=3?{t:"強い",col:"var(--ka)"}:n===2?{t:"ややあり",col:"var(--do)"}:n===1?{t:"標準",col:"var(--nibi)"}:{t:"なし",col:"var(--kin)"};
+  h+='<div class="kant-block"><div class="kant-title">五行バランスの解説（あなたの偏り）</div>'
+    +GG.map(g=>{
+      const n=c[g]||0,L=lvl(n),mg=MAT_GOGYO[g];
+      const txt=n>=2?mg.strong:n===0?mg.none:"「"+g+"」（"+mg.kw+"）は控えめに備わっています。過不足なく、必要な時に自然と発揮できる程よい量です。";
+      return '<div style="margin-bottom:12px">'
+        +'<span class="kant-badge" style="border-color:'+COLOR[g]+';color:'+COLOR[g]+'">'+g+' '+n+'</span> '
+        +'<b style="color:'+L.col+'">'+L.t+'</b>'
+        +'<p class="kant-text" style="margin-top:5px">'+txt+'</p></div>';
+    }).join("")
+    +'<p class="kant-text" style="font-size:.78rem;color:var(--nibi)">※ 数字は命式の中でその五行がいくつ巡っているかの数。多いほど“強く出る”性質、0は“持っていないので外から補うと良い”性質です。</p>'
     +'</div>';
   // STEP2
   h+='<div class="mat-step"><div class="mat-step-num">2</div><div><div class="mat-step-ttl">時を知る</div><div class="mat-step-sub">四柱推命 — 運のロードマップ</div></div></div>';
