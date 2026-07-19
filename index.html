@@ -316,6 +316,17 @@ svg.cycle{width:100%;height:auto;overflow:visible}
 .kando-hero-sub{font-size:.82rem;color:#e2c2d0;margin-top:8px;line-height:1.85}
 .kando-tsubo{background:var(--ink-panel);border:1px solid var(--ink-line);border-left:4px solid #b03060;border-radius:4px;padding:14px 16px;font-size:.86rem;line-height:1.9;margin-bottom:14px}
 .kando-tsubo b{color:#b03060}
+/* ---- 総合まとめ ---- */
+.mat-hero{background:linear-gradient(160deg,#2a2418,#463a22);border:1px solid #6b5a30;border-radius:14px;padding:24px 20px;text-align:center;color:#f3ecda;margin-bottom:18px;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.mat-hero-icon{font-size:3rem;line-height:1;margin-bottom:8px}
+.mat-hero-ttl{font-family:var(--display);font-size:1.35rem;font-weight:700;letter-spacing:.06em}
+.mat-hero-txt{font-size:.86rem;line-height:1.95;margin-top:10px;color:#e0d3b0}
+.mat-step{display:flex;align-items:center;gap:10px;margin:24px 0 10px}
+.mat-step-num{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--do);color:#fff;font-family:var(--display);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:.92rem}
+.mat-step-ttl{font-family:var(--display);font-size:1.02rem;font-weight:700;letter-spacing:.06em}
+.mat-step-sub{font-size:.68rem;color:var(--nibi);letter-spacing:.1em}
+.mat-gear{text-align:center;font-family:var(--display);font-size:1.1rem;font-weight:700;padding:8px 0;letter-spacing:.06em}
+.mat-tag{display:inline-block;font-size:.72rem;padding:3px 10px;border-radius:20px;margin:2px 4px 2px 0;font-weight:600}
 .eig-strength{background:var(--ink-panel);border:1px solid var(--ink-line);border-left:4px solid var(--do);border-radius:4px;padding:12px 14px;font-size:.82rem;line-height:1.85;margin-bottom:14px}
 .eig-note{font-size:.72rem;color:var(--nibi);line-height:1.8;margin-top:14px;border-top:1px solid var(--ink-line);padding-top:12px}
 
@@ -467,6 +478,7 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
     <button class="tab-btn" data-tab="tab-zen">禅・今日</button>
     <button class="tab-btn" data-tab="tab-eigyo">営　業</button>
     <button class="tab-btn" data-tab="tab-kando">感　動</button>
+    <button class="tab-btn" data-tab="tab-matome">総　合</button>
   </nav>
   <button class="print-btn" id="print-btn">🖨　PDF・印刷</button>
 
@@ -548,6 +560,11 @@ footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--ink-line);fon
   <div class="tab-panel" id="tab-kando">
     <p class="sec-label">感 動 工 房 — こ の 人 の 心 を 動 か す 方 法</p>
     <div id="kando-result"></div>
+  </div>
+
+  <div class="tab-panel" id="tab-matome">
+    <p class="sec-label">総 合 鑑 定 ま と め</p>
+    <div id="matome-result"></div>
   </div>
 </main>
 
@@ -1559,6 +1576,7 @@ $("go").addEventListener("click",()=>{
   renderZen();
   renderEigyo();
   renderKando();
+  renderMatome();
   _rB=null;
   $("aisho-result").innerHTML="";
   $("result").classList.remove("has-aisho");
@@ -2257,6 +2275,88 @@ function renderKando(){
   el.innerHTML=h;
 }
 renderKando();
+
+/* ================= 総合鑑定まとめ（3STEP） ================= */
+const MAT_TALENT={
+"木":"成長力・企画力・優しさ・向上心",
+"火":"情熱・表現力・発信力・華やかさ",
+"土":"安定感・信頼・面倒見・粘り強さ",
+"金":"決断力・実行力・けじめ・美意識",
+"水":"知性・柔軟性・分析力・対話力"
+};
+const MAT_ISSUE={
+"木":"新しい一歩を踏み出す・成長への挑戦",
+"火":"自己表現・情熱を外に発信すること",
+"土":"腰を据えて安定させる・地に足をつけること",
+"金":"決断し、けじめをつけること",
+"水":"冷静な分析・情報を集めて客観視すること"
+};
+function renderMatome(){
+  const el=$("matome-result");
+  if(!_rA){el.innerHTML='<div class="zen-fortune-guard">上の「命式」タブで生年月日を鑑定すると、<br>3つのステップでまとめた総合鑑定がここに表示されます。</div>';return;}
+  const nk=_rA.nikkan,idx=KAN.indexOf(nk),v=EIG_VISUAL[nk];
+  const ownG=KAN_G[idx],pol=KAN_Y[idx]?"陰":"陽";
+  const c=_rA.count,GG=["木","火","土","金","水"];
+  const own=c[ownG]||0,strLbl=own>=3?"身強（自我が強い）":own<=1?"身弱（周囲と調和）":"中庸";
+  // 領域（精神=木火 / 現実=金水 / 土=媒介）
+  const sp=(c["木"]||0)+(c["火"]||0),re=(c["金"]||0)+(c["水"]||0);
+  let ryo,ryoTxt;
+  if(sp>re){ryo="精神領域型";ryoTxt="アイデア・感性・人とのつながりで力を発揮するタイプ。企画・教育・クリエイティブ・対人支援の領域が、あなたの本来の“居場所”です。";}
+  else if(re>sp){ryo="現実領域型";ryoTxt="実務・数字・具体的な成果で力を発揮するタイプ。経営実務・営業・技術・実行の領域が、あなたの本来の“居場所”です。";}
+  else{ryo="バランス型";ryoTxt="精神性と現実性を橋渡しできるタイプ。理想と実務をつなぐ翻訳役・調整役が、あなたの本来の“居場所”です。";}
+  // 強い五行＝才能／弱い五行＝課題
+  let maxG=GG[0],maxV=-1,minG=GG[0],minV=99;
+  GG.forEach(g=>{const n=c[g]||0;if(n>maxV){maxV=n;maxG=g;}if(n<minV){minV=n;minG=g;}});
+  // STEP2：今年の運（暦から年干支を正確に算出）
+  const now=new Date();
+  const tr=meishiki(now.getFullYear(),now.getMonth()+1,now.getDate(),"");
+  const yGanshi=tr.cols[0].ganshi,yKan=KAN[tr.yk],yTsu=tsuhen(nk,yKan);
+  const yTheme=(TSU_DAY[yTsu]||{}).th||"";
+  const yEls=[...new Set([tr.cols[0].gk,tr.cols[0].gs])];
+  const lack=GG.filter(g=>(c[g]||0)===0),excess=GG.filter(g=>(c[g]||0)>=3);
+  const help=yEls.filter(g=>lack.includes(g)),over=yEls.filter(g=>excess.includes(g));
+  let gear,gearTxt;
+  if(help.length&&!over.length){gear="🚀 ギアを入れる年（追い風）";gearTxt="今年の巡り（"+help.join("・")+"）は、あなたに足りない力を補ってくれます。新しい挑戦・種まき・拡大に最適な一年。迷わずアクセルを踏んでください。";}
+  else if(over.length&&!help.length){gear="🛑 足元を固める年（調整）";gearTxt="今年は「"+over.join("・")+"」の気が強く、あなたが元々多い五行が過剰になりやすい一年。拡大より、既にあるものを整え守ることに徹すると吉です。";}
+  else{gear="⚖️ 力を蓄える年（中立）";gearTxt="大きな追い風も逆風もない、着実に地力を蓄える一年。派手さはなくとも、日々の積み重ねが翌年以降に効いてきます。";}
+  // ── 描画 ──
+  let h='<div class="mat-hero"><div class="mat-hero-icon">'+v.ic+'</div>'
+    +'<div class="mat-hero-ttl">'+nk+'（'+pol+'の'+ownG+'）'+v.cat+'</div>'
+    +'<div class="mat-hero-txt">あなたは<b>'+ryo+'</b>・<b>'+strLbl+'</b>。際立つ才能は「'+MAT_TALENT[maxG]+'」。<br>この一枚は、算命学・四柱推命・陰陽五行の3つの視点であなたを束ねた“総合戦略”です。</div></div>';
+  // STEP1
+  h+='<div class="mat-step"><div class="mat-step-num">1</div><div><div class="mat-step-ttl">己を知る</div><div class="mat-step-sub">算命学 — 本質・才能・居場所</div></div></div>';
+  h+='<div class="kant-block">'
+    +'<p class="kant-text"><b>あなたの領域：'+ryo+'</b><br>'+ryoTxt+'</p>'
+    +'<p class="kant-sub-title" style="margin-top:12px">際立つ才能（最も強い五行：'+maxG+'）</p>'
+    +'<div class="zen-adv-item zen-adv-do">'+MAT_TALENT[maxG]+'。これがあなたの武器です。まずここで勝負してください。</div>'
+    +'<p class="kant-sub-title" style="margin-top:12px;color:var(--nibi)">補うと伸びる課題（最も弱い五行：'+minG+'）</p>'
+    +'<div class="zen-adv-item zen-adv-care">'+MAT_ISSUE[minG]+'。ここを意識して補うと、才能がさらに活きます。</div>'
+    +'<p class="kant-text" style="font-size:.78rem;margin-top:10px;color:var(--nibi)">日干「'+nk+'」＝'+v.key+'。詳しくは「命式」「五行」タブへ。</p>'
+    +'</div>';
+  // STEP2
+  h+='<div class="mat-step"><div class="mat-step-num">2</div><div><div class="mat-step-ttl">時を知る</div><div class="mat-step-sub">四柱推命 — 運のロードマップ</div></div></div>';
+  h+='<div class="kant-block">'
+    +'<div class="mat-gear" style="color:var(--do)">'+gear+'</div>'
+    +'<p class="kant-text" style="text-align:center">今年は <b>'+yGanshi+'</b> の年。あなたから見ると <b>'+yTsu+'</b> の巡りで、<b>'+yTheme+'</b>がテーマです。</p>'
+    +'<p class="kant-text" style="margin-top:10px">'+gearTxt+'</p>'
+    +'<p class="kant-sub-title" style="margin-top:12px;color:var(--ka)">ブレーキを踏む時期（天中殺）</p>'
+    +'<p class="kant-text">あなたの天中殺は <b>'+_rA.tcsYear+'</b>（年）／ <b>'+_rA.tcsDay+'</b>（日）。この巡りの年は「充電・見直しの時期」。転居・転職・大型契約など不可逆な決断は避け、種まきと準備に充ててください。年ごとの詳しい波は「鑑定」タブへ。</p>'
+    +'</div>';
+  // STEP3
+  const ei=ELEM_INFO[minG];
+  h+='<div class="mat-step"><div class="mat-step-num">3</div><div><div class="mat-step-ttl">中庸を保つ</div><div class="mat-step-sub">陰陽五行 — バランスの処方箋</div></div></div>';
+  h+='<div class="kant-block">'
+    +'<p class="kant-sub-title" style="color:var(--moku)">補いたい五行 — '+minG+'</p>'
+    +'<p class="kant-text">'+ei.tip+'（ラッキーカラー：'+ei.color+'／方位：'+ei.dir+'）</p>'
+    +(maxV>=3?'<p class="kant-sub-title" style="color:var(--ka);margin-top:12px">出過ぎに注意 — '+maxG+'</p><p class="kant-text">「'+maxG+'」が強すぎると'+MAT_TALENT[maxG].split("・")[0]+'が空回りしがち。意識して力を抜き、'+minG+'で中和すると安定します。</p>':"")
+    +'<p class="kant-sub-title" style="margin-top:12px">中庸の心得</p>'
+    +'<div class="zen-adv-item zen-adv-do">すべての困難（陰）には、必ず解決の芽（陽）が内包されています。今の苦しさは、次の飛躍の準備期間です。</div>'
+    +'<div class="zen-adv-item zen-adv-care">すべての全盛期（陽）には、衰退の予兆（陰）が隠れています。うまくいっている時こそ、足元と謙虚さを忘れずに。</div>'
+    +'</div>';
+  h+='<p class="eig-note">この総合鑑定は、日干・五行バランス・今年の巡り・天中殺を統合した戦略マップです。まず STEP1 で“自分の居場所”を定め、STEP2 で“動く時と守る時”を見極め、STEP3 で“日々の心の軸”を保つ——この順で活かしてください。 — 感動革命！クオリティマネジメント社</p>';
+  el.innerHTML=h;
+}
+renderMatome();
 
 $("save").addEventListener("click",histSave);
 histLoad();
