@@ -597,6 +597,8 @@ const KAN_Y=[0,1,0,1,0,1,0,1,0,1];
 const SHI_G=["水","土","木","木","土","火","火","土","金","金","土","水"];
 const SHI_Y=[0,1,0,1,0,1,0,1,0,1,0,1];
 const SHI_YOMI={子:"ね",丑:"うし",寅:"とら",卯:"う",辰:"たつ",巳:"み",午:"うま",未:"ひつじ",申:"さる",酉:"とり",戌:"いぬ",亥:"い"};
+const KAN_YOMI={甲:"きのえ",乙:"きのと",丙:"ひのえ",丁:"ひのと",戊:"つちのえ",己:"つちのと",庚:"かのえ",辛:"かのと",壬:"みずのえ",癸:"みずのと"};
+const GG_YOMI={木:"もく",火:"か",土:"ど",金:"ごん",水:"すい"};
 const COLOR={木:"var(--moku)",火:"var(--ka)",土:"var(--do)",金:"var(--kin)",水:"var(--sui)"};
 
 const SETSU=[
@@ -2229,8 +2231,8 @@ function renderEigyo(){
   const v=EIG_VISUAL[nk];
   let h='<div class="eig-hero"><div class="eig-hero-icon">'+v.ic+'</div>'
     +'<div class="eig-hero-cat">'+v.cat+'</div>'
-    +'<div class="eig-hero-img">'+nk+'（'+pol+'の'+ownG+'）'+p.img+'</div>'
-    +'<div class="eig-hero-key">'+v.key+'</div>'
+    +'<div class="eig-hero-img">'+nk+'（'+KAN_YOMI[nk]+'）'+p.img+'</div>'
+    +'<div class="eig-hero-key">'+pol+'の'+ownG+'（'+GG_YOMI[ownG]+'）／'+v.key+'</div>'
     +'<div class="eig-hero-sub">'+p.ess+'</div></div>'
     +'<div class="eig-strength">'+strNote+'</div>';
   h+='<div class="kant-block"><div class="kant-title">1. 脳内処理の傾向 — '+p.brain.type+'</div><p class="kant-text">'+p.brain.text+'</p></div>';
@@ -2314,7 +2316,7 @@ function renderKando(){
   const ownG=KAN_G[idx],pol=KAN_Y[idx]?"陰":"陽";
   let h='<div class="kando-hero"><div class="kando-hero-icon">'+v.ic+'</div>'
     +'<div class="kando-hero-ttl">'+v.cat+'</div>'
-    +'<div class="kando-hero-sub">'+nk+'（'+pol+'の'+ownG+'）の心を動かす、QM流「感動構築」</div></div>';
+    +'<div class="kando-hero-sub">'+nk+'（'+KAN_YOMI[nk]+'）＝'+pol+'の'+ownG+'（'+GG_YOMI[ownG]+'）の心を動かす、QM流「感動構築」</div></div>';
   h+='<div class="kando-tsubo"><b>感動のツボ</b><br>'+k.tsubo+'</div>';
   h+='<div class="kant-block"><div class="kant-title">そうそう！ この人の“言わない本音”</div>'
     +k.honne.map(t=>'<div class="kando-honne">'+t+'</div>').join("")
@@ -2383,17 +2385,17 @@ function renderMatome(){
   else{gear="⚖️ 力を蓄える年（中立）";gearTxt="大きな追い風も逆風もない、着実に地力を蓄える一年。派手さはなくとも、日々の積み重ねが翌年以降に効いてきます。";}
   // ── 描画 ──
   let h='<div class="mat-hero"><div class="mat-hero-icon">'+v.ic+'</div>'
-    +'<div class="mat-hero-ttl">'+nk+'（'+pol+'の'+ownG+'）'+v.cat+'</div>'
-    +'<div class="mat-hero-txt">あなたは<b>'+ryo+'</b>・<b>'+strLbl+'</b>。際立つ才能は「'+MAT_TALENT[maxG]+'」。<br>この一枚は、算命学・四柱推命・陰陽五行の3つの視点であなたを束ねた“総合戦略”です。</div></div>';
+    +'<div class="mat-hero-ttl">'+nk+'（'+KAN_YOMI[nk]+'）'+v.cat+'</div>'
+    +'<div class="mat-hero-txt">あなたは<b>'+pol+'の'+ownG+'（'+GG_YOMI[ownG]+'）</b>。<b>'+ryo+'</b>・<b>'+strLbl+'</b>で、際立つ才能は「'+MAT_TALENT[maxG]+'」。<br>この一枚は、算命学・四柱推命・陰陽五行の3つの視点であなたを束ねた“総合戦略”です。</div></div>';
   // STEP1
   h+='<div class="mat-step"><div class="mat-step-num">1</div><div><div class="mat-step-ttl">己を知る</div><div class="mat-step-sub">算命学 — 本質・才能・居場所</div></div></div>';
   h+='<div class="kant-block">'
     +'<p class="kant-text"><b>あなたの領域：'+ryo+'</b><br>'+ryoTxt+'</p>'
-    +'<p class="kant-sub-title" style="margin-top:12px">際立つ才能（最も強い五行：'+maxG+'）</p>'
+    +'<p class="kant-sub-title" style="margin-top:12px">際立つ才能（最も強い五行：'+maxG+'／'+GG_YOMI[maxG]+'）</p>'
     +'<div class="zen-adv-item zen-adv-do">'+MAT_TALENT[maxG]+'。これがあなたの武器です。まずここで勝負してください。</div>'
-    +'<p class="kant-sub-title" style="margin-top:12px;color:var(--nibi)">補うと伸びる課題（最も弱い五行：'+minG+'）</p>'
+    +'<p class="kant-sub-title" style="margin-top:12px;color:var(--nibi)">補うと伸びる課題（最も弱い五行：'+minG+'／'+GG_YOMI[minG]+'）</p>'
     +'<div class="zen-adv-item zen-adv-care">'+MAT_ISSUE[minG]+'。ここを意識して補うと、才能がさらに活きます。</div>'
-    +'<p class="kant-text" style="font-size:.78rem;margin-top:10px;color:var(--nibi)">日干「'+nk+'」＝'+v.key+'。詳しくは「命式」「五行」タブへ。</p>'
+    +'<p class="kant-text" style="font-size:.78rem;margin-top:10px;color:var(--nibi)">日干「'+nk+'（'+KAN_YOMI[nk]+'）」＝'+v.key+'。詳しくは「命式」「五行」タブへ。</p>'
     +'</div>';
   // 五行バランスの解説
   const lvl=n=>n>=3?{t:"強い",col:"var(--ka)"}:n===2?{t:"ややあり",col:"var(--do)"}:n===1?{t:"標準",col:"var(--nibi)"}:{t:"なし",col:"var(--kin)"};
@@ -2402,7 +2404,7 @@ function renderMatome(){
       const n=c[g]||0,L=lvl(n),mg=MAT_GOGYO[g];
       const txt=n>=2?mg.strong:n===0?mg.none:"「"+g+"」（"+mg.kw+"）は控えめに備わっています。過不足なく、必要な時に自然と発揮できる程よい量です。";
       return '<div style="margin-bottom:12px">'
-        +'<span class="kant-badge" style="border-color:'+COLOR[g]+';color:'+COLOR[g]+'">'+g+' '+n+'</span> '
+        +'<span class="kant-badge" style="border-color:'+COLOR[g]+';color:'+COLOR[g]+'">'+g+'（'+GG_YOMI[g]+'） '+n+'</span> '
         +'<b style="color:'+L.col+'">'+L.t+'</b>'
         +'<p class="kant-text" style="margin-top:5px">'+txt+'</p></div>';
     }).join("")
@@ -2412,7 +2414,7 @@ function renderMatome(){
   h+='<div class="mat-step"><div class="mat-step-num">2</div><div><div class="mat-step-ttl">時を知る</div><div class="mat-step-sub">四柱推命 — 運のロードマップ</div></div></div>';
   h+='<div class="kant-block">'
     +'<div class="mat-gear" style="color:var(--do)">'+gear+'</div>'
-    +'<p class="kant-text" style="text-align:center">今年は <b>'+yGanshi+'</b> の年。あなたから見ると <b>'+yTsu+'</b> の巡りで、<b>'+yTheme+'</b>がテーマです。</p>'
+    +'<p class="kant-text" style="text-align:center">今年は <b>'+yGanshi+'</b>（'+KAN_YOMI[yKan]+SHI_YOMI[tr.cols[0].shi]+'）の年。あなたから見ると <b>'+yTsu+'</b> の巡りで、<b>'+yTheme+'</b>がテーマです。</p>'
     +'<p class="kant-text" style="margin-top:10px">'+gearTxt+'</p>'
     +'<p class="kant-sub-title" style="margin-top:12px;color:var(--ka)">ブレーキを踏む時期（天中殺）</p>'
     +'<p class="kant-text">あなたの天中殺は <b>'+_rA.tcsYear+'</b>（年）／ <b>'+_rA.tcsDay+'</b>（日）。この巡りの年は「充電・見直しの時期」。転居・転職・大型契約など不可逆な決断は避け、種まきと準備に充ててください。年ごとの詳しい波は「鑑定」タブへ。</p>'
@@ -2421,7 +2423,7 @@ function renderMatome(){
   const ei=ELEM_INFO[minG];
   h+='<div class="mat-step"><div class="mat-step-num">3</div><div><div class="mat-step-ttl">中庸を保つ</div><div class="mat-step-sub">陰陽五行 — バランスの処方箋</div></div></div>';
   h+='<div class="kant-block">'
-    +'<p class="kant-sub-title" style="color:var(--moku)">補いたい五行 — '+minG+'</p>'
+    +'<p class="kant-sub-title" style="color:var(--moku)">補いたい五行 — '+minG+'（'+GG_YOMI[minG]+'）</p>'
     +'<p class="kant-text">'+ei.tip+'（ラッキーカラー：'+ei.color+'／方位：'+ei.dir+'）</p>'
     +(maxV>=3?'<p class="kant-sub-title" style="color:var(--ka);margin-top:12px">出過ぎに注意 — '+maxG+'</p><p class="kant-text">「'+maxG+'」が強すぎると'+MAT_TALENT[maxG].split("・")[0]+'が空回りしがち。意識して力を抜き、'+minG+'で中和すると安定します。</p>':"")
     +'<p class="kant-sub-title" style="margin-top:12px">中庸の心得</p>'
